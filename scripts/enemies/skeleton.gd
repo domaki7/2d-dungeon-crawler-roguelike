@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
-@export var speed: float = 120.0
-@export var acceleration: float = 800.0
-@export var friction: float = 600.0
+@export var speed: float = 60.0
+@export var acceleration: float = 400.0
+@export var friction: float = 500.0
 
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -12,18 +12,16 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 @onready var knockback_component: KnockbackComponent = $KnockbackComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var hitbox: Hitbox = $Hitbox
+@onready var detection_area: Area2D = $DetectionArea
 
 var facing_direction: int = FacingDirection.DOWN
-var gold: int = 0
+var is_player_detected: bool = false
 
 func _ready() -> void:
-	add_to_group(&"player")
-	$Camera2D.add_to_group(&"main_camera")
+	add_to_group(&"enemies")
 	health_component.damaged.connect(_on_health_damaged)
-	health_component.damaged.connect(func(amount: int) -> void:
-		EventBus.player_damaged.emit(amount, health_component.current_hp))
-	health_component.healed.connect(func(amount: int) -> void:
-		EventBus.player_healed.emit(amount, health_component.current_hp))
+	detection_area.body_entered.connect(_on_detection_body_entered)
+	detection_area.body_exited.connect(_on_detection_body_exited)
 	_start_state_machine.call_deferred()
 
 func _start_state_machine() -> void:
@@ -60,3 +58,11 @@ func play_directional_animation(base_name: String) -> void:
 
 func _on_health_damaged(_amount: int) -> void:
 	state_machine.transition_to(&"HurtState")
+
+func _on_detection_body_entered(body: Node2D) -> void:
+	if body.is_in_group(&"player"):
+		is_player_detected = true
+
+func _on_detection_body_exited(body: Node2D) -> void:
+	if body.is_in_group(&"player"):
+		is_player_detected = false

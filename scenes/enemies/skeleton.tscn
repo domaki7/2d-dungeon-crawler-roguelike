@@ -1,44 +1,45 @@
-[gd_scene load_steps=40 format=3]
+[gd_scene load_steps=38 format=3]
 
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/enemies/skeleton.gd" id="1_skel"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
-[ext_resource type="Script" path="res://scripts/player/player_states/idle_state.gd" id="3_idle"]
-[ext_resource type="Script" path="res://scripts/player/player_states/run_state.gd" id="4_run"]
-[ext_resource type="Script" path="res://scripts/player/player_states/attack_state.gd" id="5_atk"]
-[ext_resource type="Script" path="res://scripts/player/player_states/hurt_state.gd" id="6_hurt"]
-[ext_resource type="Script" path="res://scripts/player/player_states/dead_state.gd" id="7_dead"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/skeleton_idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/skeleton_chase_state.gd" id="4_chase"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/skeleton_attack_state.gd" id="5_atk"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/skeleton_hurt_state.gd" id="6_hurt"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/skeleton_dead_state.gd" id="7_dead"]
 [ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="8_hc"]
 [ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="9_kb"]
 [ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="10_hurtbox"]
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_0.svg" id="t_id0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_1.svg" id="t_id1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_0.svg" id="t_iu0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_1.svg" id="t_iu1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_side_0.svg" id="t_is0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_side_1.svg" id="t_is1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_0.svg" id="t_wd0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_1.svg" id="t_wd1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_2.svg" id="t_wd2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_3.svg" id="t_wd3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_0.svg" id="t_wu0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_1.svg" id="t_wu1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_2.svg" id="t_wu2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_3.svg" id="t_wu3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_0.svg" id="t_ws0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_1.svg" id="t_ws1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_2.svg" id="t_ws2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_3.svg" id="t_ws3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_0.svg" id="t_ad0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_1.svg" id="t_ad1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_2.svg" id="t_ad2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_0.svg" id="t_au0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_1.svg" id="t_au1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_2.svg" id="t_au2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_0.svg" id="t_as0"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_1.svg" id="t_as1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_2.svg" id="t_as2"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="13_gold"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_down_0.svg" id="t_ad0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_down_1.svg" id="t_ad1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_down_2.svg" id="t_ad2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_up_0.svg" id="t_au0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_up_1.svg" id="t_au1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_up_2.svg" id="t_au2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_side_0.svg" id="t_as0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_side_1.svg" id="t_as1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_attack_side_2.svg" id="t_as2"]
 
 [sub_resource type="SpriteFrames" id="SubResource_sf"]
 animations = [{
@@ -138,7 +139,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 12.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -152,7 +153,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 12.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -166,7 +167,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_side",
-"speed": 12.0
+"speed": 10.0
 }]
 
 [sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
@@ -180,12 +181,15 @@ radius = 6.0
 radius = 6.0
 
 [sub_resource type="RectangleShape2D" id="SubResource_hitbox_shape"]
-size = Vector2(12, 10)
+size = Vector2(10, 10)
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 5
-script = ExtResource("1_p")
+[sub_resource type="CircleShape2D" id="SubResource_detection_shape"]
+radius = 60.0
+
+[node name="Skeleton" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_skel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("SubResource_shader_mat")
@@ -203,8 +207,8 @@ script = ExtResource("2_sm")
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("3_idle")
 
-[node name="RunState" type="Node" parent="StateMachine"]
-script = ExtResource("4_run")
+[node name="ChaseState" type="Node" parent="StateMachine"]
+script = ExtResource("4_chase")
 
 [node name="AttackState" type="Node" parent="StateMachine"]
 script = ExtResource("5_atk")
@@ -214,18 +218,19 @@ script = ExtResource("6_hurt")
 
 [node name="DeadState" type="Node" parent="StateMachine"]
 script = ExtResource("7_dead")
+gold_drop_scene = ExtResource("13_gold")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("8_hc")
-max_hp = 10
-i_frame_duration = 0.5
+max_hp = 5
+i_frame_duration = 0.2
 
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("9_kb")
-friction = 800.0
+friction = 600.0
 
 [node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 16
 collision_mask = 0
 monitoring = false
 monitorable = true
@@ -235,17 +240,22 @@ script = ExtResource("10_hurtbox")
 shape = SubResource("SubResource_hurtbox_shape")
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 16
+collision_layer = 64
+collision_mask = 8
 monitoring = true
 monitorable = false
 script = ExtResource("11_hitbox")
-damage = 3
-knockback_force = 150.0
+damage = 2
+knockback_force = 120.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("SubResource_hitbox_shape")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
-position_smoothing_speed = 8.0
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("SubResource_detection_shape")
