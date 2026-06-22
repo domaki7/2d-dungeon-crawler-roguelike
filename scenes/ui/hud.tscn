@@ -20,6 +20,7 @@ corner_radius_bottom_left = 1
 script = ExtResource("1_hud")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
+mouse_filter = 2
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 64.0
@@ -31,6 +32,7 @@ value = 10.0
 show_percentage = false
 
 [node name="GoldLabel" type="Label" parent="."]
+mouse_filter = 2
 offset_left = 4.0
 offset_top = 13.0
 offset_right = 64.0
