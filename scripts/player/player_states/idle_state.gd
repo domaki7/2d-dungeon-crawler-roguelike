@@ -1,5 +1,8 @@
 extends PlayerState
 
+func enter() -> void:
+	player.play_directional_animation("idle")
+
 func physics_process_state(delta: float) -> void:
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * delta)
 	player.move_and_slide()

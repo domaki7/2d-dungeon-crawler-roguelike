@@ -1,35 +1,191 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=33 format=3]
 
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="2_icon"]
-[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="3_sm"]
-[ext_resource type="Script" path="res://scripts/player/player_states/idle_state.gd" id="4_idle"]
-[ext_resource type="Script" path="res://scripts/player/player_states/run_state.gd" id="5_run"]
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" path="res://scripts/player/player_states/idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/player/player_states/run_state.gd" id="4_run"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_0.svg" id="t_ad0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_1.svg" id="t_ad1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_down_2.svg" id="t_ad2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_0.svg" id="t_au0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_1.svg" id="t_au1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_up_2.svg" id="t_au2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_0.svg" id="t_as0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_1.svg" id="t_as1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_attack_side_2.svg" id="t_as2"]
+
+[sub_resource type="SpriteFrames" id="SubResource_sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_id0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_id1")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_iu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_iu1")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_is0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_is1")
+}],
+"loop": true,
+"name": &"idle_side",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ws0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws3")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ad0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ad1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ad2")
+}],
+"loop": false,
+"name": &"attack_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_au0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_au1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_au2")
+}],
+"loop": false,
+"name": &"attack_up",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_as0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_as1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_as2")
+}],
+"loop": false,
+"name": &"attack_side",
+"speed": 12.0
+}]
 
 [sub_resource type="CircleShape2D" id="SubResource_body"]
-radius = 7.0
+radius = 6.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
-script = ExtResource("1_player")
+script = ExtResource("1_p")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.125, 0.125)
-self_modulate = Color(0.2, 0.6, 1, 1)
-texture = ExtResource("2_icon")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SubResource_sf")
+animation = &"idle_down"
+autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("SubResource_body")
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("3_sm")
+script = ExtResource("2_sm")
 
 [node name="IdleState" type="Node" parent="StateMachine"]
-script = ExtResource("4_idle")
+script = ExtResource("3_idle")
 
 [node name="RunState" type="Node" parent="StateMachine"]
-script = ExtResource("5_run")
+script = ExtResource("4_run")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

@@ -10,7 +10,7 @@ Use PowerShell for any file inspection tasks (reading files, binary files, etc.)
 
 ## Game Overview
 
-Warrior/Knight descends through handcrafted dungeon floors with randomized enemy/loot placement. Clear-to-unlock combat rooms, shops, trap/puzzle rooms, floor boss. Hybrid melee+ranged combat, WASD+mouse aim. 45-60 min runs, full permadeath with meta-progression currency. 16-bit SNES pixel art (downloaded asset packs).
+Warrior/Knight descends through handcrafted dungeon floors with randomized enemy/loot placement. Clear-to-unlock combat rooms, shops, trap/puzzle rooms, floor boss. Hybrid melee+ranged combat, WASD+mouse aim. 45-60 min runs, full permadeath with meta-progression currency. 16-bit SNES pixel art (Claude-generated SVGs).
 
 **MVP scope:** 1 class (Warrior), 1 floor (8-12 rooms + boss), 3-5 enemy types, fixed hand-designed items, 2-3 ability slots, shop, fog-of-war minimap.
 
@@ -39,7 +39,7 @@ res://
   resources/enemy_data/   Enemy stat .tres files
   resources/loot_tables/  Loot table .tres files
   resources/player/       Player base stat .tres files
-  assets/sprites/         Downloaded art (player/, enemies/, items/, effects/, ui/, tilesets/)
+  assets/sprites/         Claude-generated pixel art SVGs (player/, enemies/, items/, effects/, ui/)
   assets/audio/           SFX and music (sfx/, music/)
   assets/fonts/           Pixel-art compatible fonts
   shaders/                Visual effect shaders (hit flash, outline)
@@ -162,7 +162,26 @@ Items are custom `ItemData` Resources (`.tres` files) with unique effects via `I
 
 ## Art / Visuals
 
-16-bit SNES style pixel art from downloaded asset packs. **Not** Claude-generated SVGs. Placeholder sprites use the Godot icon tinted blue until real assets are integrated.
+16-bit SNES style pixel art using Claude-generated SVGs with `viewBox="0 0 16 32"` and `shape-rendering="crispEdges"`. Godot's nearest-neighbor texture filter renders them as crisp pixel art.
+
+**Sprite specs:** 16x32 pixels per frame, 4 directional facing (down, up, side), side sprites mirrored via `flip_h` for left/right.
+
+**Location:** `assets/sprites/` organized by entity type:
+```
+assets/sprites/
+  player/               warrior_<anim>_<dir>_<frame>.svg
+  enemies/              (future) enemy variant SVGs
+  items/                (future) item/pickup SVGs
+  effects/              (future) VFX SVGs
+  ui/                   (future) UI element SVGs
+```
+
+**SVG rules:**
+- Use `viewBox="0 0 16 32"` for character sprites (1 tile wide, 2 tiles tall)
+- `shape-rendering="crispEdges"` on root `<svg>` element
+- Flat fills only — no gradients, no filters
+- Align all shapes to integer coordinates for clean pixel boundaries
+- Distinct color palettes per entity type for readability
 
 ## GDScript Style
 
