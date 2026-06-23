@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var gold_label: Label = $GoldLabel
+@onready var death_screen: Control = $DeathScreen
 
 func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
