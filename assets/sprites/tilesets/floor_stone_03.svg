@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <rect width="16" height="16" fill="#383350"/>
+  <rect x="8" y="0" width="4" height="4" fill="#3a3553"/>
+  <rect x="0" y="8" width="4" height="4" fill="#363152"/>
+  <!-- moss spots -->
+  <rect x="10" y="11" width="2" height="2" fill="#2d3a2e"/>
+  <rect x="11" y="10" width="1" height="1" fill="#2d3a2e"/>
+  <rect x="12" y="12" width="1" height="1" fill="#344035"/>
+</svg>

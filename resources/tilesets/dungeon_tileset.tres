@@ -1,0 +1,44 @@
+[gd_resource type="TileSet" load_steps=11 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/tilesets/floor_stone_01.svg" id="1_floor1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tilesets/floor_stone_02.svg" id="2_floor2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tilesets/floor_stone_03.svg" id="3_floor3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tilesets/wall_top.svg" id="4_walltop"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tilesets/wall_front.svg" id="5_wallfront"]
+
+[sub_resource type="TileSetAtlasSource" id="SubResource_floor1"]
+texture = ExtResource("1_floor1")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="SubResource_floor2"]
+texture = ExtResource("2_floor2")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="SubResource_floor3"]
+texture = ExtResource("3_floor3")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="SubResource_walltop"]
+texture = ExtResource("4_walltop")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="SubResource_wallfront"]
+texture = ExtResource("5_wallfront")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[resource]
+tile_size = Vector2i(16, 16)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 6
+sources/0 = SubResource("SubResource_floor1")
+sources/1 = SubResource("SubResource_floor2")
+sources/2 = SubResource("SubResource_floor3")
+sources/3 = SubResource("SubResource_walltop")
+sources/4 = SubResource("SubResource_wallfront")

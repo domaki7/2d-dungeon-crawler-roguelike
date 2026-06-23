@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 16" shape-rendering="crispEdges">
+  <!-- door frame -->
+  <rect width="32" height="16" fill="#5a4a3a"/>
+  <!-- planks -->
+  <rect x="1" y="1" width="9" height="14" fill="#6b5a48"/>
+  <rect x="11" y="1" width="10" height="14" fill="#6b5a48"/>
+  <rect x="22" y="1" width="9" height="14" fill="#6b5a48"/>
+  <!-- metal bands -->
+  <rect x="0" y="3" width="32" height="2" fill="#4a4a50"/>
+  <rect x="0" y="11" width="32" height="2" fill="#4a4a50"/>
+  <!-- handle -->
+  <rect x="24" y="7" width="2" height="2" fill="#7a7a80"/>
+</svg>
