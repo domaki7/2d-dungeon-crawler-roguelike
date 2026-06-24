@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Attack down frame 1: lunge forward (stretched downward) -->
+  <rect x="6" y="8" width="4" height="1" fill="#66BB6A"/>
+  <rect x="5" y="9" width="6" height="1" fill="#4CAF50"/>
+  <rect x="5" y="10" width="6" height="2" fill="#4CAF50"/>
+  <rect x="6" y="11" width="2" height="1" fill="#1E1E1E"/>
+  <rect x="9" y="11" width="1" height="1" fill="#1E1E1E"/>
+  <rect x="4" y="12" width="8" height="2" fill="#4CAF50"/>
+  <rect x="6" y="13" width="4" height="2" fill="#81C784"/>
+  <rect x="7" y="15" width="2" height="1" fill="#388E3C"/>
+  <rect x="4" y="14" width="8" height="5" fill="#4CAF50"/>
+  <rect x="6" y="14" width="4" height="2" fill="#81C784"/>
+  <rect x="5" y="19" width="6" height="3" fill="#4CAF50"/>
+  <rect x="6" y="22" width="4" height="1" fill="#388E3C"/>
+  <rect x="4" y="13" width="1" height="5" fill="#388E3C"/>
+  <rect x="11" y="13" width="1" height="5" fill="#388E3C"/>
+</svg>

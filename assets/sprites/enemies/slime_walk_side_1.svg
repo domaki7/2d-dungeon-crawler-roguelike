@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Walk side frame 1: compressed -->
+  <rect x="6" y="11" width="5" height="1" fill="#66BB6A"/>
+  <rect x="5" y="12" width="7" height="1" fill="#4CAF50"/>
+  <rect x="9" y="12" width="2" height="1" fill="#1E1E1E"/>
+  <rect x="3" y="13" width="10" height="2" fill="#4CAF50"/>
+  <rect x="7" y="14" width="3" height="2" fill="#81C784"/>
+  <rect x="9" y="15" width="2" height="1" fill="#388E3C"/>
+  <rect x="3" y="15" width="10" height="3" fill="#4CAF50"/>
+  <rect x="7" y="15" width="3" height="2" fill="#81C784"/>
+  <rect x="4" y="18" width="9" height="2" fill="#4CAF50"/>
+  <rect x="5" y="20" width="7" height="1" fill="#388E3C"/>
+  <rect x="3" y="14" width="1" height="3" fill="#388E3C"/>
+</svg>

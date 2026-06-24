@@ -17,10 +17,13 @@ var _is_cleared: bool = false
 func _ready() -> void:
 	_connect_doors()
 
-func activate() -> void:
-	_populate_enemies()
-	if is_combat_room and _enemies_alive > 0 and auto_lock_doors:
-		_lock_all_doors()
+func activate(already_cleared: bool = false) -> void:
+	if already_cleared:
+		_is_cleared = true
+	else:
+		_populate_enemies()
+		if is_combat_room and _enemies_alive > 0 and auto_lock_doors:
+			_lock_all_doors()
 	EventBus.room_entered.emit(room_id)
 
 func get_player_spawn_position() -> Vector2:

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/main/game.gd" id="1_game"]
-[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_001.tscn" id="2_room"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
 
@@ -15,8 +14,6 @@ offset_bottom = 270.0
 color = Color(0.08, 0.06, 0.1, 1)
 
 [node name="RoomContainer" type="Node2D" parent="."]
-
-[node name="Room_001" parent="RoomContainer" instance=ExtResource("2_room")]
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(192, 224)

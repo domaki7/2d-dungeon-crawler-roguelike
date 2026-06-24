@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room_003.gd" id="1_script"]
+[ext_resource type="TileSet" path="res://resources/tilesets/dungeon_tileset.tres" id="2_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door.tscn" id="3_door"]
+[ext_resource type="Script" path="res://scripts/rooms/spawn_point.gd" id="4_spawnpoint"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="5_skeleton"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="6_slime"]
+
+[node name="Room_003" type="Node2D"]
+script = ExtResource("1_script")
+room_id = 3
+is_combat_room = true
+auto_lock_doors = true
+
+[node name="FloorLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="WallLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="DoorNorth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 8)
+direction = 0
+
+[node name="DoorSouth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 248)
+direction = 1
+
+[node name="DoorEast" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(376, 128)
+rotation = 1.5708
+direction = 2
+
+[node name="DoorWest" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(8, 128)
+rotation = 1.5708
+direction = 3
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(128, 48)
+script = ExtResource("4_spawnpoint")
+spawn_type = 0
+spawn_chance = 1.0
+spawn_scene = ExtResource("5_skeleton")
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(288, 48)
+script = ExtResource("4_spawnpoint")
+spawn_type = 1
+spawn_chance = 1.0
+spawn_scene = ExtResource("6_slime")
+
+[node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(288, 144)
+script = ExtResource("4_spawnpoint")
+spawn_type = 0
+spawn_chance = 1.0
+spawn_scene = ExtResource("5_skeleton")
+
+[node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(128, 192)
+script = ExtResource("4_spawnpoint")
+spawn_type = 1
+spawn_chance = 0.8
+spawn_scene = ExtResource("6_slime")
+
+[node name="SpawnPoint5" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(288, 208)
+script = ExtResource("4_spawnpoint")
+spawn_type = 1
+spawn_chance = 0.75
+spawn_scene = ExtResource("6_slime")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(192, 224)
