@@ -12,6 +12,7 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var hitbox: Hitbox = $Hitbox
 @onready var player_stats: PlayerStats = $PlayerStats
+@onready var ability_manager: AbilityManager = $AbilityManager
 
 var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
@@ -63,6 +64,9 @@ func play_directional_animation(base_name: String) -> void:
 
 func get_defense() -> int:
 	return player_stats.get_effective_defense()
+
+func get_ability_damage(base_damage: int) -> int:
+	return int(float(base_damage) * ability_manager.get_damage_multiplier())
 
 func _on_stats_changed() -> void:
 	speed = player_stats.get_effective_speed()

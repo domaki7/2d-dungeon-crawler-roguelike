@@ -8,7 +8,18 @@ func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
 	EventBus.item_picked_up.connect(_on_item_picked_up)
 	gold_label.text = "0"
+	_create_ability_bar()
 	_connect_to_player.call_deferred()
+
+func _create_ability_bar() -> void:
+	var ability_bar_script: Script = preload("res://scripts/ui/ability_bar.gd")
+	var ability_bar: HBoxContainer = HBoxContainer.new()
+	ability_bar.set_script(ability_bar_script)
+	ability_bar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	ability_bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	ability_bar.position.y = -28.0
+	ability_bar.add_theme_constant_override("separation", 2)
+	add_child(ability_bar)
 
 func _connect_to_player() -> void:
 	var player: Node = get_tree().get_first_node_in_group(&"player")

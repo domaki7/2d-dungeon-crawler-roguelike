@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://c5whirlwind"]
+
+[ext_resource type="Script" path="res://scripts/abilities/ability_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ability_id = &"whirlwind"
+display_name = "Whirlwind"
+description = "Spin and damage all nearby enemies."
+cooldown = 6.0
+damage = 4
+knockback_force = 80.0
+dash_speed = 200.0
+dash_duration = 0.15
+stun_duration = 1.0
+aoe_radius = 24.0
+buff_duration = 5.0
+damage_multiplier = 1.5

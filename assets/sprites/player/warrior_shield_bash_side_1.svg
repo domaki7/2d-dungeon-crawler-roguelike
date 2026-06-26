@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Motion lines behind -->
+  <rect x="0" y="5" width="2" height="1" fill="#AAAACC"/>
+  <rect x="0" y="14" width="2" height="1" fill="#AAAACC"/>
+  <!-- Helmet lunging forward -->
+  <rect x="7" y="0" width="4" height="1" fill="#505064"/>
+  <rect x="6" y="1" width="6" height="1" fill="#505064"/>
+  <rect x="5" y="2" width="8" height="4" fill="#505064"/>
+  <rect x="6" y="6" width="6" height="1" fill="#505064"/>
+  <rect x="6" y="2" width="3" height="1" fill="#6E6E82"/>
+  <rect x="5" y="4" width="8" height="1" fill="#1E1E32"/>
+  <rect x="11" y="4" width="1" height="1" fill="#88CCFF"/>
+  <!-- Face -->
+  <rect x="9" y="7" width="3" height="1" fill="#E8B888"/>
+  <rect x="8" y="8" width="3" height="1" fill="#D4A070"/>
+  <!-- Armor body leaning forward -->
+  <rect x="6" y="9" width="5" height="9" fill="#6E6E82"/>
+  <rect x="9" y="12" width="2" height="5" fill="#2844A0"/>
+  <!-- Shoulders -->
+  <rect x="4" y="9" width="7" height="1" fill="#8888A0"/>
+  <rect x="4" y="10" width="7" height="1" fill="#6E6E82"/>
+  <!-- Back arm -->
+  <rect x="4" y="11" width="2" height="5" fill="#5A5A6E"/>
+  <!-- Front arm extended with shield -->
+  <rect x="10" y="7" width="3" height="4" fill="#5A5A6E"/>
+  <rect x="12" y="7" width="2" height="1" fill="#D4A878"/>
+  <!-- Shield extended forward -->
+  <rect x="13" y="5" width="1" height="10" fill="#334488"/>
+  <rect x="14" y="5" width="2" height="10" fill="#4466AA"/>
+  <rect x="14" y="7" width="2" height="6" fill="#5588CC"/>
+  <!-- Belt and legs -->
+  <rect x="6" y="18" width="5" height="1" fill="#7A5030"/>
+  <rect x="5" y="19" width="3" height="7" fill="#3E3E50"/>
+  <rect x="7" y="19" width="3" height="7" fill="#4A4A5E"/>
+  <rect x="4" y="26" width="4" height="5" fill="#2A2A3A"/>
+  <rect x="7" y="26" width="4" height="5" fill="#363646"/>
+  <rect x="7" y="30" width="4" height="1" fill="#2A2A3A"/>
+</svg>

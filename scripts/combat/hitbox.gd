@@ -4,6 +4,7 @@ extends Area2D
 @export var damage: int = 1
 @export var knockback_force: float = 200.0
 @export var crit_chance: float = 0.0
+@export var stun_duration: float = 0.0
 
 var _hit_targets: Array[Node] = []
 

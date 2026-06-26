@@ -6,11 +6,13 @@ func enter() -> void:
 	player.velocity = Vector2.ZERO
 	player.play_directional_animation("attack")
 	_position_hitbox()
+	player.hitbox.damage = player.get_ability_damage(player.player_stats.get_effective_damage())
 	player.hitbox.activate()
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
 
 func exit() -> void:
 	player.hitbox.deactivate()
+	player.hitbox.damage = player.player_stats.get_effective_damage()
 	if player.animated_sprite.animation_finished.is_connected(_on_animation_finished):
 		player.animated_sprite.animation_finished.disconnect(_on_animation_finished)
 

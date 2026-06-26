@@ -22,6 +22,11 @@ func receive_hit(hitbox: Hitbox) -> void:
 		defense = owner_node.get_defense()
 	var final_damage: int = CombatManager.calculate_damage(hitbox.damage, defense, hitbox.crit_chance)
 
+	if hitbox.stun_duration > 0.0:
+		var parent: Node2D = get_parent() as Node2D
+		if parent:
+			parent.set_meta(&"stun_duration", hitbox.stun_duration)
+
 	if _health_component:
 		_health_component.take_damage(final_damage)
 

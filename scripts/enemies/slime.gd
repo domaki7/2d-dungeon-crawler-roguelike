@@ -57,7 +57,10 @@ func play_directional_animation(base_name: String) -> void:
 		animated_sprite.play(anim_name)
 
 func _on_health_damaged(_amount: int) -> void:
-	state_machine.transition_to(&"HurtState")
+	if has_meta(&"stun_duration"):
+		state_machine.transition_to(&"StunnedState")
+	else:
+		state_machine.transition_to(&"HurtState")
 
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):

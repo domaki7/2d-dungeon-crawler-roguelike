@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3]
+[gd_scene load_steps=69 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -14,6 +14,30 @@
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
 [ext_resource type="Script" path="res://scripts/player/player_stats.gd" id="13_stats"]
 [ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="14_effects"]
+[ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="15_am"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ability_state.gd" id="19_abs"]
+[ext_resource type="Script" path="res://scripts/player/player_states/war_cry_state.gd" id="20_wcs"]
+[ext_resource type="Script" path="res://scripts/player/player_states/shield_bash_state.gd" id="22_sbs"]
+[ext_resource type="Script" path="res://scripts/player/player_states/whirlwind_state.gd" id="21_wws"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_down_0.svg" id="t_sbd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_down_1.svg" id="t_sbd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_down_2.svg" id="t_sbd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_up_0.svg" id="t_sbu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_up_1.svg" id="t_sbu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_up_2.svg" id="t_sbu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_side_0.svg" id="t_sbs0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_side_1.svg" id="t_sbs1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_side_2.svg" id="t_sbs2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_whirlwind_0.svg" id="t_ww0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_whirlwind_1.svg" id="t_ww1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_whirlwind_2.svg" id="t_ww2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_whirlwind_3.svg" id="t_ww3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_war_cry_0.svg" id="t_wc0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_war_cry_1.svg" id="t_wc1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_war_cry_2.svg" id="t_wc2"]
+[ext_resource type="Resource" path="res://resources/abilities/shield_bash.tres" id="16_sb"]
+[ext_resource type="Resource" path="res://resources/abilities/whirlwind.tres" id="17_ww"]
+[ext_resource type="Resource" path="res://resources/abilities/war_cry.tres" id="18_wc"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_0.svg" id="t_id0"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_1.svg" id="t_id1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_0.svg" id="t_iu0"]
@@ -169,6 +193,79 @@ animations = [{
 "loop": false,
 "name": &"attack_side",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wc0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wc1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wc2")
+}],
+"loop": false,
+"name": &"war_cry",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ww0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ww1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ww2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ww3")
+}],
+"loop": false,
+"name": &"whirlwind",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_sbd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbd2")
+}],
+"loop": false,
+"name": &"shield_bash_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_sbu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbu2")
+}],
+"loop": false,
+"name": &"shield_bash_up",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_sbs0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbs1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sbs2")
+}],
+"loop": false,
+"name": &"shield_bash_side",
+"speed": 12.0
 }]
 
 [sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
@@ -217,6 +314,18 @@ script = ExtResource("6_hurt")
 [node name="DeadState" type="Node" parent="StateMachine"]
 script = ExtResource("7_dead")
 
+[node name="ShieldBashState" type="Node" parent="StateMachine"]
+script = ExtResource("22_sbs")
+ability_index = 0
+
+[node name="WhirlwindState" type="Node" parent="StateMachine"]
+script = ExtResource("21_wws")
+ability_index = 1
+
+[node name="WarCryState" type="Node" parent="StateMachine"]
+script = ExtResource("20_wcs")
+ability_index = 2
+
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("8_hc")
 max_hp = 10
@@ -256,6 +365,10 @@ knockback_force = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("SubResource_hitbox_shape")
+
+[node name="AbilityManager" type="Node" parent="."]
+script = ExtResource("15_am")
+abilities = [ExtResource("16_sb"), ExtResource("17_ww"), ExtResource("18_wc")]
 
 [node name="ItemEffectHandler" type="Node" parent="."]
 script = ExtResource("14_effects")
