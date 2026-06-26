@@ -34,6 +34,15 @@ func take_damage(amount: int) -> void:
 	if current_hp <= 0:
 		died.emit()
 
+func set_max_hp(new_max: int) -> void:
+	var delta: int = new_max - max_hp
+	max_hp = new_max
+	if delta > 0:
+		current_hp = mini(current_hp + delta, max_hp)
+	else:
+		current_hp = mini(current_hp, max_hp)
+	health_changed.emit(current_hp, max_hp)
+
 func heal(amount: int) -> void:
 	current_hp = mini(current_hp + amount, max_hp)
 	healed.emit(amount)

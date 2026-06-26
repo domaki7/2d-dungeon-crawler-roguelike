@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
-@export var speed: float = 120.0
 @export var acceleration: float = 800.0
 @export var friction: float = 600.0
 
@@ -12,9 +11,11 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 @onready var knockback_component: KnockbackComponent = $KnockbackComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var hitbox: Hitbox = $Hitbox
+@onready var player_stats: PlayerStats = $PlayerStats
 
 var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
+var speed: float = 120.0
 
 func _ready() -> void:
 	add_to_group(&"player")
@@ -24,6 +25,8 @@ func _ready() -> void:
 		EventBus.player_damaged.emit(amount, health_component.current_hp))
 	health_component.healed.connect(func(amount: int) -> void:
 		EventBus.player_healed.emit(amount, health_component.current_hp))
+	player_stats.stats_changed.connect(_on_stats_changed)
+	_on_stats_changed()
 	_start_state_machine.call_deferred()
 
 func _start_state_machine() -> void:
@@ -57,6 +60,16 @@ func play_directional_animation(base_name: String) -> void:
 	var anim_name: StringName = StringName(base_name + suffix)
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
+
+func get_defense() -> int:
+	return player_stats.get_effective_defense()
+
+func _on_stats_changed() -> void:
+	speed = player_stats.get_effective_speed()
+	hitbox.damage = player_stats.get_effective_damage()
+	hitbox.knockback_force = player_stats.get_effective_knockback_force()
+	hitbox.crit_chance = player_stats.get_effective_crit_chance()
+	health_component.set_max_hp(player_stats.get_effective_max_hp())
 
 func _on_health_damaged(_amount: int) -> void:
 	state_machine.transition_to(&"HurtState")

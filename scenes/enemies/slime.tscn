@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/slime.gd" id="1_slime"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="13_gold"]
+[ext_resource type="Resource" path="res://resources/loot_tables/slime_loot.tres" id="14_loot"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="15_item_pickup"]
 [ext_resource type="Texture2D" path="res://assets/sprites/enemies/slime_idle_down_0.svg" id="t_id0"]
 [ext_resource type="Texture2D" path="res://assets/sprites/enemies/slime_idle_down_1.svg" id="t_id1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/enemies/slime_idle_up_0.svg" id="t_iu0"]
@@ -219,6 +221,8 @@ script = ExtResource("6_hurt")
 [node name="DeadState" type="Node" parent="StateMachine"]
 script = ExtResource("7_dead")
 gold_drop_scene = ExtResource("13_gold")
+loot_table = ExtResource("14_loot")
+item_pickup_scene = ExtResource("15_item_pickup")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("8_hc")

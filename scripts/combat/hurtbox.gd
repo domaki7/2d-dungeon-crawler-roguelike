@@ -16,7 +16,11 @@ func receive_hit(hitbox: Hitbox) -> void:
 	if _health_component and _health_component.is_invincible():
 		return
 
-	var final_damage: int = CombatManager.calculate_damage(hitbox.damage)
+	var defense: int = 0
+	var owner_node: Node2D = get_parent() as Node2D
+	if owner_node and owner_node.has_method("get_defense"):
+		defense = owner_node.get_defense()
+	var final_damage: int = CombatManager.calculate_damage(hitbox.damage, defense, hitbox.crit_chance)
 
 	if _health_component:
 		_health_component.take_damage(final_damage)

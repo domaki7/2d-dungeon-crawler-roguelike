@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- ring band -->
+  <rect x="5" y="6" width="6" height="6" fill="#FFD700"/>
+  <rect x="6" y="5" width="4" height="8" fill="#FFD700"/>
+  <!-- ring inner -->
+  <rect x="6" y="7" width="4" height="4" fill="#DAA520"/>
+  <rect x="7" y="6" width="2" height="6" fill="#DAA520"/>
+  <!-- hollow center -->
+  <rect x="7" y="8" width="2" height="2" fill="#1A1A2E"/>
+  <!-- gem setting -->
+  <rect x="6" y="3" width="4" height="3" fill="#2E8B57"/>
+  <rect x="7" y="2" width="2" height="1" fill="#3CB371"/>
+  <rect x="7" y="3" width="2" height="2" fill="#3CB371"/>
+  <!-- gem highlight -->
+  <rect x="7" y="3" width="1" height="1" fill="#90EE90"/>
+</svg>

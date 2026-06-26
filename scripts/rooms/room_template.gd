@@ -70,8 +70,8 @@ func _populate_enemies() -> void:
 		var enemy: Node2D = sp.spawn()
 		if enemy:
 			add_child(enemy)
-			_enemies_alive += 1
 			if enemy.has_node("HealthComponent"):
+				_enemies_alive += 1
 				var hc: HealthComponent = enemy.get_node("HealthComponent") as HealthComponent
 				hc.died.connect(_on_enemy_died)
 

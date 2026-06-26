@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/shop_npc.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interactables/shop_npc.svg" id="2_sprite"]
+[ext_resource type="Resource" path="res://resources/items/weapons/iron_sword.tres" id="3_sword"]
+[ext_resource type="Resource" path="res://resources/items/armor/leather_armor.tres" id="4_armor"]
+[ext_resource type="Resource" path="res://resources/items/rings/ring_of_vitality.tres" id="5_ring"]
+[ext_resource type="Resource" path="res://resources/items/accessories/vampire_pendant.tres" id="6_pendant"]
+
+[sub_resource type="CircleShape2D" id="body_shape"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="interaction_shape"]
+radius = 20.0
+
+[node name="ShopNPC" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1")
+shop_items = [ExtResource("3_sword"), ExtResource("4_armor"), ExtResource("5_ring"), ExtResource("6_pendant")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_sprite")
+texture_filter = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("body_shape")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("interaction_shape")
+
+[node name="InteractLabel" type="Label" parent="."]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -16.0
+horizontal_alignment = 1
+text = "[F] Shop"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3]
+[gd_scene load_steps=42 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="10_hurtbox"]
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
+[ext_resource type="Script" path="res://scripts/player/player_stats.gd" id="13_stats"]
+[ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="14_effects"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_0.svg" id="t_id0"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_down_1.svg" id="t_id1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_idle_up_0.svg" id="t_iu0"]
@@ -224,6 +226,15 @@ i_frame_duration = 0.5
 script = ExtResource("9_kb")
 friction = 800.0
 
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("13_stats")
+base_damage = 3
+base_defense = 0
+base_max_hp = 10
+base_speed = 120.0
+base_knockback_force = 150.0
+base_crit_chance = 0.0
+
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 0
@@ -245,6 +256,9 @@ knockback_force = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("SubResource_hitbox_shape")
+
+[node name="ItemEffectHandler" type="Node" parent="."]
+script = ExtResource("14_effects")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

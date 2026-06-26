@@ -2,6 +2,8 @@ extends EnemyState
 
 @export var death_delay: float = 0.4
 @export var gold_drop_scene: PackedScene
+@export var loot_table: LootTable
+@export var item_pickup_scene: PackedScene
 
 var _death_timer: float = 0.0
 var _has_dropped: bool = false
@@ -29,3 +31,10 @@ func _spawn_gold_drop() -> void:
 		var gold: Area2D = gold_drop_scene.instantiate() as Area2D
 		gold.global_position = enemy.global_position
 		enemy.get_parent().add_child(gold)
+	if loot_table and item_pickup_scene:
+		var item: ItemData = loot_table.roll()
+		if item:
+			var pickup: Node2D = item_pickup_scene.instantiate() as Node2D
+			pickup.item_data = item
+			pickup.global_position = enemy.global_position + Vector2(randf_range(-8.0, 8.0), randf_range(-8.0, 8.0))
+			enemy.get_parent().add_child(pickup)
