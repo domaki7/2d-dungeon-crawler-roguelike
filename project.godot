@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Dungeon Descent"
-run/main_scene="res://scenes/main/game.tscn"
+run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,9 @@ config/icon="res://icon.svg"
 EventBus="*res://scripts/autoload/event_bus.gd"
 CombatManager="*res://scripts/autoload/combat_manager.gd"
 DungeonManager="*res://scripts/autoload/dungeon_manager.gd"
+SaveManager="*res://scripts/autoload/save_manager.gd"
+RunManager="*res://scripts/autoload/run_manager.gd"
+GameManager="*res://scripts/autoload/game_manager.gd"
 
 [display]
 

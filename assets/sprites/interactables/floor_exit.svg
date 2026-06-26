@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Staircase going down -->
+  <rect x="2" y="2" width="12" height="12" fill="#1a1a2e"/>
+  <!-- Steps -->
+  <rect x="3" y="3" width="10" height="2" fill="#4a4a6a"/>
+  <rect x="4" y="5" width="9" height="2" fill="#3a3a5a"/>
+  <rect x="5" y="7" width="8" height="2" fill="#2a2a4a"/>
+  <rect x="6" y="9" width="7" height="2" fill="#1a1a3a"/>
+  <!-- Portal glow -->
+  <rect x="7" y="11" width="5" height="2" fill="#6a5acd"/>
+  <rect x="8" y="12" width="3" height="1" fill="#9370db"/>
+  <!-- Border -->
+  <rect x="1" y="1" width="14" height="1" fill="#8b8b8b"/>
+  <rect x="1" y="14" width="14" height="1" fill="#8b8b8b"/>
+  <rect x="1" y="1" width="1" height="14" fill="#8b8b8b"/>
+  <rect x="14" y="1" width="1" height="14" fill="#8b8b8b"/>
+</svg>

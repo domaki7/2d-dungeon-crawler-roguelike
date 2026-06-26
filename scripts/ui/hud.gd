@@ -4,11 +4,15 @@ extends CanvasLayer
 @onready var gold_label: Label = $GoldLabel
 @onready var death_screen: Control = $DeathScreen
 
+var _floor_label: Label
+
 func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
 	EventBus.item_picked_up.connect(_on_item_picked_up)
+	EventBus.floor_started.connect(_on_floor_started)
 	gold_label.text = "0"
 	_create_ability_bar()
+	_create_floor_label()
 	_connect_to_player.call_deferred()
 
 func _create_ability_bar() -> void:
@@ -35,6 +39,20 @@ func _on_health_changed(current_hp: int, max_hp: int) -> void:
 
 func _on_gold_changed(new_amount: int) -> void:
 	gold_label.text = str(new_amount)
+
+func _create_floor_label() -> void:
+	_floor_label = Label.new()
+	_floor_label.text = "Floor 1"
+	_floor_label.add_theme_font_size_override("font_size", 6)
+	_floor_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
+	_floor_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_floor_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_floor_label.position.y = 2.0
+	add_child(_floor_label)
+
+func _on_floor_started(floor_number: int) -> void:
+	if _floor_label:
+		_floor_label.text = "Floor %d" % floor_number
 
 func _on_item_picked_up(item_data: Resource) -> void:
 	var item: ItemData = item_data as ItemData

@@ -7,10 +7,15 @@ signal room_cleared_signal
 @export var is_combat_room: bool = true
 @export var auto_lock_doors: bool = true
 
+@export_group("Room Size")
+@export var room_pixel_width: int = 384
+@export var room_pixel_height: int = 256
+
 @onready var doors_container: Node2D = $Doors
 @onready var spawn_points_container: Node2D = $SpawnPoints
 @onready var player_spawn: Marker2D = $PlayerSpawn
 
+var _floor_exit_scene: PackedScene = preload("res://scenes/interactables/floor_exit.tscn")
 var _enemies_alive: int = 0
 var _is_cleared: bool = false
 
@@ -87,6 +92,12 @@ func _unlock_all_doors() -> void:
 		if door:
 			door.unlock()
 
+func _spawn_floor_exit() -> void:
+	var exit: FloorExit = _floor_exit_scene.instantiate() as FloorExit
+	exit.position = Vector2(room_pixel_width / 2.0, room_pixel_height / 2.0)
+	add_child(exit)
+	exit.activate()
+
 func _on_enemy_died() -> void:
 	_enemies_alive -= 1
 	if _enemies_alive <= 0 and not _is_cleared:
@@ -95,6 +106,8 @@ func _on_enemy_died() -> void:
 		room_cleared_signal.emit()
 		EventBus.room_cleared.emit(room_id)
 		EventBus.all_enemies_dead.emit()
+		if DungeonManager.is_final_room(room_id):
+			_spawn_floor_exit()
 
 func _on_door_entered(_door: Door) -> void:
 	pass

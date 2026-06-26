@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FloorConfig" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/floor_config.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_001.tscn" id="2_room001"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_002.tscn" id="3_room002"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_003.tscn" id="4_room003"]
+
+[resource]
+script = ExtResource("1_script")
+room_count_min = 5
+room_count_max = 8
+combat_room_scenes = [ExtResource("2_room001"), ExtResource("3_room002"), ExtResource("4_room003")]
+has_shop = false
+has_treasure = false
+has_boss = false
+enemy_difficulty_multiplier = 1.6
