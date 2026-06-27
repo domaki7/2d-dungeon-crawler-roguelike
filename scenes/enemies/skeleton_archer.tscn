@@ -1,0 +1,269 @@
+[gd_scene load_steps=45 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/skeleton_archer.gd" id="1_archer"]
+[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/archer_idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/archer_chase_state.gd" id="4_chase"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/archer_attack_state.gd" id="5_atk"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/archer_hurt_state.gd" id="6_hurt"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/archer_dead_state.gd" id="7_dead"]
+[ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="8_hc"]
+[ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="9_kb"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="10_hurtbox"]
+[ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
+[ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/stunned_state.gd" id="16_stun"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="13_gold"]
+[ext_resource type="Resource" path="res://resources/loot_tables/skeleton_loot.tres" id="14_loot"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="15_item_pickup"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_down_0.svg" id="t_ad0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_down_1.svg" id="t_ad1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_down_2.svg" id="t_ad2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_up_0.svg" id="t_au0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_up_1.svg" id="t_au1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_up_2.svg" id="t_au2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_side_0.svg" id="t_as0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_side_1.svg" id="t_as1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/archer_attack_side_2.svg" id="t_as2"]
+
+[sub_resource type="SpriteFrames" id="SubResource_sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_id0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_id1")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_iu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_iu1")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_is0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_is1")
+}],
+"loop": true,
+"name": &"idle_side",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ws0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws3")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ad0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ad1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ad2")
+}],
+"loop": false,
+"name": &"attack_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_au0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_au1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_au2")
+}],
+"loop": false,
+"name": &"attack_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_as0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_as1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_as2")
+}],
+"loop": false,
+"name": &"attack_side",
+"speed": 8.0
+}]
+
+[sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
+shader = ExtResource("12_shader")
+shader_parameter/flash_intensity = 0.0
+
+[sub_resource type="CircleShape2D" id="SubResource_body"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="SubResource_hurtbox_shape"]
+radius = 6.0
+
+[sub_resource type="RectangleShape2D" id="SubResource_hitbox_shape"]
+size = Vector2(10, 10)
+
+[sub_resource type="CircleShape2D" id="SubResource_detection_shape"]
+radius = 90.0
+
+[node name="SkeletonArcher" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_archer")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("SubResource_shader_mat")
+position = Vector2(0, -8)
+sprite_frames = SubResource("SubResource_sf")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SubResource_body")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_sm")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("3_idle")
+
+[node name="ChaseState" type="Node" parent="StateMachine"]
+script = ExtResource("4_chase")
+
+[node name="AttackState" type="Node" parent="StateMachine"]
+script = ExtResource("5_atk")
+
+[node name="HurtState" type="Node" parent="StateMachine"]
+script = ExtResource("6_hurt")
+
+[node name="StunnedState" type="Node" parent="StateMachine"]
+script = ExtResource("16_stun")
+
+[node name="DeadState" type="Node" parent="StateMachine"]
+script = ExtResource("7_dead")
+gold_drop_scene = ExtResource("13_gold")
+loot_table = ExtResource("14_loot")
+item_pickup_scene = ExtResource("15_item_pickup")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8_hc")
+max_hp = 4
+i_frame_duration = 0.2
+
+[node name="KnockbackComponent" type="Node" parent="."]
+script = ExtResource("9_kb")
+friction = 500.0
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("10_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("SubResource_hurtbox_shape")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 8
+monitoring = true
+monitorable = false
+script = ExtResource("11_hitbox")
+damage = 2
+knockback_force = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("SubResource_hitbox_shape")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("SubResource_detection_shape")

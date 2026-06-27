@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- ring band -->
+  <rect x="5" y="4" width="6" height="1" fill="#8B0000"/>
+  <rect x="5" y="11" width="6" height="1" fill="#8B0000"/>
+  <rect x="4" y="5" width="1" height="6" fill="#8B0000"/>
+  <rect x="11" y="5" width="1" height="6" fill="#8B0000"/>
+  <!-- highlight -->
+  <rect x="5" y="5" width="1" height="2" fill="#CC2222"/>
+  <rect x="6" y="4" width="2" height="1" fill="#CC2222"/>
+  <!-- gem -->
+  <rect x="7" y="3" width="2" height="2" fill="#FF0000"/>
+  <rect x="7" y="2" width="2" height="1" fill="#FF4444"/>
+  <!-- blood drops -->
+  <rect x="6" y="6" width="1" height="1" fill="#660000"/>
+  <rect x="9" y="8" width="1" height="1" fill="#660000"/>
+</svg>

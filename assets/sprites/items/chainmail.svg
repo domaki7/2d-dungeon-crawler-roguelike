@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- body -->
+  <rect x="4" y="2" width="8" height="10" fill="#808890"/>
+  <!-- chain pattern -->
+  <rect x="5" y="3" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="7" y="3" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="9" y="3" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="6" y="5" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="8" y="5" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="10" y="5" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="5" y="7" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="7" y="7" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="9" y="7" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="6" y="9" width="1" height="1" fill="#A0A8B0"/>
+  <rect x="8" y="9" width="1" height="1" fill="#A0A8B0"/>
+  <!-- shoulders -->
+  <rect x="3" y="2" width="1" height="3" fill="#707880"/>
+  <rect x="12" y="2" width="1" height="3" fill="#707880"/>
+  <!-- collar -->
+  <rect x="6" y="1" width="4" height="1" fill="#606870"/>
+  <!-- sleeves -->
+  <rect x="2" y="3" width="1" height="4" fill="#808890"/>
+  <rect x="13" y="3" width="1" height="4" fill="#808890"/>
+</svg>

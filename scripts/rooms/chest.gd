@@ -33,6 +33,7 @@ func open() -> void:
 	else:
 		_sprite.modulate = Color(0.6, 0.6, 0.6)
 	_spawn_contents()
+	AudioManager.play_sfx(&"chest_open")
 	opened.emit()
 
 func _spawn_contents() -> void:

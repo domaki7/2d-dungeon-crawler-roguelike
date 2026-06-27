@@ -1,0 +1,182 @@
+[gd_scene load_steps=48 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/skeleton_knight.gd" id="1_boss"]
+[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_chase_state.gd" id="4_chase"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_melee_attack_state.gd" id="5_melee"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_charge_state.gd" id="6_charge"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_slam_state.gd" id="7_slam"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_summon_state.gd" id="8_summon"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_hurt_state.gd" id="9_hurt"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_dead_state.gd" id="10_dead"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/boss_stunned_state.gd" id="11_stun"]
+[ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="12_hc"]
+[ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="13_kb"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="14_hurtbox"]
+[ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="15_hitbox"]
+[ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="16_shader"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="17_gold"]
+[ext_resource type="Resource" path="res://resources/loot_tables/boss_loot.tres" id="18_loot"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="19_pickup"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_down_0.svg" id="t_ad0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_down_1.svg" id="t_ad1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_down_2.svg" id="t_ad2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_up_0.svg" id="t_au0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_up_1.svg" id="t_au1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_up_2.svg" id="t_au2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_side_0.svg" id="t_as0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_side_1.svg" id="t_as1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss_attack_side_2.svg" id="t_as2"]
+
+[sub_resource type="SpriteFrames" id="SubResource_sf"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("t_id0")}, {"duration": 1.0, "texture": ExtResource("t_id1")}],
+"loop": true, "name": &"idle_down", "speed": 2.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_iu0")}, {"duration": 1.0, "texture": ExtResource("t_iu1")}],
+"loop": true, "name": &"idle_up", "speed": 2.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_is0")}, {"duration": 1.0, "texture": ExtResource("t_is1")}],
+"loop": true, "name": &"idle_side", "speed": 2.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_wd0")}, {"duration": 1.0, "texture": ExtResource("t_wd1")}, {"duration": 1.0, "texture": ExtResource("t_wd2")}, {"duration": 1.0, "texture": ExtResource("t_wd3")}],
+"loop": true, "name": &"walk_down", "speed": 6.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_wu0")}, {"duration": 1.0, "texture": ExtResource("t_wu1")}, {"duration": 1.0, "texture": ExtResource("t_wu2")}, {"duration": 1.0, "texture": ExtResource("t_wu3")}],
+"loop": true, "name": &"walk_up", "speed": 6.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_ws0")}, {"duration": 1.0, "texture": ExtResource("t_ws1")}, {"duration": 1.0, "texture": ExtResource("t_ws2")}, {"duration": 1.0, "texture": ExtResource("t_ws3")}],
+"loop": true, "name": &"walk_side", "speed": 6.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_ad0")}, {"duration": 1.0, "texture": ExtResource("t_ad1")}, {"duration": 1.0, "texture": ExtResource("t_ad2")}],
+"loop": false, "name": &"attack_down", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_au0")}, {"duration": 1.0, "texture": ExtResource("t_au1")}, {"duration": 1.0, "texture": ExtResource("t_au2")}],
+"loop": false, "name": &"attack_up", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("t_as0")}, {"duration": 1.0, "texture": ExtResource("t_as1")}, {"duration": 1.0, "texture": ExtResource("t_as2")}],
+"loop": false, "name": &"attack_side", "speed": 8.0
+}]
+
+[sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
+shader = ExtResource("16_shader")
+shader_parameter/flash_intensity = 0.0
+
+[sub_resource type="CircleShape2D" id="SubResource_body"]
+radius = 10.0
+
+[sub_resource type="CircleShape2D" id="SubResource_hurtbox_shape"]
+radius = 10.0
+
+[sub_resource type="RectangleShape2D" id="SubResource_hitbox_shape"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="SubResource_detection_shape"]
+radius = 120.0
+
+[node name="SkeletonKnight" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_boss")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("SubResource_shader_mat")
+position = Vector2(0, -10)
+sprite_frames = SubResource("SubResource_sf")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SubResource_body")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_sm")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("3_idle")
+
+[node name="ChaseState" type="Node" parent="StateMachine"]
+script = ExtResource("4_chase")
+
+[node name="MeleeAttackState" type="Node" parent="StateMachine"]
+script = ExtResource("5_melee")
+
+[node name="ChargeState" type="Node" parent="StateMachine"]
+script = ExtResource("6_charge")
+
+[node name="SlamState" type="Node" parent="StateMachine"]
+script = ExtResource("7_slam")
+
+[node name="SummonState" type="Node" parent="StateMachine"]
+script = ExtResource("8_summon")
+
+[node name="HurtState" type="Node" parent="StateMachine"]
+script = ExtResource("9_hurt")
+
+[node name="DeadState" type="Node" parent="StateMachine"]
+script = ExtResource("10_dead")
+gold_drop_scene = ExtResource("17_gold")
+loot_table = ExtResource("18_loot")
+item_pickup_scene = ExtResource("19_pickup")
+
+[node name="StunnedState" type="Node" parent="StateMachine"]
+script = ExtResource("11_stun")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("12_hc")
+max_hp = 50
+i_frame_duration = 0.1
+
+[node name="KnockbackComponent" type="Node" parent="."]
+script = ExtResource("13_kb")
+friction = 300.0
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("14_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("SubResource_hurtbox_shape")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 8
+monitoring = true
+monitorable = false
+script = ExtResource("15_hitbox")
+damage = 3
+knockback_force = 180.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("SubResource_hitbox_shape")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("SubResource_detection_shape")

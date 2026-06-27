@@ -1,0 +1,45 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/shop_room.gd" id="1_script"]
+[ext_resource type="TileSet" path="res://resources/tilesets/dungeon_tileset.tres" id="2_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/shop_npc.tscn" id="4_shop"]
+[ext_resource type="Resource" path="res://resources/items/weapons/iron_sword.tres" id="5_item1"]
+[ext_resource type="Resource" path="res://resources/items/weapons/steel_greatsword.tres" id="6_item2"]
+[ext_resource type="Resource" path="res://resources/items/weapons/ember_blade.tres" id="7_item3"]
+[ext_resource type="Resource" path="res://resources/items/armor/leather_armor.tres" id="8_item4"]
+[ext_resource type="Resource" path="res://resources/items/armor/chainmail.tres" id="9_item5"]
+[ext_resource type="Resource" path="res://resources/items/armor/thorn_vest.tres" id="10_item6"]
+[ext_resource type="Resource" path="res://resources/items/rings/ring_of_haste.tres" id="11_item7"]
+[ext_resource type="Resource" path="res://resources/items/accessories/lucky_coin.tres" id="12_item8"]
+
+[node name="ShopRoom" type="Node2D"]
+script = ExtResource("1_script")
+is_combat_room = false
+auto_lock_doors = false
+
+[node name="FloorLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="WallLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="DoorNorth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 8)
+direction = 0
+
+[node name="DoorSouth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 248)
+direction = 1
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="ShopNPC" parent="." instance=ExtResource("4_shop")]
+position = Vector2(192, 96)
+available_items = [ExtResource("5_item1"), ExtResource("6_item2"), ExtResource("7_item3"), ExtResource("8_item4"), ExtResource("9_item5"), ExtResource("10_item6"), ExtResource("11_item7"), ExtResource("12_item8")]
+random_item_count = 3
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(192, 224)

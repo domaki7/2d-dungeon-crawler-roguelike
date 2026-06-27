@@ -32,6 +32,14 @@ func take_damage(amount: int) -> void:
 	damaged.emit(amount)
 	health_changed.emit(current_hp, max_hp)
 	if current_hp <= 0:
+		var effect_handler: ItemEffectHandler = get_parent().get_node_or_null("ItemEffectHandler") as ItemEffectHandler
+		if effect_handler and effect_handler.has_revive():
+			var revive_hp: int = effect_handler.consume_revive()
+			current_hp = revive_hp
+			_i_frame_timer = 1.0
+			healed.emit(revive_hp)
+			health_changed.emit(current_hp, max_hp)
+			return
 		died.emit()
 
 func set_max_hp(new_max: int) -> void:

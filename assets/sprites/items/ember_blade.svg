@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- blade with fire glow -->
+  <rect x="7" y="1" width="2" height="8" fill="#CC4400"/>
+  <rect x="6" y="2" width="1" height="6" fill="#FF6622"/>
+  <rect x="9" y="2" width="1" height="6" fill="#993300"/>
+  <rect x="7" y="0" width="2" height="1" fill="#FF8844"/>
+  <!-- embers -->
+  <rect x="5" y="3" width="1" height="1" fill="#FFAA00"/>
+  <rect x="10" y="5" width="1" height="1" fill="#FFAA00"/>
+  <!-- guard -->
+  <rect x="4" y="9" width="8" height="2" fill="#333333"/>
+  <rect x="5" y="9" width="6" height="2" fill="#444444"/>
+  <!-- grip -->
+  <rect x="7" y="11" width="2" height="3" fill="#2A1A0A"/>
+  <!-- pommel -->
+  <rect x="7" y="14" width="2" height="2" fill="#CC4400"/>
+</svg>

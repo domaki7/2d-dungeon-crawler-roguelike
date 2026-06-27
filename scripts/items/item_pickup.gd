@@ -39,6 +39,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if existing == null:
 		player_stats.equip(item_data)
 		EventBus.item_picked_up.emit(item_data)
+		AudioManager.play_sfx(&"item_pickup")
 		queue_free()
 	else:
 		_player_ref = player
@@ -53,6 +54,7 @@ func _swap_item() -> void:
 	var player_stats: PlayerStats = _player_ref.get_node("PlayerStats") as PlayerStats
 	var old_item: ItemData = player_stats.equip(item_data)
 	EventBus.item_picked_up.emit(item_data)
+	AudioManager.play_sfx(&"item_pickup")
 	if old_item:
 		_spawn_replacement(old_item)
 	queue_free()

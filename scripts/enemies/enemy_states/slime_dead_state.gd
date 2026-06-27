@@ -17,6 +17,7 @@ func enter() -> void:
 			(child as CollisionShape2D).set_deferred("disabled", true)
 	enemy.animated_sprite.modulate = Color(1.0, 1.0, 1.0, 0.5)
 	EventBus.enemy_killed.emit({"position": enemy.global_position, "type": "slime"})
+	AudioManager.play_sfx(&"enemy_die")
 
 func physics_process_state(delta: float) -> void:
 	_death_timer -= delta

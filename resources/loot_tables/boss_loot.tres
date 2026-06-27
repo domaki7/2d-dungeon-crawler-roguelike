@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/loot_table.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/items/loot_entry.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/items/weapons/ember_blade.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/items/armor/thorn_vest.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/items/rings/berserker_band.tres" id="5"]
+[ext_resource type="Resource" path="res://resources/items/accessories/guardian_idol.tres" id="6"]
+
+[sub_resource type="Resource" id="e1"]
+script = ExtResource("2")
+item = ExtResource("3")
+weight = 1.0
+
+[sub_resource type="Resource" id="e2"]
+script = ExtResource("2")
+item = ExtResource("4")
+weight = 1.0
+
+[sub_resource type="Resource" id="e3"]
+script = ExtResource("2")
+item = ExtResource("5")
+weight = 1.0
+
+[sub_resource type="Resource" id="e4"]
+script = ExtResource("2")
+item = ExtResource("6")
+weight = 1.0
+
+[resource]
+script = ExtResource("1")
+entries = [SubResource("e1"), SubResource("e2"), SubResource("e3"), SubResource("e4")]
+drop_chance = 1.0

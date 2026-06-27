@@ -28,11 +28,13 @@ func lock() -> void:
 	is_locked = true
 	wall_blocker_shape.set_deferred("disabled", false)
 	_update_visual()
+	AudioManager.play_sfx(&"door_lock")
 
 func unlock() -> void:
 	is_locked = false
 	wall_blocker_shape.set_deferred("disabled", true)
 	_update_visual()
+	AudioManager.play_sfx(&"door_open")
 
 func _update_visual() -> void:
 	if sprite:

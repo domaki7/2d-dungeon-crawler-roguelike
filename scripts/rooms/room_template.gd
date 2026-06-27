@@ -68,6 +68,7 @@ func _connect_doors() -> void:
 			door.door_entered.connect(_on_door_entered)
 
 func _populate_enemies() -> void:
+	var multiplier: float = DungeonManager.get_difficulty_multiplier()
 	for sp_node: Node in spawn_points_container.get_children():
 		var sp: SpawnPoint = sp_node as SpawnPoint
 		if sp == null:
@@ -79,6 +80,13 @@ func _populate_enemies() -> void:
 				_enemies_alive += 1
 				var hc: HealthComponent = enemy.get_node("HealthComponent") as HealthComponent
 				hc.died.connect(_on_enemy_died)
+				if multiplier != 1.0:
+					hc.max_hp = maxi(1, int(float(hc.max_hp) * multiplier))
+					hc.current_hp = hc.max_hp
+			if multiplier != 1.0 and enemy.has_node("Hitbox"):
+				var hitbox: Hitbox = enemy.get_node("Hitbox") as Hitbox
+				if hitbox:
+					hitbox.damage = maxi(1, int(float(hitbox.damage) * multiplier))
 
 func _lock_all_doors() -> void:
 	for door_node: Node in doors_container.get_children():

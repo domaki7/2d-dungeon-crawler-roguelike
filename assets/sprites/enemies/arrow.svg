@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8" shape-rendering="crispEdges">
+  <!-- shaft -->
+  <rect x="1" y="3" width="10" height="2" fill="#8B6914"/>
+  <!-- arrowhead -->
+  <rect x="11" y="2" width="2" height="4" fill="#808080"/>
+  <rect x="13" y="3" width="2" height="2" fill="#A0A0A0"/>
+  <rect x="15" y="3" width="1" height="2" fill="#C0C0C0"/>
+  <!-- fletching -->
+  <rect x="0" y="1" width="2" height="2" fill="#8B4513"/>
+  <rect x="0" y="5" width="2" height="2" fill="#8B4513"/>
+</svg>

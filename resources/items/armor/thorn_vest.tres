@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/thorn_vest.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"thorn_vest"
+display_name = "Thorn Vest"
+description = "A vest woven with barbed vines. Reflects damage back to attackers."
+icon = ExtResource("2")
+slot_type = 1
+rarity = 2
+bonus_damage = 0
+bonus_defense = 1
+bonus_max_hp = 0
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"thorns"
+effect_value = 1.0
+buy_price = 35
+sell_price = 12

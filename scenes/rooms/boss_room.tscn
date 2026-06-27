@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/boss_room.gd" id="1_script"]
+[ext_resource type="TileSet" path="res://resources/tilesets/dungeon_tileset.tres" id="2_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door.tscn" id="3_door"]
+[ext_resource type="Script" path="res://scripts/rooms/spawn_point.gd" id="4_spawnpoint"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton_knight.tscn" id="5_boss"]
+
+[node name="BossRoom" type="Node2D"]
+script = ExtResource("1_script")
+is_combat_room = true
+auto_lock_doors = true
+room_pixel_width = 512
+room_pixel_height = 384
+
+[node name="FloorLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="WallLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="DoorNorth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(256, 8)
+direction = 0
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="BossSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(256, 128)
+script = ExtResource("4_spawnpoint")
+spawn_type = 3
+spawn_chance = 1.0
+spawn_scene = ExtResource("5_boss")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(256, 340)

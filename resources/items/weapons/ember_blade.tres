@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/ember_blade.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"ember_blade"
+display_name = "Ember Blade"
+description = "A blade wreathed in flame. Burns enemies on contact for bonus damage."
+icon = ExtResource("2")
+slot_type = 0
+rarity = 2
+bonus_damage = 3
+bonus_defense = 0
+bonus_max_hp = 0
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"burn_on_hit"
+effect_value = 2.0
+buy_price = 40
+sell_price = 15

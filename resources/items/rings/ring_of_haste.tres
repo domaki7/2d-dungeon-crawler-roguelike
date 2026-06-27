@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/ring_of_haste.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"ring_of_haste"
+display_name = "Ring of Haste"
+description = "A shimmering blue band. Makes you noticeably faster."
+icon = ExtResource("2")
+slot_type = 2
+rarity = 0
+bonus_damage = 0
+bonus_defense = 0
+bonus_max_hp = 0
+bonus_speed = 20.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &""
+effect_value = 0.0
+buy_price = 15
+sell_price = 5

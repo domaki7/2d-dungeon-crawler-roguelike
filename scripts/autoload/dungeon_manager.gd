@@ -10,6 +10,7 @@ var _room_container: Node2D = null
 var _player: CharacterBody2D = null
 var _transition_overlay: ColorRect = null
 var _current_floor_number: int = 1
+var _current_config: FloorConfig = null
 
 func initialize(room_container: Node2D, player: CharacterBody2D) -> void:
 	_room_container = room_container
@@ -19,6 +20,10 @@ func initialize(room_container: Node2D, player: CharacterBody2D) -> void:
 		EventBus.door_transition_requested.connect(_on_door_transition_requested)
 	if not EventBus.room_cleared.is_connected(_on_room_cleared):
 		EventBus.room_cleared.connect(_on_room_cleared)
+	if not EventBus.boss_fight_started.is_connected(_on_boss_fight_started):
+		EventBus.boss_fight_started.connect(_on_boss_fight_started)
+	if not EventBus.boss_defeated.is_connected(_on_boss_defeated):
+		EventBus.boss_defeated.connect(_on_boss_defeated)
 
 func generate_floor(floor_number: int, config: FloorConfig) -> void:
 	_is_transitioning = true
@@ -34,6 +39,7 @@ func generate_floor(floor_number: int, config: FloorConfig) -> void:
 
 	_cleanup_room()
 	_current_floor_number = floor_number
+	_current_config = config
 	_current_room_id = 0
 	_current_room = null
 	_floor_graph.clear()
@@ -48,6 +54,7 @@ func generate_floor(floor_number: int, config: FloorConfig) -> void:
 	_current_room.activate()
 	_floor_graph[_current_room_id].is_visited = true
 	EventBus.floor_started.emit(floor_number)
+	AudioManager.play_music(&"dungeon_ambient")
 
 	if _transition_overlay:
 		var tween_in: Tween = create_tween()
@@ -67,6 +74,11 @@ func get_current_room_id() -> int:
 
 func get_current_floor_number() -> int:
 	return _current_floor_number
+
+func get_difficulty_multiplier() -> float:
+	if _current_config:
+		return _current_config.enemy_difficulty_multiplier
+	return 1.0
 
 func is_final_room(room_id: int) -> bool:
 	var room_data: Dictionary = _floor_graph.get(room_id, {})
@@ -240,3 +252,9 @@ func _set_camera_limits() -> void:
 func _on_room_cleared(room_id: int) -> void:
 	if _floor_graph.has(room_id):
 		_floor_graph[room_id].is_cleared = true
+
+func _on_boss_fight_started(_boss_name: String, _health_component: Node) -> void:
+	AudioManager.play_music(&"boss_fight")
+
+func _on_boss_defeated(_boss_id: String) -> void:
+	AudioManager.play_music(&"dungeon_ambient")

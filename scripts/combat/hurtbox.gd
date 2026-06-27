@@ -39,3 +39,4 @@ func receive_hit(hitbox: Hitbox) -> void:
 	CombatManager.apply_screen_shake(2.0, 0.15)
 
 	hit_received.emit(hitbox)
+	AudioManager.play_sfx(&"hit")

@@ -9,4 +9,5 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		body.gold += gold_value
 		EventBus.gold_changed.emit(body.gold)
+		AudioManager.play_sfx(&"gold_pickup")
 		queue_free()

@@ -10,6 +10,7 @@ var _floor_configs: Array[FloorConfig] = []
 var _game_scene: PackedScene = preload("res://scenes/main/game.tscn")
 var _game_instance: Node = null
 var _run_start_time: float = 0.0
+var _last_gold: int = 0
 
 func _ready() -> void:
 	_load_floor_configs()
@@ -17,11 +18,13 @@ func _ready() -> void:
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 	EventBus.room_cleared.connect(_on_room_cleared)
+	EventBus.gold_changed.connect(_on_gold_changed)
 
 func start_run() -> void:
 	current_floor = 0
 	run_active = true
 	_run_start_time = Time.get_ticks_msec() / 1000.0
+	_last_gold = 0
 	run_stats = {
 		"kills": 0,
 		"rooms_cleared": 0,
@@ -119,3 +122,9 @@ func _on_enemy_killed(_enemy_data: Dictionary) -> void:
 
 func _on_room_cleared(_room_id: int) -> void:
 	run_stats.rooms_cleared = run_stats.get("rooms_cleared", 0) + 1
+
+func _on_gold_changed(new_amount: int) -> void:
+	var delta: int = new_amount - _last_gold
+	if delta > 0:
+		run_stats.gold_earned = run_stats.get("gold_earned", 0) + delta
+	_last_gold = new_amount

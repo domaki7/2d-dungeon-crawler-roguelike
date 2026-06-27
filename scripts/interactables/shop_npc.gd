@@ -2,6 +2,8 @@ class_name ShopNPC
 extends StaticBody2D
 
 @export var shop_items: Array[ItemData] = []
+@export var available_items: Array[ItemData] = []
+@export var random_item_count: int = 3
 
 var _player_nearby: bool = false
 var _player_ref: CharacterBody2D = null
@@ -13,6 +15,14 @@ func _ready() -> void:
 	_interact_label.visible = false
 	_interaction_area.body_entered.connect(_on_body_entered)
 	_interaction_area.body_exited.connect(_on_body_exited)
+	if shop_items.is_empty() and not available_items.is_empty():
+		_generate_random_shop()
+
+func _generate_random_shop() -> void:
+	var pool: Array[ItemData] = available_items.duplicate()
+	pool.shuffle()
+	for i: int in range(mini(random_item_count, pool.size())):
+		shop_items.append(pool[i])
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _player_nearby and event.is_action_pressed(&"interact"):

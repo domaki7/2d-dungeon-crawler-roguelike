@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/guardian_idol.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"guardian_idol"
+display_name = "Guardian Idol"
+description = "A stone idol with glowing eyes. Saves you from death once per run."
+icon = ExtResource("2")
+slot_type = 3
+rarity = 2
+bonus_damage = 0
+bonus_defense = 0
+bonus_max_hp = 2
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"revive_once"
+effect_value = 5.0
+buy_price = 50
+sell_price = 18

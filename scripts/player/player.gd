@@ -13,6 +13,7 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 @onready var hitbox: Hitbox = $Hitbox
 @onready var player_stats: PlayerStats = $PlayerStats
 @onready var ability_manager: AbilityManager = $AbilityManager
+@onready var item_effect_handler: ItemEffectHandler = $ItemEffectHandler
 
 var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
@@ -71,9 +72,12 @@ func get_ability_damage(base_damage: int) -> int:
 func _on_stats_changed() -> void:
 	speed = player_stats.get_effective_speed()
 	hitbox.damage = player_stats.get_effective_damage()
+	if item_effect_handler:
+		hitbox.damage += item_effect_handler.get_bonus_damage()
 	hitbox.knockback_force = player_stats.get_effective_knockback_force()
 	hitbox.crit_chance = player_stats.get_effective_crit_chance()
 	health_component.set_max_hp(player_stats.get_effective_max_hp())
 
 func _on_health_damaged(_amount: int) -> void:
+	AudioManager.play_sfx(&"player_hurt")
 	state_machine.transition_to(&"HurtState")

@@ -1,6 +1,8 @@
 class_name Hitbox
 extends Area2D
 
+signal hit_landed(hurtbox: Hurtbox)
+
 @export var damage: int = 1
 @export var knockback_force: float = 200.0
 @export var crit_chance: float = 0.0
@@ -42,3 +44,4 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	register_hit(hurtbox.get_parent())
 	hurtbox.receive_hit(self)
+	hit_landed.emit(hurtbox)
