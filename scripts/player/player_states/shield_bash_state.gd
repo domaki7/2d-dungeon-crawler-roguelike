@@ -8,7 +8,8 @@ var _dash_direction: Vector2 = Vector2.ZERO
 func enter() -> void:
 	super.enter()
 	_dash_timer = _ability_data.dash_duration
-	_dash_direction = _get_facing_vector()
+	_dash_direction = player.get_mouse_direction()
+	player.update_facing_from_angle(_dash_direction)
 	player.play_directional_animation("shield_bash")
 	_setup_hitbox()
 	player.hitbox.activate()
@@ -16,6 +17,7 @@ func enter() -> void:
 
 func exit() -> void:
 	player.hitbox.deactivate()
+	player.hitbox.position = Vector2.ZERO
 	player.hitbox.stun_duration = 0.0
 	player.hitbox.damage = player.player_stats.get_effective_damage()
 	player.hitbox.knockback_force = player.player_stats.get_effective_knockback_force()
@@ -39,18 +41,6 @@ func _setup_hitbox() -> void:
 	player.hitbox.knockback_force = _ability_data.knockback_force
 	player.hitbox.stun_duration = _ability_data.stun_duration
 	player.hitbox.position = _dash_direction * hitbox_offset
-
-func _get_facing_vector() -> Vector2:
-	match player.facing_direction:
-		player.FacingDirection.DOWN:
-			return Vector2.DOWN
-		player.FacingDirection.UP:
-			return Vector2.UP
-		player.FacingDirection.LEFT:
-			return Vector2.LEFT
-		player.FacingDirection.RIGHT:
-			return Vector2.RIGHT
-	return Vector2.DOWN
 
 func _on_animation_finished() -> void:
 	_transition_to_idle()

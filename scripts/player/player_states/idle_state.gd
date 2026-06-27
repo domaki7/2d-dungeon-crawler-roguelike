@@ -10,6 +10,11 @@ func physics_process_state(delta: float) -> void:
 	var direction: Vector2 = get_input_direction()
 	if direction != Vector2.ZERO:
 		transition_requested.emit(self, &"RunState")
+		return
+
+	var mouse_dir: Vector2 = player.get_mouse_direction()
+	if player.update_facing_from_angle(mouse_dir):
+		player.play_directional_animation("idle")
 
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):

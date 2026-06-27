@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-enum FacingDirection { DOWN, UP, LEFT, RIGHT }
+enum FacingDirection { DOWN, DOWN_RIGHT, RIGHT, UP_RIGHT, UP, UP_LEFT, LEFT, DOWN_LEFT }
 
 @export var acceleration: float = 800.0
 @export var friction: float = 600.0
@@ -34,6 +34,9 @@ func _ready() -> void:
 func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")
 
+func get_mouse_direction() -> Vector2:
+	return (get_global_mouse_position() - global_position).normalized()
+
 func update_facing(direction: Vector2) -> bool:
 	if direction == Vector2.ZERO:
 		return false
@@ -42,6 +45,29 @@ func update_facing(direction: Vector2) -> bool:
 		facing_direction = FacingDirection.RIGHT if direction.x > 0.0 else FacingDirection.LEFT
 	else:
 		facing_direction = FacingDirection.DOWN if direction.y > 0.0 else FacingDirection.UP
+	return facing_direction != old_direction
+
+func update_facing_from_angle(direction: Vector2) -> bool:
+	if direction.is_zero_approx():
+		return false
+	var old_direction: int = facing_direction
+	var angle: float = direction.angle()
+	if angle >= -PI / 8.0 and angle < PI / 8.0:
+		facing_direction = FacingDirection.RIGHT
+	elif angle >= PI / 8.0 and angle < 3.0 * PI / 8.0:
+		facing_direction = FacingDirection.DOWN_RIGHT
+	elif angle >= 3.0 * PI / 8.0 and angle < 5.0 * PI / 8.0:
+		facing_direction = FacingDirection.DOWN
+	elif angle >= 5.0 * PI / 8.0 and angle < 7.0 * PI / 8.0:
+		facing_direction = FacingDirection.DOWN_LEFT
+	elif angle >= 7.0 * PI / 8.0 or angle < -7.0 * PI / 8.0:
+		facing_direction = FacingDirection.LEFT
+	elif angle >= -7.0 * PI / 8.0 and angle < -5.0 * PI / 8.0:
+		facing_direction = FacingDirection.UP_LEFT
+	elif angle >= -5.0 * PI / 8.0 and angle < -3.0 * PI / 8.0:
+		facing_direction = FacingDirection.UP
+	else:
+		facing_direction = FacingDirection.UP_RIGHT
 	return facing_direction != old_direction
 
 func play_directional_animation(base_name: String) -> void:
@@ -59,7 +85,22 @@ func play_directional_animation(base_name: String) -> void:
 		FacingDirection.RIGHT:
 			suffix = "_side"
 			animated_sprite.flip_h = false
+		FacingDirection.DOWN_LEFT:
+			suffix = "_down_side"
+			animated_sprite.flip_h = true
+		FacingDirection.DOWN_RIGHT:
+			suffix = "_down_side"
+			animated_sprite.flip_h = false
+		FacingDirection.UP_LEFT:
+			suffix = "_up_side"
+			animated_sprite.flip_h = true
+		FacingDirection.UP_RIGHT:
+			suffix = "_up_side"
+			animated_sprite.flip_h = false
 	var anim_name: StringName = StringName(base_name + suffix)
+	if not animated_sprite.sprite_frames.has_animation(anim_name):
+		suffix = _get_fallback_suffix()
+		anim_name = StringName(base_name + suffix)
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
 
@@ -68,6 +109,22 @@ func get_defense() -> int:
 
 func get_ability_damage(base_damage: int) -> int:
 	return int(float(base_damage) * ability_manager.get_damage_multiplier())
+
+func _get_fallback_suffix() -> String:
+	match facing_direction:
+		FacingDirection.DOWN_LEFT:
+			animated_sprite.flip_h = true
+			return "_down"
+		FacingDirection.DOWN_RIGHT:
+			animated_sprite.flip_h = false
+			return "_down"
+		FacingDirection.UP_LEFT:
+			animated_sprite.flip_h = true
+			return "_up"
+		FacingDirection.UP_RIGHT:
+			animated_sprite.flip_h = false
+			return "_up"
+	return "_down"
 
 func _on_stats_changed() -> void:
 	speed = player_stats.get_effective_speed()
