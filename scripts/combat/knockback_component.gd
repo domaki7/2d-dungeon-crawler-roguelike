@@ -1,7 +1,7 @@
 class_name KnockbackComponent
 extends Node
 
-@export var friction: float = 800.0
+var friction: float = 800.0
 
 var knockback_velocity: Vector2 = Vector2.ZERO
 

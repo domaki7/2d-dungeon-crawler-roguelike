@@ -1,6 +1,7 @@
 extends AbilityState
 
-@export var hitbox_offset: float = 8.0
+var hitbox_offset: float:
+	get: return GameConfig.config.player_shield_bash_hitbox_offset
 
 var _dash_timer: float = 0.0
 var _dash_direction: Vector2 = Vector2.ZERO

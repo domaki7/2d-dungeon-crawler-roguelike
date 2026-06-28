@@ -1,9 +1,13 @@
 extends EnemyState
 
-@export var melee_range: float = 22.0
-@export var charge_cooldown: float = 5.0
-@export var slam_cooldown: float = 7.0
-@export var summon_cooldown: float = 10.0
+var melee_range: float:
+	get: return GameConfig.config.boss_melee_range
+var charge_cooldown: float:
+	get: return GameConfig.config.boss_charge_cooldown
+var slam_cooldown: float:
+	get: return GameConfig.config.boss_slam_cooldown
+var summon_cooldown: float:
+	get: return GameConfig.config.boss_summon_cooldown
 
 var _charge_timer: float = 0.0
 var _slam_timer: float = 0.0

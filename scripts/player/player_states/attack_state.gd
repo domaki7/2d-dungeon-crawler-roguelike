@@ -1,7 +1,9 @@
 extends PlayerState
 
-@export var hitbox_offset: float = 18.0
-@export var hitbox_size: Vector2 = Vector2(18, 15)
+var hitbox_offset: float:
+	get: return GameConfig.config.player_hitbox_offset
+var hitbox_size: Vector2:
+	get: return GameConfig.config.player_hitbox_size
 
 var _attack_direction: Vector2 = Vector2.ZERO
 var _original_hitbox_size: Vector2 = Vector2.ZERO

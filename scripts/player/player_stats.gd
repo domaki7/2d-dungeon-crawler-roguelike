@@ -4,13 +4,18 @@ extends Node
 signal stats_changed()
 signal equipment_changed(slot_type: int, item_data: ItemData)
 
-@export_group("Base Stats")
-@export var base_damage: int = 3
-@export var base_defense: int = 0
-@export var base_max_hp: int = 10
-@export var base_speed: float = 120.0
-@export var base_knockback_force: float = 150.0
-@export var base_crit_chance: float = 0.0
+var base_damage: int:
+	get: return GameConfig.config.player_base_damage
+var base_defense: int:
+	get: return GameConfig.config.player_base_defense
+var base_max_hp: int:
+	get: return GameConfig.config.player_base_max_hp
+var base_speed: float:
+	get: return GameConfig.config.player_base_speed
+var base_knockback_force: float:
+	get: return GameConfig.config.player_base_knockback_force
+var base_crit_chance: float:
+	get: return GameConfig.config.player_base_crit_chance
 
 var _equipment: Dictionary = {}
 

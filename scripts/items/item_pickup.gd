@@ -2,8 +2,10 @@ class_name ItemPickup
 extends Area2D
 
 @export var item_data: ItemData
-@export var bob_amplitude: float = 2.0
-@export var bob_speed: float = 3.0
+var bob_amplitude: float:
+	get: return GameConfig.config.economy_bob_amplitude
+var bob_speed: float:
+	get: return GameConfig.config.economy_bob_speed
 
 var _player_ref: CharacterBody2D = null
 var _time: float = 0.0

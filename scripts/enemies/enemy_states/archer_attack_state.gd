@@ -1,7 +1,9 @@
 extends EnemyState
 
-@export var arrow_damage: int = 2
-@export var shoot_delay: float = 0.3
+var arrow_damage: int:
+	get: return GameConfig.config.archer_arrow_damage
+var shoot_delay: float:
+	get: return GameConfig.config.archer_shoot_delay
 
 var _arrow_scene: PackedScene = preload("res://scenes/attacks/arrow.tscn")
 var _shoot_timer: float = 0.0

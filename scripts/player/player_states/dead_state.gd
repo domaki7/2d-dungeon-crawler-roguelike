@@ -1,7 +1,9 @@
 extends PlayerState
 
-@export var flash_duration: float = 0.3
-@export var fade_duration: float = 0.6
+var flash_duration: float:
+	get: return GameConfig.config.player_dead_flash_duration
+var fade_duration: float:
+	get: return GameConfig.config.player_dead_fade_duration
 
 func enter() -> void:
 	player.velocity = Vector2.ZERO

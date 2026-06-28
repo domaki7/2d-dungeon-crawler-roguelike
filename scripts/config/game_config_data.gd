@@ -1,0 +1,805 @@
+class_name GameConfigData
+extends Resource
+
+## ============================================================================
+## CENTRAL GAME CONFIGURATION
+## All tunable gameplay values in one place. Edit the .tres to balance the game.
+## Access at runtime via: GameConfig.config.<property_name>
+## ============================================================================
+
+
+# =============================================================================
+# PLAYER - WARRIOR
+# =============================================================================
+
+@export_group("Player - Base Stats")
+
+## Starting damage before equipment bonuses
+@export var player_base_damage: int = 3
+## Starting defense before equipment bonuses
+@export var player_base_defense: int = 0
+## Starting max HP before equipment bonuses
+@export var player_base_max_hp: int = 10
+## Base movement speed in pixels/sec
+@export var player_base_speed: float = 120.0
+## Base knockback force applied to enemies on hit
+@export var player_base_knockback_force: float = 150.0
+## Base critical hit chance (0.0 to 1.0)
+@export var player_base_crit_chance: float = 0.0
+
+@export_group("Player - Movement")
+
+## How quickly the warrior reaches max speed (pixels/sec^2)
+@export var player_acceleration: float = 800.0
+## How quickly the warrior decelerates when not moving (pixels/sec^2)
+@export var player_friction: float = 600.0
+
+@export_group("Player - Melee Attack")
+
+## Distance from player center to melee hitbox center (pixels)
+@export var player_hitbox_offset: float = 18.0
+## Width and height of the melee hitbox (pixels)
+@export var player_hitbox_size: Vector2 = Vector2(18, 15)
+
+@export_group("Player - Shield Bash")
+
+## Distance from player center to shield bash hitbox (pixels)
+@export var player_shield_bash_hitbox_offset: float = 8.0
+
+@export_group("Player - States")
+
+## How long the player is stunned after taking a hit (seconds)
+@export var player_hurt_stun_duration: float = 0.3
+## Duration of the white flash on death (seconds)
+@export var player_dead_flash_duration: float = 0.3
+## Duration of the fade-out on death (seconds)
+@export var player_dead_fade_duration: float = 0.6
+
+@export_group("Player - Arrow")
+
+## Player arrow travel speed (pixels/sec)
+@export var player_arrow_speed: float = 160.0
+## How long before the player arrow despawns (seconds)
+@export var player_arrow_lifetime: float = 3.0
+
+
+# =============================================================================
+# PLAYER - RANGER
+# =============================================================================
+
+@export_group("Ranger - Movement")
+
+## How quickly the ranger reaches max speed (pixels/sec^2)
+@export var ranger_acceleration: float = 800.0
+## How quickly the ranger decelerates when not moving (pixels/sec^2)
+@export var ranger_friction: float = 600.0
+
+
+# =============================================================================
+# SKELETON
+# =============================================================================
+
+@export_group("Skeleton - Movement")
+
+## Skeleton movement speed (pixels/sec)
+@export var skeleton_speed: float = 60.0
+## Skeleton acceleration (pixels/sec^2)
+@export var skeleton_acceleration: float = 400.0
+## Skeleton deceleration (pixels/sec^2)
+@export var skeleton_friction: float = 500.0
+
+@export_group("Skeleton - Health")
+
+## Skeleton max hit points
+@export var skeleton_max_hp: int = 5
+## Skeleton invincibility frame duration after taking damage (seconds)
+@export var skeleton_i_frame_duration: float = 0.2
+
+@export_group("Skeleton - Combat")
+
+## Skeleton melee damage per hit
+@export var skeleton_damage: int = 2
+## Skeleton knockback force applied on hit
+@export var skeleton_knockback_force: float = 120.0
+## How quickly the skeleton stops sliding after knockback (pixels/sec^2)
+@export var skeleton_knockback_friction: float = 600.0
+## Distance at which skeleton switches from chase to attack (pixels)
+@export var skeleton_attack_range: float = 18.0
+## Distance from skeleton center to hitbox center during attack (pixels)
+@export var skeleton_hitbox_offset: float = 12.0
+## Radius of the skeleton's player detection area (pixels)
+@export var skeleton_detection_radius: float = 60.0
+
+@export_group("Skeleton - States")
+
+## How long the skeleton is stunned after taking a hit (seconds)
+@export var skeleton_stun_duration: float = 0.25
+## Delay before skeleton is removed after dying (seconds)
+@export var skeleton_death_delay: float = 0.3
+
+
+# =============================================================================
+# SLIME
+# =============================================================================
+
+@export_group("Slime - Movement")
+
+## Slime movement speed (pixels/sec)
+@export var slime_speed: float = 40.0
+## Slime acceleration (pixels/sec^2)
+@export var slime_acceleration: float = 300.0
+## Slime deceleration (pixels/sec^2)
+@export var slime_friction: float = 500.0
+
+@export_group("Slime - Health")
+
+## Slime max hit points
+@export var slime_max_hp: int = 8
+## Slime invincibility frame duration after taking damage (seconds)
+@export var slime_i_frame_duration: float = 0.2
+
+@export_group("Slime - Combat")
+
+## Slime melee damage per hit
+@export var slime_damage: int = 1
+## Slime knockback force applied on hit
+@export var slime_knockback_force: float = 80.0
+## How quickly the slime stops sliding after knockback (pixels/sec^2)
+@export var slime_knockback_friction: float = 400.0
+## Distance at which slime switches from chase to attack (pixels)
+@export var slime_attack_range: float = 14.0
+## Distance from slime center to hitbox center during attack (pixels)
+@export var slime_hitbox_offset: float = 8.0
+## Radius of the slime's player detection area (pixels)
+@export var slime_detection_radius: float = 50.0
+
+@export_group("Slime - States")
+
+## How long the slime is stunned after taking a hit (seconds)
+@export var slime_stun_duration: float = 0.3
+## Delay before slime is removed after dying (seconds)
+@export var slime_death_delay: float = 0.4
+
+
+# =============================================================================
+# BAT
+# =============================================================================
+
+@export_group("Bat - Movement")
+
+## Bat movement speed (pixels/sec)
+@export var bat_speed: float = 80.0
+## Bat acceleration (pixels/sec^2)
+@export var bat_acceleration: float = 500.0
+## Bat deceleration (pixels/sec^2)
+@export var bat_friction: float = 500.0
+
+@export_group("Bat - Health")
+
+## Bat max hit points
+@export var bat_max_hp: int = 3
+## Bat invincibility frame duration after taking damage (seconds)
+@export var bat_i_frame_duration: float = 0.2
+
+@export_group("Bat - Combat")
+
+## Bat melee damage per hit
+@export var bat_damage: int = 1
+## Bat knockback force applied on hit
+@export var bat_knockback_force: float = 80.0
+## How quickly the bat stops sliding after knockback (pixels/sec^2)
+@export var bat_knockback_friction: float = 700.0
+## Distance at which bat switches from chase to attack (pixels)
+@export var bat_attack_range: float = 16.0
+## Distance from bat center to hitbox center during attack (pixels)
+@export var bat_hitbox_offset: float = 10.0
+## Radius of the bat's player detection area (pixels)
+@export var bat_detection_radius: float = 70.0
+
+@export_group("Bat - AI")
+
+## How often the bat changes its jitter direction (seconds)
+@export var bat_jitter_interval: float = 0.4
+## Strength of the bat's random jitter movement (0.0 to 1.0)
+@export var bat_jitter_strength: float = 0.5
+
+@export_group("Bat - States")
+
+## How long the bat is stunned after taking a hit (seconds)
+@export var bat_stun_duration: float = 0.2
+## Delay before bat is removed after dying (seconds)
+@export var bat_death_delay: float = 0.3
+
+
+# =============================================================================
+# SKELETON ARCHER
+# =============================================================================
+
+@export_group("Archer - Movement")
+
+## Archer movement speed (pixels/sec)
+@export var archer_speed: float = 50.0
+## Archer acceleration (pixels/sec^2)
+@export var archer_acceleration: float = 350.0
+## Archer deceleration (pixels/sec^2)
+@export var archer_friction: float = 500.0
+
+@export_group("Archer - Health")
+
+## Archer max hit points
+@export var archer_max_hp: int = 5
+## Archer invincibility frame duration after taking damage (seconds)
+@export var archer_i_frame_duration: float = 0.2
+
+@export_group("Archer - Combat")
+
+## Archer knockback friction after being hit (pixels/sec^2)
+@export var archer_knockback_friction: float = 600.0
+## Archer arrow damage per hit
+@export var archer_arrow_damage: int = 2
+## Delay before the archer fires after starting attack (seconds)
+@export var archer_shoot_delay: float = 0.3
+## Optimal distance the archer tries to maintain from the player (pixels)
+@export var archer_preferred_range: float = 80.0
+## Maximum distance at which the archer will fire (pixels)
+@export var archer_attack_range: float = 90.0
+## Distance at which the archer retreats away from the player (pixels)
+@export var archer_too_close_range: float = 40.0
+## Radius of the archer's player detection area (pixels)
+@export var archer_detection_radius: float = 90.0
+
+@export_group("Archer - States")
+
+## How long the archer is stunned after taking a hit (seconds)
+@export var archer_stun_duration: float = 0.25
+## Delay before archer is removed after dying (seconds)
+@export var archer_death_delay: float = 0.3
+
+@export_group("Archer - Arrow Projectile")
+
+## Enemy arrow travel speed (pixels/sec)
+@export var enemy_arrow_speed: float = 120.0
+## How long before the enemy arrow despawns (seconds)
+@export var enemy_arrow_lifetime: float = 3.0
+
+
+# =============================================================================
+# SKELETON KNIGHT (BOSS)
+# =============================================================================
+
+@export_group("Boss - Movement")
+
+## Boss movement speed (pixels/sec)
+@export var boss_speed: float = 45.0
+## Boss acceleration (pixels/sec^2)
+@export var boss_acceleration: float = 350.0
+## Boss deceleration (pixels/sec^2)
+@export var boss_friction: float = 500.0
+
+@export_group("Boss - Health")
+
+## Boss max hit points
+@export var boss_max_hp: int = 50
+## Boss invincibility frame duration after taking damage (seconds)
+@export var boss_i_frame_duration: float = 0.1
+
+@export_group("Boss - Combat")
+
+## Boss base melee damage per hit
+@export var boss_damage: int = 3
+## Boss knockback force applied on hit
+@export var boss_knockback_force: float = 180.0
+## How quickly the boss stops sliding after knockback (pixels/sec^2)
+@export var boss_knockback_friction: float = 300.0
+## Radius of the boss's player detection area (pixels)
+@export var boss_detection_radius: float = 120.0
+
+@export_group("Boss - Phases")
+
+## HP ratio at which boss enters phase 2 (0.0 to 1.0)
+@export var boss_phase_2_threshold: float = 0.6
+## HP ratio at which boss enters phase 3 (0.0 to 1.0)
+@export var boss_phase_3_threshold: float = 0.3
+
+@export_group("Boss - States")
+
+## Delay before boss engages after spawning (seconds)
+@export var boss_engage_delay: float = 1.0
+## Delay before boss is removed after dying (seconds)
+@export var boss_death_delay: float = 1.0
+## How long the boss is stunned after taking a hit (seconds)
+@export var boss_stun_duration: float = 0.2
+## Duration of boss stunned state from shield bash etc. (seconds)
+@export var boss_stunned_duration: float = 0.8
+
+@export_group("Boss - Melee Attack")
+
+## Distance at which boss uses melee attack (pixels)
+@export var boss_melee_range: float = 22.0
+## Distance from boss center to melee hitbox center (pixels)
+@export var boss_melee_hitbox_offset: float = 14.0
+
+@export_group("Boss - Charge Attack")
+
+## Cooldown between charge attacks (seconds)
+@export var boss_charge_cooldown: float = 5.0
+## Boss charge movement speed (pixels/sec)
+@export var boss_charge_speed: float = 300.0
+## Duration of the charge windup animation (seconds)
+@export var boss_charge_windup: float = 0.5
+## Duration of the active charge movement (seconds)
+@export var boss_charge_duration: float = 0.4
+## Distance from boss center to charge hitbox center (pixels)
+@export var boss_charge_hitbox_offset: float = 16.0
+
+@export_group("Boss - Slam Attack")
+
+## Cooldown between slam attacks (seconds)
+@export var boss_slam_cooldown: float = 7.0
+## Damage dealt by the slam AOE
+@export var boss_slam_damage: int = 4
+## Radius of the slam damage area (pixels)
+@export var boss_slam_radius: float = 40.0
+## Duration of the slam windup / lift animation (seconds)
+@export var boss_slam_windup: float = 0.5
+## Duration of the slam descent / impact (seconds)
+@export var boss_slam_duration: float = 0.3
+## Screen shake intensity on slam impact
+@export var boss_slam_shake_intensity: float = 4.0
+## Screen shake duration on slam impact (seconds)
+@export var boss_slam_shake_duration: float = 0.3
+
+@export_group("Boss - Summon")
+
+## Cooldown between summon phases (seconds)
+@export var boss_summon_cooldown: float = 10.0
+## Number of minions spawned per summon
+@export var boss_summon_count: int = 2
+## Delay before minions actually appear (seconds)
+@export var boss_summon_delay: float = 0.8
+## Distance from boss where minions spawn (pixels)
+@export var boss_spawn_radius: float = 40.0
+
+
+# =============================================================================
+# COMBAT SYSTEM
+# =============================================================================
+
+@export_group("Combat - Knockback")
+
+## Default knockback friction for all entities (pixels/sec^2)
+@export var combat_default_knockback_friction: float = 800.0
+
+@export_group("Combat - Hit Feedback")
+
+## Duration of the hit pause / freeze frame effect (real seconds)
+@export var combat_hit_pause_duration: float = 0.06
+## Screen shake intensity on normal hits
+@export var combat_screen_shake_intensity: float = 2.0
+## Screen shake duration on normal hits (seconds)
+@export var combat_screen_shake_duration: float = 0.15
+
+@export_group("Combat - Critical Hits")
+
+## Damage multiplier for critical hits
+@export var combat_crit_multiplier: int = 2
+
+@export_group("Combat - I-Frames")
+
+## Default invincibility frame duration (seconds)
+@export var combat_default_i_frame_duration: float = 0.5
+
+@export_group("Combat - Stun")
+
+## Default stun duration for generic stunned state (seconds)
+@export var combat_default_stun_duration: float = 1.0
+## Tint color applied to stunned enemies
+@export var combat_stunned_color: Color = Color(1.0, 1.0, 0.5, 1.0)
+
+
+# =============================================================================
+# DUNGEON
+# =============================================================================
+
+@export_group("Dungeon - Transitions")
+
+## Duration of the room transition fade effect (seconds)
+@export var dungeon_fade_duration: float = 0.3
+
+@export_group("Dungeon - Floors")
+
+## Total number of floors in a run
+@export var dungeon_max_floors: int = 3
+
+@export_group("Dungeon - Room Defaults")
+
+## Default room width in pixels
+@export var dungeon_room_pixel_width: int = 384
+## Default room height in pixels
+@export var dungeon_room_pixel_height: int = 256
+
+
+# =============================================================================
+# UI / VISUAL EFFECTS
+# =============================================================================
+
+@export_group("UI - Damage Numbers")
+
+## How fast damage numbers float upward (pixels/sec)
+@export var ui_damage_float_speed: float = 30.0
+## How long damage numbers are visible (seconds)
+@export var ui_damage_duration: float = 0.6
+## Random horizontal spread of damage numbers (pixels)
+@export var ui_damage_spread: float = 8.0
+
+@export_group("UI - Minimap")
+
+## Size of each room icon on the minimap (pixels)
+@export var ui_minimap_room_size: Vector2 = Vector2(8, 8)
+## Spacing between room icons on the minimap (pixels)
+@export var ui_minimap_room_spacing: float = 12.0
+
+@export_group("UI - Death Screen")
+
+## Duration of the death screen fade-in (seconds)
+@export var ui_death_fade_in_duration: float = 0.4
+
+@export_group("UI - Door Colors")
+
+## Color of locked doors
+@export var ui_door_locked_color: Color = Color(0.6, 0.2, 0.2, 1.0)
+## Color of unlocked doors
+@export var ui_door_unlocked_color: Color = Color(0.2, 0.5, 0.3, 1.0)
+
+@export_group("UI - Buffs")
+
+## Tint color applied to the player during War Cry buff
+@export var ui_war_cry_buff_color: Color = Color(1.2, 1.1, 0.8, 1.0)
+
+
+# =============================================================================
+# AUDIO
+# =============================================================================
+
+@export_group("Audio")
+
+## Sound effects volume in decibels
+@export var audio_sfx_volume_db: float = -5.0
+## Music volume in decibels
+@export var audio_music_volume_db: float = -10.0
+
+
+# =============================================================================
+# ECONOMY
+# =============================================================================
+
+@export_group("Economy - Gold")
+
+## Gold value per gold pickup
+@export var economy_gold_pickup_value: int = 1
+
+@export_group("Economy - Meta Currency")
+
+## Meta currency earned per floor cleared
+@export var economy_floor_multiplier: int = 10
+## Meta currency earned per enemy kill
+@export var economy_kill_multiplier: int = 1
+## Bonus meta currency for winning the run
+@export var economy_victory_bonus: int = 50
+
+@export_group("Economy - Item Pickup Animation")
+
+## Vertical bob amplitude for item pickups (pixels)
+@export var economy_bob_amplitude: float = 2.0
+## Vertical bob speed for item pickups
+@export var economy_bob_speed: float = 3.0
+
+
+# =============================================================================
+# ITEMS
+# Each item's tunable stats. Values here override the item .tres files at load.
+# =============================================================================
+
+@export_group("Items - Weapons")
+
+@export_subgroup("Iron Sword")
+@export var iron_sword_bonus_damage: int = 2
+@export var iron_sword_bonus_defense: int = 0
+@export var iron_sword_bonus_max_hp: int = 0
+@export var iron_sword_bonus_speed: float = 0.0
+@export var iron_sword_bonus_knockback_force: float = 0.0
+@export var iron_sword_bonus_crit_chance: float = 0.0
+@export var iron_sword_effect_value: float = 0.0
+@export var iron_sword_buy_price: int = 15
+@export var iron_sword_sell_price: int = 5
+
+@export_subgroup("Steel Greatsword")
+@export var steel_greatsword_bonus_damage: int = 4
+@export var steel_greatsword_bonus_defense: int = 0
+@export var steel_greatsword_bonus_max_hp: int = 0
+## Negative value = slower movement
+@export var steel_greatsword_bonus_speed: float = -10.0
+@export var steel_greatsword_bonus_knockback_force: float = 50.0
+@export var steel_greatsword_bonus_crit_chance: float = 0.0
+@export var steel_greatsword_effect_value: float = 0.0
+@export var steel_greatsword_buy_price: int = 25
+@export var steel_greatsword_sell_price: int = 8
+
+@export_subgroup("Ember Blade")
+@export var ember_blade_bonus_damage: int = 3
+@export var ember_blade_bonus_defense: int = 0
+@export var ember_blade_bonus_max_hp: int = 0
+@export var ember_blade_bonus_speed: float = 0.0
+@export var ember_blade_bonus_knockback_force: float = 0.0
+@export var ember_blade_bonus_crit_chance: float = 0.0
+## Burn damage per tick
+@export var ember_blade_effect_value: float = 2.0
+@export var ember_blade_buy_price: int = 40
+@export var ember_blade_sell_price: int = 15
+
+@export_subgroup("Short Bow")
+@export var short_bow_bonus_damage: int = 1
+@export var short_bow_bonus_defense: int = 0
+@export var short_bow_bonus_max_hp: int = 0
+@export var short_bow_bonus_speed: float = 10.0
+@export var short_bow_bonus_knockback_force: float = 0.0
+@export var short_bow_bonus_crit_chance: float = 0.0
+@export var short_bow_effect_value: float = 0.0
+@export var short_bow_buy_price: int = 12
+@export var short_bow_sell_price: int = 4
+
+@export_subgroup("Longbow")
+@export var longbow_bonus_damage: int = 3
+@export var longbow_bonus_defense: int = 0
+@export var longbow_bonus_max_hp: int = 0
+@export var longbow_bonus_speed: float = 0.0
+@export var longbow_bonus_knockback_force: float = 30.0
+@export var longbow_bonus_crit_chance: float = 0.0
+@export var longbow_effect_value: float = 0.0
+@export var longbow_buy_price: int = 25
+@export var longbow_sell_price: int = 10
+
+@export_subgroup("Shadow Bow")
+@export var shadow_bow_bonus_damage: int = 2
+@export var shadow_bow_bonus_defense: int = 0
+@export var shadow_bow_bonus_max_hp: int = 0
+@export var shadow_bow_bonus_speed: float = 0.0
+@export var shadow_bow_bonus_knockback_force: float = 0.0
+@export var shadow_bow_bonus_crit_chance: float = 0.15
+@export var shadow_bow_effect_value: float = 0.0
+@export var shadow_bow_buy_price: int = 40
+@export var shadow_bow_sell_price: int = 18
+
+@export_group("Items - Armor")
+
+@export_subgroup("Leather Armor")
+@export var leather_armor_bonus_damage: int = 0
+@export var leather_armor_bonus_defense: int = 2
+@export var leather_armor_bonus_max_hp: int = 0
+@export var leather_armor_bonus_speed: float = 0.0
+@export var leather_armor_bonus_knockback_force: float = 0.0
+@export var leather_armor_bonus_crit_chance: float = 0.0
+@export var leather_armor_effect_value: float = 0.0
+@export var leather_armor_buy_price: int = 20
+@export var leather_armor_sell_price: int = 7
+
+@export_subgroup("Chainmail")
+@export var chainmail_bonus_damage: int = 0
+@export var chainmail_bonus_defense: int = 3
+@export var chainmail_bonus_max_hp: int = 0
+## Negative value = slower movement
+@export var chainmail_bonus_speed: float = -15.0
+@export var chainmail_bonus_knockback_force: float = 0.0
+@export var chainmail_bonus_crit_chance: float = 0.0
+@export var chainmail_effect_value: float = 0.0
+@export var chainmail_buy_price: int = 30
+@export var chainmail_sell_price: int = 10
+
+@export_subgroup("Thorn Vest")
+@export var thorn_vest_bonus_damage: int = 0
+@export var thorn_vest_bonus_defense: int = 1
+@export var thorn_vest_bonus_max_hp: int = 0
+@export var thorn_vest_bonus_speed: float = 0.0
+@export var thorn_vest_bonus_knockback_force: float = 0.0
+@export var thorn_vest_bonus_crit_chance: float = 0.0
+## Thorn reflect damage
+@export var thorn_vest_effect_value: float = 1.0
+@export var thorn_vest_buy_price: int = 35
+@export var thorn_vest_sell_price: int = 12
+
+@export_group("Items - Rings")
+
+@export_subgroup("Ring of Vitality")
+@export var ring_of_vitality_bonus_damage: int = 0
+@export var ring_of_vitality_bonus_defense: int = 0
+@export var ring_of_vitality_bonus_max_hp: int = 3
+@export var ring_of_vitality_bonus_speed: float = 0.0
+@export var ring_of_vitality_bonus_knockback_force: float = 0.0
+@export var ring_of_vitality_bonus_crit_chance: float = 0.0
+@export var ring_of_vitality_effect_value: float = 0.0
+@export var ring_of_vitality_buy_price: int = 25
+@export var ring_of_vitality_sell_price: int = 8
+
+@export_subgroup("Ring of Haste")
+@export var ring_of_haste_bonus_damage: int = 0
+@export var ring_of_haste_bonus_defense: int = 0
+@export var ring_of_haste_bonus_max_hp: int = 0
+@export var ring_of_haste_bonus_speed: float = 20.0
+@export var ring_of_haste_bonus_knockback_force: float = 0.0
+@export var ring_of_haste_bonus_crit_chance: float = 0.0
+@export var ring_of_haste_effect_value: float = 0.0
+@export var ring_of_haste_buy_price: int = 15
+@export var ring_of_haste_sell_price: int = 5
+
+@export_subgroup("Berserker Band")
+@export var berserker_band_bonus_damage: int = 1
+@export var berserker_band_bonus_defense: int = 0
+@export var berserker_band_bonus_max_hp: int = 0
+@export var berserker_band_bonus_speed: float = 0.0
+@export var berserker_band_bonus_knockback_force: float = 0.0
+@export var berserker_band_bonus_crit_chance: float = 0.15
+## Bonus damage when below half HP
+@export var berserker_band_effect_value: float = 3.0
+@export var berserker_band_buy_price: int = 40
+@export var berserker_band_sell_price: int = 15
+
+@export_group("Items - Accessories")
+
+@export_subgroup("Vampire Pendant")
+@export var vampire_pendant_bonus_damage: int = 0
+@export var vampire_pendant_bonus_defense: int = 0
+@export var vampire_pendant_bonus_max_hp: int = 0
+@export var vampire_pendant_bonus_speed: float = 0.0
+@export var vampire_pendant_bonus_knockback_force: float = 0.0
+@export var vampire_pendant_bonus_crit_chance: float = 0.0
+## HP healed per kill
+@export var vampire_pendant_effect_value: float = 1.0
+@export var vampire_pendant_buy_price: int = 30
+@export var vampire_pendant_sell_price: int = 10
+
+@export_subgroup("Lucky Coin")
+@export var lucky_coin_bonus_damage: int = 0
+@export var lucky_coin_bonus_defense: int = 0
+@export var lucky_coin_bonus_max_hp: int = 0
+@export var lucky_coin_bonus_speed: float = 0.0
+@export var lucky_coin_bonus_knockback_force: float = 0.0
+@export var lucky_coin_bonus_crit_chance: float = 0.0
+## Extra gold dropped per kill
+@export var lucky_coin_effect_value: float = 2.0
+@export var lucky_coin_buy_price: int = 20
+@export var lucky_coin_sell_price: int = 7
+
+@export_subgroup("Guardian Idol")
+@export var guardian_idol_bonus_damage: int = 0
+@export var guardian_idol_bonus_defense: int = 0
+@export var guardian_idol_bonus_max_hp: int = 2
+@export var guardian_idol_bonus_speed: float = 0.0
+@export var guardian_idol_bonus_knockback_force: float = 0.0
+@export var guardian_idol_bonus_crit_chance: float = 0.0
+## HP restored on revive
+@export var guardian_idol_effect_value: float = 5.0
+@export var guardian_idol_buy_price: int = 50
+@export var guardian_idol_sell_price: int = 18
+
+@export_subgroup("Quiver of Speed")
+@export var quiver_of_speed_bonus_damage: int = 1
+@export var quiver_of_speed_bonus_defense: int = 0
+@export var quiver_of_speed_bonus_max_hp: int = 0
+@export var quiver_of_speed_bonus_speed: float = 20.0
+@export var quiver_of_speed_bonus_knockback_force: float = 0.0
+@export var quiver_of_speed_bonus_crit_chance: float = 0.0
+@export var quiver_of_speed_effect_value: float = 0.0
+@export var quiver_of_speed_buy_price: int = 20
+@export var quiver_of_speed_sell_price: int = 8
+
+
+# =============================================================================
+# ABILITIES
+# Each ability's tunable stats. Values here override the ability .tres at load.
+# =============================================================================
+
+@export_group("Abilities - Shield Bash")
+
+## Cooldown between uses (seconds)
+@export var ability_shield_bash_cooldown: float = 4.0
+## Damage dealt on hit
+@export var ability_shield_bash_damage: int = 2
+## Knockback force applied to enemies
+@export var ability_shield_bash_knockback_force: float = 100.0
+## Dash movement speed (pixels/sec)
+@export var ability_shield_bash_dash_speed: float = 200.0
+## Duration of the dash (seconds)
+@export var ability_shield_bash_dash_duration: float = 0.15
+## How long enemies are stunned by the bash (seconds)
+@export var ability_shield_bash_stun_duration: float = 1.0
+
+@export_group("Abilities - Whirlwind")
+
+## Cooldown between uses (seconds)
+@export var ability_whirlwind_cooldown: float = 6.0
+## Damage dealt per hit
+@export var ability_whirlwind_damage: int = 4
+## Knockback force applied to enemies
+@export var ability_whirlwind_knockback_force: float = 80.0
+## Radius of the whirlwind AOE (pixels)
+@export var ability_whirlwind_aoe_radius: float = 24.0
+
+@export_group("Abilities - War Cry")
+
+## Cooldown between uses (seconds)
+@export var ability_war_cry_cooldown: float = 10.0
+## Duration of the damage buff (seconds)
+@export var ability_war_cry_buff_duration: float = 5.0
+## Damage multiplier during buff
+@export var ability_war_cry_damage_multiplier: float = 1.5
+
+@export_group("Abilities - Multishot")
+
+## Cooldown between uses (seconds)
+@export var ability_multishot_cooldown: float = 5.0
+## Damage per arrow
+@export var ability_multishot_damage: int = 2
+## Knockback force per arrow
+@export var ability_multishot_knockback_force: float = 60.0
+## Number of arrows fired
+@export var ability_multishot_arrow_count: int = 5
+## Total spread angle of the fan (degrees)
+@export var ability_multishot_spread_angle: float = 30.0
+
+@export_group("Abilities - Dodge Roll")
+
+## Cooldown between uses (seconds)
+@export var ability_dodge_roll_cooldown: float = 3.0
+## Roll movement speed (pixels/sec)
+@export var ability_dodge_roll_dash_speed: float = 250.0
+## Duration of the roll (seconds)
+@export var ability_dodge_roll_dash_duration: float = 0.3
+
+@export_group("Abilities - Rain of Arrows")
+
+## Cooldown between uses (seconds)
+@export var ability_rain_of_arrows_cooldown: float = 10.0
+## Damage per arrow
+@export var ability_rain_of_arrows_damage: int = 3
+## Knockback force per arrow
+@export var ability_rain_of_arrows_knockback_force: float = 40.0
+## Radius of the rain area (pixels)
+@export var ability_rain_of_arrows_aoe_radius: float = 24.0
+## Delay before arrows start falling (seconds)
+@export var ability_rain_of_arrows_rain_delay: float = 0.4
+## Duration of the arrow rain (seconds)
+@export var ability_rain_of_arrows_rain_duration: float = 0.6
+
+
+# =============================================================================
+# HELPER METHODS
+# =============================================================================
+
+## Returns the item tuning values for a given item_id as a Dictionary.
+## Keys: bonus_damage, bonus_defense, bonus_max_hp, bonus_speed,
+##       bonus_knockback_force, bonus_crit_chance, effect_value,
+##       buy_price, sell_price
+func get_item_tuning(item_id: StringName) -> Dictionary:
+	var prefix: String = str(item_id).replace("-", "_") + "_"
+	var result: Dictionary = {}
+	var props: Array[String] = [
+		"bonus_damage", "bonus_defense", "bonus_max_hp", "bonus_speed",
+		"bonus_knockback_force", "bonus_crit_chance", "effect_value",
+		"buy_price", "sell_price",
+	]
+	for prop: String in props:
+		var full_name: String = prefix + prop
+		if full_name in self:
+			result[prop] = get(full_name)
+	return result
+
+## Returns the ability tuning values for a given ability_id as a Dictionary.
+func get_ability_tuning(ability_id: StringName) -> Dictionary:
+	var prefix: String = "ability_" + str(ability_id).replace("-", "_") + "_"
+	var result: Dictionary = {}
+	for p: Dictionary in get_property_list():
+		var pname: String = p.name as String
+		if pname.begins_with(prefix):
+			var key: String = pname.substr(prefix.length())
+			result[key] = get(pname)
+	return result

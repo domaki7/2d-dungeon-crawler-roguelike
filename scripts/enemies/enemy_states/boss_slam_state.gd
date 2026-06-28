@@ -1,9 +1,13 @@
 extends EnemyState
 
-@export var slam_damage: int = 4
-@export var slam_radius: float = 40.0
-@export var windup_duration: float = 0.5
-@export var slam_duration: float = 0.3
+var slam_damage: int:
+	get: return GameConfig.config.boss_slam_damage
+var slam_radius: float:
+	get: return GameConfig.config.boss_slam_radius
+var windup_duration: float:
+	get: return GameConfig.config.boss_slam_windup
+var slam_duration: float:
+	get: return GameConfig.config.boss_slam_duration
 
 var _timer: float = 0.0
 var _has_slammed: bool = false
@@ -31,7 +35,7 @@ func physics_process_state(delta: float) -> void:
 		var tween: Tween = enemy.create_tween()
 		tween.tween_property(enemy.animated_sprite, "position:y", _original_y, 0.1)
 		_do_slam_damage()
-		CombatManager.apply_screen_shake(4.0, 0.3)
+		CombatManager.apply_screen_shake(GameConfig.config.boss_slam_shake_intensity, GameConfig.config.boss_slam_shake_duration)
 		AudioManager.play_sfx(&"boss_slam")
 
 	if _has_slammed and _timer <= 0.0:

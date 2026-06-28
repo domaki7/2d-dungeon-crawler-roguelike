@@ -1,9 +1,13 @@
 extends EnemyState
 
-@export var charge_speed: float = 300.0
-@export var windup_duration: float = 0.5
-@export var charge_duration: float = 0.4
-@export var hitbox_offset: float = 16.0
+var charge_speed: float:
+	get: return GameConfig.config.boss_charge_speed
+var windup_duration: float:
+	get: return GameConfig.config.boss_charge_windup
+var charge_duration: float:
+	get: return GameConfig.config.boss_charge_duration
+var hitbox_offset: float:
+	get: return GameConfig.config.boss_charge_hitbox_offset
 
 var _charge_direction: Vector2 = Vector2.ZERO
 var _timer: float = 0.0

@@ -1,8 +1,11 @@
 extends EnemyState
 
-@export var summon_count: int = 2
-@export var summon_delay: float = 0.8
-@export var spawn_radius: float = 40.0
+var summon_count: int:
+	get: return GameConfig.config.boss_summon_count
+var summon_delay: float:
+	get: return GameConfig.config.boss_summon_delay
+var spawn_radius: float:
+	get: return GameConfig.config.boss_spawn_radius
 
 var _skeleton_scene: PackedScene = preload("res://scenes/enemies/skeleton.tscn")
 var _timer: float = 0.0

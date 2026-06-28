@@ -49,7 +49,7 @@ func apply_buff(multiplier: float, duration: float) -> void:
 	_damage_multiplier = multiplier
 	_buff_timer = duration
 	if _sprite:
-		_sprite.self_modulate = Color(1.2, 1.1, 0.8, 1.0)
+		_sprite.self_modulate = GameConfig.config.ui_war_cry_buff_color
 
 func get_cooldown_remaining(index: int) -> float:
 	if index >= 0 and index < _cooldown_timers.size():

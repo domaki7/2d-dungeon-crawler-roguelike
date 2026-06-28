@@ -1,8 +1,11 @@
 extends EnemyState
 
-@export var attack_range: float = 16.0
-@export var jitter_interval: float = 0.4
-@export var jitter_strength: float = 0.5
+var attack_range: float:
+	get: return GameConfig.config.bat_attack_range
+var jitter_interval: float:
+	get: return GameConfig.config.bat_jitter_interval
+var jitter_strength: float:
+	get: return GameConfig.config.bat_jitter_strength
 
 var _jitter_timer: float = 0.0
 var _jitter_direction: float = 1.0

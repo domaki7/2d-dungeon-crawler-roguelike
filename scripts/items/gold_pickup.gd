@@ -1,6 +1,7 @@
 extends Area2D
 
-@export var gold_value: int = 1
+var gold_value: int:
+	get: return GameConfig.config.economy_gold_pickup_value
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

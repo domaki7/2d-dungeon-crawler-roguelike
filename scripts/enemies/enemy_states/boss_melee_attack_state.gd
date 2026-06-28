@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var hitbox_offset: float = 14.0
+var hitbox_offset: float:
+	get: return GameConfig.config.boss_melee_hitbox_offset
 
 func enter() -> void:
 	enemy.velocity = Vector2.ZERO

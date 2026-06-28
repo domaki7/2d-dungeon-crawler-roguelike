@@ -2,13 +2,16 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
-@export var speed: float = 45.0
-@export var acceleration: float = 350.0
-@export var friction: float = 500.0
-
-@export_group("Phase Thresholds")
-@export var phase_2_threshold: float = 0.6
-@export var phase_3_threshold: float = 0.3
+var speed: float:
+	get: return GameConfig.config.boss_speed
+var acceleration: float:
+	get: return GameConfig.config.boss_acceleration
+var friction: float:
+	get: return GameConfig.config.boss_friction
+var phase_2_threshold: float:
+	get: return GameConfig.config.boss_phase_2_threshold
+var phase_3_threshold: float:
+	get: return GameConfig.config.boss_phase_3_threshold
 
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D

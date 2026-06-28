@@ -1,6 +1,7 @@
 extends Node
 
-@export var fade_duration: float = 0.3
+var fade_duration: float:
+	get: return GameConfig.config.dungeon_fade_duration
 
 var _floor_graph: Dictionary = {}
 var _current_room_id: int = 0

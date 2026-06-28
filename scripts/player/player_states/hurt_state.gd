@@ -1,6 +1,7 @@
 extends PlayerState
 
-@export var stun_duration: float = 0.3
+var stun_duration: float:
+	get: return GameConfig.config.player_hurt_stun_duration
 
 var _stun_timer: float = 0.0
 

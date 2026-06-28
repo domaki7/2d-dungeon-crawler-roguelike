@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var default_stun_duration: float = 1.0
+var default_stun_duration: float:
+	get: return GameConfig.config.combat_default_stun_duration
 
 var _stun_timer: float = 0.0
 
@@ -9,7 +10,7 @@ func enter() -> void:
 	if enemy.has_meta(&"stun_duration"):
 		enemy.remove_meta(&"stun_duration")
 	enemy.velocity = Vector2.ZERO
-	enemy.animated_sprite.modulate = Color(1.0, 1.0, 0.5, 1.0)
+	enemy.animated_sprite.modulate = GameConfig.config.combat_stunned_color
 	enemy.animated_sprite.pause()
 
 func exit() -> void:

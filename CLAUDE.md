@@ -18,7 +18,8 @@ Warrior/Knight descends through handcrafted dungeon floors with randomized enemy
 
 ```
 res://
-  scripts/autoload/       Autoloaded singletons (EventBus, GameManager, etc.)
+  scripts/autoload/       Autoloaded singletons (EventBus, GameManager, GameConfig, etc.)
+  scripts/config/         GameConfigData resource class (central tuning file)
   scripts/util/           Shared utilities (StateMachine, State, LootTable)
   scripts/player/         Player controller + player_states/ subfolder
   scripts/enemies/        Base enemy + enemy_ai/ subfolder
@@ -51,7 +52,7 @@ Composition-based entities with reusable component nodes and a state machine pat
 
 ### Core Rules
 
-1. **Every tunable value must be @export.** Speed, HP, damage, ranges, cooldowns — all @export.
+1. **Every tunable gameplay value lives in GameConfig.** Speed, HP, damage, ranges, cooldowns — all centralized in `scripts/config/game_config_data.gd` and the `.tres` at `resources/config/game_config.tres`. Scripts use getter properties (e.g. `var speed: float: get: return GameConfig.config.skeleton_speed`). Only per-instance scene configuration (like door direction, spawn point type) still uses `@export`.
 2. **Entities are CharacterBody2D** with child component nodes (HealthComponent, HurtboxComponent, KnockbackComponent, StateMachine). No deep inheritance — composition via attached nodes.
 3. **Entity scripts are thin.** Wire components in `_ready()`, defer state machine start. Movement, combat, and AI logic live in states and components.
 4. **Static typing everywhere.** Every variable, parameter, and return type must have an explicit type annotation. Use `-> void` on all functions that return nothing.
@@ -88,6 +89,7 @@ Registered in project.godot. Access globally by name. **Autoload scripts must NO
 - **ItemDatabase** — Scans `res://resources/items/`, provides `get_item(id)`, `get_random_item(loot_table)`
 - **SaveManager** — Meta-progression persistence to `user://save_data.json`
 - **AudioManager** — Pooled SFX playback, music crossfade
+- **GameConfig** — Centralized gameplay tuning. Preloads `resources/config/game_config.tres` (a `GameConfigData` resource). Access via `GameConfig.config.<property>`. Applies item/ability tuning overlays on `_ready()`.
 
 ## Physics Collision Layers
 

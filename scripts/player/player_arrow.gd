@@ -1,7 +1,9 @@
 extends Hitbox
 
-@export var speed: float = 160.0
-@export var lifetime: float = 3.0
+var speed: float:
+	get: return GameConfig.config.player_arrow_speed
+var lifetime: float:
+	get: return GameConfig.config.player_arrow_lifetime
 
 var _direction: Vector2 = Vector2.ZERO
 var _timer: float = 0.0

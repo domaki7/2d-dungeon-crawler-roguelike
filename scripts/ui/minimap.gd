@@ -1,7 +1,9 @@
 extends Control
 
-@export var room_size: Vector2 = Vector2(8, 8)
-@export var room_spacing: float = 12.0
+var room_size: Vector2:
+	get: return GameConfig.config.ui_minimap_room_size
+var room_spacing: float:
+	get: return GameConfig.config.ui_minimap_room_spacing
 
 var _is_visible: bool = true
 

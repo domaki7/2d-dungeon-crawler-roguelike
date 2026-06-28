@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var stun_duration: float = 0.25
+var stun_duration: float:
+	get: return GameConfig.config.archer_stun_duration
 
 var _stun_timer: float = 0.0
 

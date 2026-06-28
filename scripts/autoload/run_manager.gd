@@ -1,6 +1,7 @@
 extends Node
 
-@export var max_floors: int = 3
+var max_floors: int:
+	get: return GameConfig.config.dungeon_max_floors
 
 var current_floor: int = 0
 var run_active: bool = false
@@ -101,10 +102,10 @@ func _reset_player_for_floor(player: CharacterBody2D) -> void:
 
 func _calculate_meta_currency(victory: bool) -> int:
 	var currency: int = 0
-	currency += run_stats.get("floors_cleared", 0) * 10
-	currency += run_stats.get("kills", 0)
+	currency += run_stats.get("floors_cleared", 0) * GameConfig.config.economy_floor_multiplier
+	currency += run_stats.get("kills", 0) * GameConfig.config.economy_kill_multiplier
 	if victory:
-		currency += 50
+		currency += GameConfig.config.economy_victory_bonus
 	return currency
 
 func _load_floor_configs() -> void:

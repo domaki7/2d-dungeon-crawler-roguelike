@@ -2,9 +2,12 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
-@export var speed: float = 40.0
-@export var acceleration: float = 300.0
-@export var friction: float = 500.0
+var speed: float:
+	get: return GameConfig.config.slime_speed
+var acceleration: float:
+	get: return GameConfig.config.slime_acceleration
+var friction: float:
+	get: return GameConfig.config.slime_friction
 
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D

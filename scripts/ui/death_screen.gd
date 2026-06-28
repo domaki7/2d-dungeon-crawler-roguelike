@@ -1,6 +1,7 @@
 extends Control
 
-@export var fade_in_duration: float = 0.4
+var fade_in_duration: float:
+	get: return GameConfig.config.ui_death_fade_in_duration
 
 func _ready() -> void:
 	visible = false

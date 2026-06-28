@@ -8,9 +8,10 @@ enum Direction { NORTH, SOUTH, EAST, WEST }
 @export var direction: Direction = Direction.NORTH
 @export var is_locked: bool = false
 
-@export_group("Visuals")
-@export var locked_color: Color = Color(0.6, 0.2, 0.2, 1.0)
-@export var unlocked_color: Color = Color(0.2, 0.5, 0.3, 1.0)
+var locked_color: Color:
+	get: return GameConfig.config.ui_door_locked_color
+var unlocked_color: Color:
+	get: return GameConfig.config.ui_door_unlocked_color
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var wall_blocker: StaticBody2D = $WallBlocker

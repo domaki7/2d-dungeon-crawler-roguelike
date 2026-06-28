@@ -2,8 +2,10 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, DOWN_RIGHT, RIGHT, UP_RIGHT, UP, UP_LEFT, LEFT, DOWN_LEFT }
 
-@export var acceleration: float = 800.0
-@export var friction: float = 600.0
+var acceleration: float:
+	get: return GameConfig.config.ranger_acceleration
+var friction: float:
+	get: return GameConfig.config.ranger_friction
 @export var arrow_scene: PackedScene
 
 @onready var state_machine: StateMachine = $StateMachine

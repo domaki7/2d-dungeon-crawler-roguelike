@@ -35,8 +35,8 @@ func receive_hit(hitbox: Hitbox) -> void:
 		_knockback_component.apply_knockback(direction, hitbox.knockback_force)
 
 	CombatManager.spawn_damage_number(final_damage, get_parent().global_position + Vector2(0, -16))
-	CombatManager.apply_hit_pause(0.06)
-	CombatManager.apply_screen_shake(2.0, 0.15)
+	CombatManager.apply_hit_pause(GameConfig.config.combat_hit_pause_duration)
+	CombatManager.apply_screen_shake(GameConfig.config.combat_screen_shake_intensity, GameConfig.config.combat_screen_shake_duration)
 
 	hit_received.emit(hitbox)
 	AudioManager.play_sfx(&"hit")

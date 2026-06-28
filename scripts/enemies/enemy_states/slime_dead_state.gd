@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var death_delay: float = 0.4
+var death_delay: float:
+	get: return GameConfig.config.slime_death_delay
 @export var gold_drop_scene: PackedScene
 @export var loot_table: LootTable
 @export var item_pickup_scene: PackedScene

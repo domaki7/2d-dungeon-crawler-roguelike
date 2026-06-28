@@ -1,8 +1,11 @@
 extends Label
 
-@export var float_speed: float = 30.0
-@export var duration: float = 0.6
-@export var spread: float = 8.0
+var float_speed: float:
+	get: return GameConfig.config.ui_damage_float_speed
+var duration: float:
+	get: return GameConfig.config.ui_damage_duration
+var spread: float:
+	get: return GameConfig.config.ui_damage_spread
 
 var _direction: Vector2
 var _timer: float = 0.0

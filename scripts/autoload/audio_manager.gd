@@ -2,8 +2,10 @@ extends Node
 
 const SFX_POOL_SIZE: int = 8
 
-@export var sfx_volume_db: float = -5.0
-@export var music_volume_db: float = -10.0
+var sfx_volume_db: float:
+	get: return GameConfig.config.audio_sfx_volume_db
+var music_volume_db: float:
+	get: return GameConfig.config.audio_music_volume_db
 
 var _sfx_pool: Array[AudioStreamPlayer] = []
 var _sfx_index: int = 0

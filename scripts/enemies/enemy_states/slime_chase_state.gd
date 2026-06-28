@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var attack_range: float = 14.0
+var attack_range: float:
+	get: return GameConfig.config.slime_attack_range
 
 func enter() -> void:
 	enemy.play_directional_animation("walk")

@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var hitbox_offset: float = 10.0
+var hitbox_offset: float:
+	get: return GameConfig.config.bat_hitbox_offset
 
 func enter() -> void:
 	enemy.velocity = Vector2.ZERO

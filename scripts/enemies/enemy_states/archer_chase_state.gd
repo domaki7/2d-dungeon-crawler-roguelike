@@ -1,8 +1,11 @@
 extends EnemyState
 
-@export var preferred_range: float = 80.0
-@export var attack_range: float = 90.0
-@export var too_close_range: float = 40.0
+var preferred_range: float:
+	get: return GameConfig.config.archer_preferred_range
+var attack_range: float:
+	get: return GameConfig.config.archer_attack_range
+var too_close_range: float:
+	get: return GameConfig.config.archer_too_close_range
 
 func enter() -> void:
 	enemy.play_directional_animation("walk")

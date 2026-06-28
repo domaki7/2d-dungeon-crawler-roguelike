@@ -1,6 +1,7 @@
 extends EnemyState
 
-@export var engage_delay: float = 1.0
+var engage_delay: float:
+	get: return GameConfig.config.boss_engage_delay
 
 var _timer: float = 0.0
 
