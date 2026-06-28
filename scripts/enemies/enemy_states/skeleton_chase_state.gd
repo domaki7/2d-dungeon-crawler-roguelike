@@ -6,7 +6,7 @@ func enter() -> void:
 	enemy.play_directional_animation("walk")
 
 func physics_process_state(delta: float) -> void:
-	if not enemy.is_player_detected:
+	if not enemy.is_player_detected and not enemy.is_aggroed:
 		transition_requested.emit(self, &"IdleState")
 		return
 

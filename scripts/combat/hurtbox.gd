@@ -40,3 +40,6 @@ func receive_hit(hitbox: Hitbox) -> void:
 
 	hit_received.emit(hitbox)
 	AudioManager.play_sfx(&"hit")
+
+	if get_parent().is_in_group(&"enemies"):
+		EventBus.enemy_aggroed.emit()

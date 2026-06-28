@@ -13,7 +13,7 @@ func enter() -> void:
 	_jitter_direction = 1.0
 
 func physics_process_state(delta: float) -> void:
-	if not enemy.is_player_detected:
+	if not enemy.is_player_detected and not enemy.is_aggroed:
 		transition_requested.emit(self, &"IdleState")
 		return
 

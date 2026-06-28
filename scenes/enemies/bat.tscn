@@ -180,8 +180,9 @@ shader_parameter/flash_intensity = 0.0
 [sub_resource type="CircleShape2D" id="SubResource_body"]
 radius = 5.0
 
-[sub_resource type="CircleShape2D" id="SubResource_hurtbox_shape"]
+[sub_resource type="CapsuleShape2D" id="SubResource_hurtbox_shape"]
 radius = 5.0
+height = 12.0
 
 [sub_resource type="RectangleShape2D" id="SubResource_hitbox_shape"]
 size = Vector2(8, 8)
