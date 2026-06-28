@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/ui/shop_ui.gd" id="6_shop"]
 [ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="7_pause"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" groups=["game_world"]]
 script = ExtResource("1_game")
 
 [node name="Background" type="ColorRect" parent="."]

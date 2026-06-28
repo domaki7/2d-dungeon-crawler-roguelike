@@ -68,6 +68,12 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 
 ---
 
+## Bugs
+
+- [ ] **Arrows pass through walls** — Projectiles (arrows) don't collide with wall tiles. Add wall collision detection to arrow scripts so they stop/despawn on wall contact
+
+---
+
 ## Future Ideas (Not Planned Yet)
 
 - [ ] Trap/puzzle rooms (spike traps, pressure plates, environmental hazards)

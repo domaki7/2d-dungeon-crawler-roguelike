@@ -45,5 +45,9 @@ func apply_screen_shake(intensity: float, duration: float) -> void:
 func spawn_damage_number(value: int, global_pos: Vector2, color: Color = Color.WHITE) -> void:
 	var number: Label = _damage_number_scene.instantiate() as Label
 	number.setup(value, color)
-	get_tree().current_scene.add_child(number)
+	var game_world: Node = get_tree().get_first_node_in_group(&"game_world")
+	if game_world == null:
+		number.queue_free()
+		return
+	game_world.add_child(number)
 	number.global_position = global_pos
