@@ -29,12 +29,12 @@ Make existing attacks feel impactful. Creates VFX infrastructure reused by later
 
 Only stun exists. Add burn, poison, freeze, slow.
 
-- [ ] **StatusEffectData resource** — Create `scripts/combat/status_effect_data.gd` with type enum, duration, tick_interval, damage_per_tick, speed_multiplier, tint_color, particle_scene
-- [ ] **StatusEffectComponent** — Create `scripts/combat/status_effect_component.gd` (Node, composition pattern) with apply/remove/tick logic, signals, tint/particle management
-- [ ] **Wire into combat** — Add `@export var applied_status_effect` to `hitbox.gd`. In `hurtbox.gd`, apply status on hit. Convert `burn_on_hit` in `item_effect_handler.gd` from instant damage to real BURN DoT
-- [ ] **Add to entities** — StatusEffectComponent as child node on all player and enemy scenes. Enemy states query `get_speed_multiplier()` for slow/freeze
-- [ ] **Status VFX** — Create looping particle scenes: burn, poison, freeze, slow particles
-- [ ] **Status UI** — EventBus signals for status changes. Small colored icons near health bar in HUD
+- [x] **StatusEffectData resource** — Create `scripts/combat/status_effect_data.gd` with type enum, duration, tick_interval, damage_per_tick, speed_multiplier, tint_color, particle_scene
+- [x] **StatusEffectComponent** — Create `scripts/combat/status_effect_component.gd` (Node, composition pattern) with apply/remove/tick logic, signals, tint/particle management
+- [x] **Wire into combat** — Add `@export var applied_status_effect` to `hitbox.gd`. In `hurtbox.gd`, apply status on hit. Convert `burn_on_hit` in `item_effect_handler.gd` from instant damage to real BURN DoT
+- [x] **Add to entities** — StatusEffectComponent as child node on all player and enemy scenes. Enemy states query `get_speed_multiplier()` for slow/freeze
+- [x] **Status VFX** — Create looping particle scenes: burn, poison, freeze, slow particles
+- [x] **Status UI** — EventBus signals for status changes. Small colored icons near health bar in HUD
 
 ## Phase 3: Branching Floor Layout
 
@@ -86,7 +86,9 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [ ] Consumable items (health potions, buff potions, throwables)
 - [ ] More enemy types
 - [ ] More music tracks
-- [ ] Additional classes beyond Warrior/Ranger
+- [ ] **Mage class** — Ranged magic user with spell-based attacks (fireball, lightning), mana resource, AoE abilities, glass cannon stats
+- [ ] **Rogue class** — Fast melee with daggers, backstab crit bonus, dash ability, stealth mechanic, high speed / low HP
+- [ ] **Cleric class** — Hybrid support/melee with mace, healing ability, holy damage vs undead, shield/buff spells, tanky stats
 - [ ] Room environmental variety (water, lava, darkness)
 - [ ] Achievement system
 - [ ] Leaderboards / run history

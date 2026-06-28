@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3]
+[gd_scene load_steps=46 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/skeleton_archer.gd" id="1_archer"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_states/stunned_state.gd" id="16_stun"]
+[ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="17_sec"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="13_gold"]
 [ext_resource type="Resource" path="res://resources/loot_tables/skeleton_loot.tres" id="14_loot"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="15_item_pickup"]
@@ -237,6 +238,9 @@ i_frame_duration = 0.2
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("9_kb")
 friction = 500.0
+
+[node name="StatusEffectComponent" type="Node" parent="."]
+script = ExtResource("17_sec")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16

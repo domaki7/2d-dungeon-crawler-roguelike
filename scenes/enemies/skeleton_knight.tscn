@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3]
+[gd_scene load_steps=49 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/skeleton_knight.gd" id="1_boss"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="14_hurtbox"]
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="15_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="16_shader"]
+[ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="20_sec"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="17_gold"]
 [ext_resource type="Resource" path="res://resources/loot_tables/boss_loot.tres" id="18_loot"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="19_pickup"]
@@ -149,6 +150,9 @@ i_frame_duration = 0.1
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("13_kb")
 friction = 300.0
+
+[node name="StatusEffectComponent" type="Node" parent="."]
+script = ExtResource("20_sec")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16

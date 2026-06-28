@@ -1,20 +1,17 @@
 extends EnemyState
 
-var default_stun_duration: float:
-	get: return GameConfig.config.boss_stunned_duration
-
 var _stun_timer: float = 0.0
 
 func enter() -> void:
-	_stun_timer = enemy.get_meta(&"stun_duration", default_stun_duration) as float
-	if enemy.has_meta(&"stun_duration"):
-		enemy.remove_meta(&"stun_duration")
+	var sec: StatusEffectComponent = enemy.status_effect_component
+	if sec and sec.has_effect(StatusEffectData.Type.STUN):
+		_stun_timer = sec.get_effect_remaining(StatusEffectData.Type.STUN)
+	else:
+		_stun_timer = GameConfig.config.boss_stunned_duration
 	enemy.velocity = Vector2.ZERO
-	enemy.animated_sprite.modulate = GameConfig.config.combat_stunned_color
 	enemy.animated_sprite.pause()
 
 func exit() -> void:
-	enemy.animated_sprite.modulate = Color.WHITE
 	enemy.animated_sprite.play()
 
 func physics_process_state(delta: float) -> void:
@@ -23,6 +20,9 @@ func physics_process_state(delta: float) -> void:
 
 	_stun_timer -= delta
 	if _stun_timer <= 0.0:
+		var sec: StatusEffectComponent = enemy.status_effect_component
+		if sec:
+			sec.remove_effect(StatusEffectData.Type.STUN)
 		if enemy.health_component.current_hp <= 0:
 			transition_requested.emit(self, &"DeadState")
 		else:

@@ -69,11 +69,15 @@ func _on_player_hit_landed(hurtbox: Hurtbox) -> void:
 	if not _initialized:
 		return
 	if _player_stats.has_effect(&"burn_on_hit"):
-		var burn_damage: int = int(_player_stats.get_effect_value(&"burn_on_hit"))
-		var target_hc: HealthComponent = hurtbox.get_parent().get_node_or_null("HealthComponent") as HealthComponent
-		if target_hc:
-			target_hc.take_damage(burn_damage)
-			CombatManager.spawn_damage_number(burn_damage, hurtbox.get_parent().global_position + Vector2(8, -16), Color(1.0, 0.5, 0.0))
+		var target_sec: StatusEffectComponent = hurtbox.get_parent().get_node_or_null("StatusEffectComponent") as StatusEffectComponent
+		if target_sec:
+			var burn: StatusEffectData = StatusEffectData.new()
+			burn.type = StatusEffectData.Type.BURN
+			burn.duration = GameConfig.config.status_burn_duration
+			burn.tick_interval = GameConfig.config.status_burn_tick_interval
+			burn.damage_per_tick = GameConfig.config.status_burn_damage_per_tick
+			burn.tint_color = GameConfig.config.status_burn_tint_color
+			target_sec.apply_effect(burn)
 
 func _on_health_changed(_current_hp: int, _max_hp: int) -> void:
 	if not _initialized:

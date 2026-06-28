@@ -6,7 +6,7 @@ signal hit_landed(hurtbox: Hurtbox)
 @export var damage: int = 1
 @export var knockback_force: float = 200.0
 @export var crit_chance: float = 0.0
-@export var stun_duration: float = 0.0
+@export var applied_status_effect: StatusEffectData = null
 
 @export_group("Hit Feedback")
 @export var screen_shake_intensity: float = -1.0

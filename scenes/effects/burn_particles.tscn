@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3]
+
+[sub_resource type="Gradient" id="Gradient_burn"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.8, 0.2, 1, 1, 0.4, 0.1, 0.8, 0.8, 0.2, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_burn"]
+gradient = SubResource("Gradient_burn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_burn"]
+direction = Vector3(0, -1, 0)
+spread = 30.0
+initial_velocity_min = 10.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, -20, 0)
+scale_min = 1.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_burn")
+
+[node name="BurnParticles" type="GPUParticles2D"]
+position = Vector2(0, -8)
+emitting = false
+amount = 8
+process_material = SubResource("ParticleProcessMaterial_burn")
+lifetime = 0.6
+speed_scale = 1.2

@@ -16,6 +16,7 @@ var friction: float:
 @onready var player_stats: PlayerStats = $PlayerStats
 @onready var ability_manager: AbilityManager = $AbilityManager
 @onready var item_effect_handler: ItemEffectHandler = $ItemEffectHandler
+@onready var status_effect_component: StatusEffectComponent = $StatusEffectComponent
 
 var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
@@ -31,6 +32,8 @@ func _ready() -> void:
 	health_component.healed.connect(func(amount: int) -> void:
 		EventBus.player_healed.emit(amount, health_component.current_hp))
 	player_stats.stats_changed.connect(_on_stats_changed)
+	status_effect_component.effect_applied.connect(func(_type: int) -> void: _on_stats_changed())
+	status_effect_component.effect_removed.connect(func(_type: int) -> void: _on_stats_changed())
 	_on_stats_changed()
 	_start_state_machine.call_deferred()
 
@@ -145,6 +148,8 @@ func _get_fallback_suffix() -> String:
 
 func _on_stats_changed() -> void:
 	speed = player_stats.get_effective_speed()
+	if status_effect_component:
+		speed *= status_effect_component.get_speed_multiplier()
 	effective_damage = player_stats.get_effective_damage()
 	if item_effect_handler:
 		effective_damage += item_effect_handler.get_bonus_damage()

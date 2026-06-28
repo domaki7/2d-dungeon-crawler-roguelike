@@ -3,7 +3,11 @@ extends CharacterBody2D
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
 var speed: float:
-	get: return GameConfig.config.boss_speed
+	get:
+		var base: float = GameConfig.config.boss_speed
+		if status_effect_component:
+			return base * status_effect_component.get_speed_multiplier()
+		return base
 var acceleration: float:
 	get: return GameConfig.config.boss_acceleration
 var friction: float:
@@ -20,6 +24,7 @@ var phase_3_threshold: float:
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var hitbox: Hitbox = $Hitbox
 @onready var detection_area: Area2D = $DetectionArea
+@onready var status_effect_component: StatusEffectComponent = $StatusEffectComponent
 
 var facing_direction: int = FacingDirection.DOWN
 var is_player_detected: bool = false
@@ -74,7 +79,7 @@ func play_directional_animation(base_name: String) -> void:
 		animated_sprite.play(anim_name)
 
 func _on_health_damaged(_amount: int) -> void:
-	if has_meta(&"stun_duration"):
+	if status_effect_component and status_effect_component.is_stunned():
 		state_machine.transition_to(&"StunnedState")
 	else:
 		state_machine.transition_to(&"HurtState")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3]
+[gd_scene load_steps=56 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_ranger.gd" id="1_p"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/player/player_stats.gd" id="15_stats"]
 [ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="16_effects"]
 [ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="17_am"]
+[ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="23_sec"]
 [ext_resource type="Script" path="res://scripts/player/player_states/ability_state.gd" id="18_abs"]
 [ext_resource type="PackedScene" path="res://scenes/attacks/player_arrow.tscn" id="19_arrow"]
 [ext_resource type="Resource" path="res://resources/abilities/multishot.tres" id="20_ms_data"]
@@ -286,6 +287,9 @@ base_max_hp = 8
 base_speed = 130.0
 base_knockback_force = 80.0
 base_crit_chance = 0.05
+
+[node name="StatusEffectComponent" type="Node" parent="."]
+script = ExtResource("23_sec")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8

@@ -24,10 +24,10 @@ func receive_hit(hitbox: Hitbox) -> void:
 	var final_damage: int = result["damage"] as int
 	var is_crit: bool = result["is_crit"] as bool
 
-	if hitbox.stun_duration > 0.0:
-		var parent: Node2D = get_parent() as Node2D
-		if parent:
-			parent.set_meta(&"stun_duration", hitbox.stun_duration)
+	if hitbox.applied_status_effect:
+		var sec: StatusEffectComponent = get_parent().get_node_or_null("StatusEffectComponent") as StatusEffectComponent
+		if sec:
+			sec.apply_effect(hitbox.applied_status_effect)
 
 	if _health_component:
 		_health_component.take_damage(final_damage)

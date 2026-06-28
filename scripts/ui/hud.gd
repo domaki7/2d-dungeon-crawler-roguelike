@@ -19,6 +19,7 @@ func _ready() -> void:
 	_create_ability_bar()
 	_create_floor_label()
 	_create_minimap()
+	_create_status_display()
 	_connect_to_player.call_deferred()
 
 func _create_ability_bar() -> void:
@@ -63,6 +64,14 @@ func _create_minimap() -> void:
 	minimap.position = Vector2(448, 8)
 	minimap.custom_minimum_size = Vector2(24, 120)
 	add_child(minimap)
+
+func _create_status_display() -> void:
+	var status_display_script: Script = preload("res://scripts/ui/status_effect_display.gd")
+	var status_display: HBoxContainer = HBoxContainer.new()
+	status_display.set_script(status_display_script)
+	status_display.position = Vector2(68.0, 4.0)
+	status_display.add_theme_constant_override("separation", 2)
+	add_child(status_display)
 
 func _on_floor_started(floor_number: int) -> void:
 	if _floor_label:

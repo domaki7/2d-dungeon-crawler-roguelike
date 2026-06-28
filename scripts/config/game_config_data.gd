@@ -413,6 +413,52 @@ extends Resource
 ## Tint color applied to stunned enemies
 @export var combat_stunned_color: Color = Color(1.0, 1.0, 0.5, 1.0)
 
+@export_group("Status Effects - Stun")
+
+## Tint color applied to stunned entities
+@export var status_stun_tint_color: Color = Color(1.0, 1.0, 0.5, 1.0)
+
+@export_group("Status Effects - Burn")
+
+## Burn effect duration (seconds)
+@export var status_burn_duration: float = 3.0
+## Time between burn damage ticks (seconds)
+@export var status_burn_tick_interval: float = 0.5
+## Damage dealt per burn tick
+@export var status_burn_damage_per_tick: int = 3
+## Tint color applied to burning entities
+@export var status_burn_tint_color: Color = Color(1.0, 0.6, 0.3, 1.0)
+
+@export_group("Status Effects - Poison")
+
+## Poison effect duration (seconds)
+@export var status_poison_duration: float = 5.0
+## Time between poison damage ticks (seconds)
+@export var status_poison_tick_interval: float = 1.0
+## Damage dealt per poison tick
+@export var status_poison_damage_per_tick: int = 2
+## Tint color applied to poisoned entities
+@export var status_poison_tint_color: Color = Color(0.5, 0.9, 0.3, 1.0)
+
+@export_group("Status Effects - Freeze")
+
+## Freeze effect duration (seconds)
+@export var status_freeze_duration: float = 2.5
+## Speed multiplier while frozen (0.1 = 90% slow)
+@export var status_freeze_speed_multiplier: float = 0.1
+## Tint color applied to frozen entities
+@export var status_freeze_tint_color: Color = Color(0.5, 0.8, 1.0, 1.0)
+
+@export_group("Status Effects - Slow")
+
+## Slow effect duration (seconds)
+@export var status_slow_duration: float = 4.0
+## Speed multiplier while slowed (0.5 = 50% slow)
+@export var status_slow_speed_multiplier: float = 0.5
+## Tint color applied to slowed entities
+@export var status_slow_tint_color: Color = Color(0.7, 0.5, 0.9, 1.0)
+
+
 @export_group("Combat - Attack Telegraph")
 
 ## Skeleton attack windup duration before the swing (seconds)

@@ -28,3 +28,6 @@ signal floor_started(floor_number: int)
 signal boss_fight_started(boss_name: String, health_component: Node)
 signal boss_phase_changed(phase: int, max_phases: int)
 signal enemy_aggroed()
+
+signal status_effect_applied(type: int, duration: float)
+signal status_effect_removed(type: int)
