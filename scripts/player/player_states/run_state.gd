@@ -19,6 +19,9 @@ func physics_process_state(delta: float) -> void:
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):
 		transition_requested.emit(self, &"AttackState")
+	elif event.is_action_pressed(&"dodge"):
+		if player.ability_manager.is_ability_ready(3):
+			transition_requested.emit(self, &"DodgeRollState")
 	elif event.is_action_pressed(&"ability_1"):
 		if player.ability_manager.is_ability_ready(0):
 			transition_requested.emit(self, &"ShieldBashState")

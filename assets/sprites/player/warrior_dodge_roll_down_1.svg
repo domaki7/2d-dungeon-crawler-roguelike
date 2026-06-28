@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Mid-roll - warrior tucked into ball -->
+  <!-- Helmet tucked tight -->
+  <rect x="5" y="8" width="6" height="3" fill="#505064"/>
+  <rect x="5" y="8" width="3" height="1" fill="#6E6E82"/>
+  <rect x="5" y="10" width="6" height="1" fill="#1E1E32"/>
+  <!-- Armor body rolled -->
+  <rect x="4" y="11" width="8" height="5" fill="#6E6E82"/>
+  <rect x="5" y="13" width="6" height="2" fill="#2844A0"/>
+  <rect x="6" y="13" width="4" height="2" fill="#3858C0"/>
+  <!-- Arms wrapped around body -->
+  <rect x="3" y="12" width="2" height="3" fill="#5A5A6E"/>
+  <rect x="11" y="12" width="2" height="3" fill="#5A5A6E"/>
+  <!-- Belt -->
+  <rect x="4" y="16" width="8" height="1" fill="#7A5030"/>
+  <!-- Legs tucked under -->
+  <rect x="4" y="17" width="4" height="4" fill="#4A4A5E"/>
+  <rect x="7" y="17" width="4" height="4" fill="#4A4A5E"/>
+  <!-- Boots -->
+  <rect x="4" y="21" width="4" height="2" fill="#363646"/>
+  <rect x="7" y="21" width="4" height="2" fill="#363646"/>
+</svg>

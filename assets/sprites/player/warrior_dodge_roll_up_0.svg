@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Crouch start - back view -->
+  <!-- Helmet ducked (back) -->
+  <rect x="6" y="6" width="4" height="1" fill="#505064"/>
+  <rect x="5" y="7" width="6" height="3" fill="#505064"/>
+  <rect x="5" y="7" width="3" height="1" fill="#6E6E82"/>
+  <rect x="5" y="9" width="6" height="1" fill="#3A3A4E"/>
+  <!-- Armor body crouched (back) -->
+  <rect x="4" y="10" width="8" height="6" fill="#5A5A6E"/>
+  <rect x="5" y="12" width="6" height="3" fill="#1E3878"/>
+  <rect x="6" y="12" width="4" height="3" fill="#2844A0"/>
+  <!-- Arms tucked -->
+  <rect x="3" y="11" width="2" height="4" fill="#5A5A6E"/>
+  <rect x="11" y="11" width="2" height="4" fill="#5A5A6E"/>
+  <!-- Belt -->
+  <rect x="4" y="16" width="8" height="1" fill="#7A5030"/>
+  <!-- Legs tucked -->
+  <rect x="4" y="17" width="4" height="5" fill="#4A4A5E"/>
+  <rect x="7" y="17" width="4" height="5" fill="#4A4A5E"/>
+  <!-- Boots -->
+  <rect x="4" y="22" width="4" height="2" fill="#363646"/>
+  <rect x="7" y="22" width="4" height="2" fill="#363646"/>
+  <rect x="4" y="24" width="4" height="1" fill="#2A2A3A"/>
+  <rect x="7" y="24" width="4" height="1" fill="#2A2A3A"/>
+</svg>

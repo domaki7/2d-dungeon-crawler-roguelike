@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Recovery from roll - rising back up -->
+  <!-- Helmet rising -->
+  <rect x="6" y="4" width="4" height="1" fill="#505064"/>
+  <rect x="5" y="5" width="6" height="3" fill="#505064"/>
+  <rect x="5" y="5" width="3" height="1" fill="#6E6E82"/>
+  <rect x="5" y="7" width="6" height="1" fill="#1E1E32"/>
+  <rect x="6" y="7" width="1" height="1" fill="#88CCFF"/>
+  <rect x="9" y="7" width="1" height="1" fill="#88CCFF"/>
+  <!-- Neck -->
+  <rect x="6" y="8" width="4" height="1" fill="#D4A070"/>
+  <!-- Armor body rising -->
+  <rect x="5" y="9" width="6" height="7" fill="#6E6E82"/>
+  <rect x="6" y="11" width="4" height="4" fill="#2844A0"/>
+  <rect x="7" y="11" width="2" height="4" fill="#3858C0"/>
+  <!-- Arms out for balance -->
+  <rect x="3" y="10" width="3" height="5" fill="#5A5A6E"/>
+  <rect x="10" y="10" width="3" height="5" fill="#5A5A6E"/>
+  <rect x="3" y="15" width="2" height="1" fill="#D4A878"/>
+  <rect x="11" y="15" width="2" height="1" fill="#D4A878"/>
+  <!-- Belt -->
+  <rect x="5" y="16" width="6" height="1" fill="#7A5030"/>
+  <!-- Legs -->
+  <rect x="5" y="17" width="6" height="7" fill="#4A4A5E"/>
+  <rect x="7" y="18" width="1" height="5" fill="#3E3E50"/>
+  <!-- Boots -->
+  <rect x="4" y="24" width="4" height="4" fill="#363646"/>
+  <rect x="8" y="24" width="4" height="4" fill="#363646"/>
+  <rect x="4" y="28" width="4" height="1" fill="#2A2A3A"/>
+  <rect x="8" y="28" width="4" height="1" fill="#2A2A3A"/>
+</svg>

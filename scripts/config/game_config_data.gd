@@ -40,6 +40,23 @@ extends Resource
 @export var player_hitbox_offset: float = 18.0
 ## Width and height of the melee hitbox (pixels)
 @export var player_hitbox_size: Vector2 = Vector2(18, 15)
+## Animation frame index (0-based) when the hitbox becomes active
+@export var player_attack_active_frame: int = 1
+## Animation frame index (0-based) at which dodge-cancel becomes available
+@export var player_attack_cancel_frame: int = 2
+
+@export_group("Player - Heavy Attack")
+
+## How long the player must hold attack to fully charge (seconds)
+@export var player_heavy_charge_duration: float = 0.7
+## Damage multiplier for fully charged heavy attack
+@export var player_heavy_damage_multiplier: float = 2.0
+## Knockback multiplier for fully charged heavy attack
+@export var player_heavy_knockback_multiplier: float = 1.5
+## Width and height of the heavy attack hitbox (pixels)
+@export var player_heavy_hitbox_size: Vector2 = Vector2(24, 20)
+## Sprite shake amplitude during charge-up (pixels)
+@export var player_heavy_shake_intensity: float = 1.0
 
 @export_group("Player - Shield Bash")
 
