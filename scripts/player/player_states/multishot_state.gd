@@ -30,7 +30,7 @@ func _fire_spread(center_direction: Vector2) -> void:
 		arrow.global_position = player.global_position
 		arrow.setup(dir, dmg)
 		player.get_parent().add_child(arrow)
-	AudioManager.play_sfx(&"arrow_fire")
+	AudioManager.play_sfx_varied(&"arrow_fire")
 
 func _on_animation_finished() -> void:
 	_transition_to_idle()

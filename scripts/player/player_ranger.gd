@@ -46,7 +46,7 @@ func fire_arrow(direction: Vector2, damage_override: int = -1) -> void:
 	var dmg: int = damage_override if damage_override > 0 else _get_live_damage()
 	arrow.setup(direction, dmg)
 	get_parent().add_child(arrow)
-	AudioManager.play_sfx(&"arrow_fire")
+	AudioManager.play_sfx_varied(&"arrow_fire")
 
 func update_facing(direction: Vector2) -> bool:
 	if direction == Vector2.ZERO:
@@ -151,5 +151,5 @@ func _on_stats_changed() -> void:
 	health_component.set_max_hp(player_stats.get_effective_max_hp())
 
 func _on_health_damaged(_amount: int) -> void:
-	AudioManager.play_sfx(&"player_hurt")
+	AudioManager.play_sfx_varied(&"player_hurt")
 	state_machine.transition_to(&"HurtState")

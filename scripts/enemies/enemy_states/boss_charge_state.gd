@@ -37,7 +37,7 @@ func physics_process_state(delta: float) -> void:
 		_position_hitbox()
 		enemy.animated_sprite.modulate = Color.WHITE
 		enemy.play_directional_animation("walk")
-		AudioManager.play_sfx(&"boss_charge")
+		AudioManager.play_sfx_varied(&"boss_charge")
 
 	if _is_charging:
 		enemy.velocity = _charge_direction * charge_speed

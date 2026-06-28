@@ -3,13 +3,19 @@ extends Node
 var _hit_sparks_scene: PackedScene = preload("res://scenes/effects/hit_sparks.tscn")
 var _death_poof_scene: PackedScene = preload("res://scenes/effects/death_poof.tscn")
 var _crit_flash_scene: PackedScene = preload("res://scenes/effects/crit_flash.tscn")
+var _melee_swing_scene: PackedScene = preload("res://scenes/effects/melee_swing.tscn")
 
 var _flash_tweens: Dictionary = {}
+var _unique_materials: Dictionary = {}
 
 func apply_hit_flash(sprite: CanvasItem, duration: float = -1.0) -> void:
 	var material: ShaderMaterial = sprite.material as ShaderMaterial
 	if material == null:
 		return
+	if not _unique_materials.has(sprite):
+		material = material.duplicate() as ShaderMaterial
+		sprite.material = material
+		_unique_materials[sprite] = true
 	if duration < 0.0:
 		duration = GameConfig.config.vfx_hit_flash_duration
 
@@ -42,3 +48,16 @@ func spawn_death_poof(global_pos: Vector2) -> void:
 
 func spawn_crit_flash(global_pos: Vector2) -> void:
 	spawn_particles_at(_crit_flash_scene, global_pos)
+
+func spawn_melee_swing(global_pos: Vector2, angle: float) -> void:
+	var swing: AnimatedSprite2D = _melee_swing_scene.instantiate() as AnimatedSprite2D
+	if swing == null:
+		return
+	var game_world: Node = get_tree().get_first_node_in_group(&"game_world")
+	if game_world == null:
+		swing.queue_free()
+		return
+	game_world.add_child(swing)
+	swing.global_position = global_pos
+	swing.rotation = angle
+	swing.animation_finished.connect(swing.queue_free)

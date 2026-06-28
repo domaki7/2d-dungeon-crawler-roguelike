@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/effects/melee_swing_1.svg" id="1_frame1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/effects/melee_swing_2.svg" id="2_frame2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/effects/melee_swing_3.svg" id="3_frame3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_swing"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_frame1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_frame2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_frame3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_swing"]
+blend_mode = 1
+
+[node name="MeleeSwing" type="AnimatedSprite2D"]
+material = SubResource("CanvasItemMaterial_swing")
+sprite_frames = SubResource("SpriteFrames_swing")
+animation = &"default"
+autoplay = "default"

@@ -36,4 +36,5 @@ func _on_area_entered(area: Area2D) -> void:
 	hurtbox.receive_hit(self)
 	hit_landed.emit(hurtbox)
 	_hit = true
+	VFXHelper.spawn_hit_sparks(global_position)
 	queue_free()

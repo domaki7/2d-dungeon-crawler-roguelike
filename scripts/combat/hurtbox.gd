@@ -54,7 +54,7 @@ func receive_hit(hitbox: Hitbox) -> void:
 		VFXHelper.spawn_crit_flash(get_parent().global_position)
 
 	hit_received.emit(hitbox)
-	AudioManager.play_sfx(&"hit")
+	AudioManager.play_sfx_varied(&"hit")
 
 	if get_parent().is_in_group(&"enemies"):
 		EventBus.enemy_aggroed.emit()

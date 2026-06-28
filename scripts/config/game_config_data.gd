@@ -396,6 +396,23 @@ extends Resource
 ## Tint color applied to stunned enemies
 @export var combat_stunned_color: Color = Color(1.0, 1.0, 0.5, 1.0)
 
+@export_group("Combat - Attack Telegraph")
+
+## Skeleton attack windup duration before the swing (seconds)
+@export var skeleton_telegraph_duration: float = 0.3
+## Slime attack windup duration (seconds)
+@export var slime_telegraph_duration: float = 0.25
+## Bat attack windup duration (seconds)
+@export var bat_telegraph_duration: float = 0.2
+## Boss melee attack windup duration (seconds)
+@export var boss_melee_telegraph_duration: float = 0.35
+## Fastest flash interval at end of windup (seconds)
+@export var telegraph_min_flash_interval: float = 0.06
+## Slowest flash interval at start of windup (seconds)
+@export var telegraph_max_flash_interval: float = 0.2
+## Duration of each telegraph flash pulse (seconds)
+@export var telegraph_flash_duration: float = 0.05
+
 
 # =============================================================================
 # DUNGEON
@@ -427,6 +444,19 @@ extends Resource
 
 ## Duration of the white hit flash on damaged entities (seconds)
 @export var vfx_hit_flash_duration: float = 0.15
+
+@export_group("VFX - Death")
+
+## Duration of the scale-down + fade-out tween on enemy death (seconds)
+@export var vfx_death_tween_duration: float = 0.3
+## Final scale at end of death tween (multiplier)
+@export var vfx_death_tween_end_scale: float = 0.5
+## Boss death tween duration (seconds)
+@export var vfx_boss_death_tween_duration: float = 0.6
+## Screen shake intensity on boss death
+@export var vfx_boss_death_shake_intensity: float = 5.0
+## Screen shake duration on boss death (seconds)
+@export var vfx_boss_death_shake_duration: float = 0.4
 
 
 @export_group("UI - Damage Numbers")
@@ -473,6 +503,13 @@ extends Resource
 @export var audio_sfx_volume_db: float = -5.0
 ## Music volume in decibels
 @export var audio_music_volume_db: float = -10.0
+
+@export_group("Audio - Pitch Variation")
+
+## Minimum pitch scale for varied SFX (1.0 = normal)
+@export var audio_sfx_pitch_min: float = 0.9
+## Maximum pitch scale for varied SFX (1.0 = normal)
+@export var audio_sfx_pitch_max: float = 1.1
 
 
 # =============================================================================

@@ -36,7 +36,7 @@ func physics_process_state(delta: float) -> void:
 		tween.tween_property(enemy.animated_sprite, "position:y", _original_y, 0.1)
 		_do_slam_damage()
 		CombatManager.apply_screen_shake(GameConfig.config.boss_slam_shake_intensity, GameConfig.config.boss_slam_shake_duration)
-		AudioManager.play_sfx(&"boss_slam")
+		AudioManager.play_sfx_varied(&"boss_slam")
 
 	if _has_slammed and _timer <= 0.0:
 		transition_requested.emit(self, &"ChaseState")

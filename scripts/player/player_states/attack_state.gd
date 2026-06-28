@@ -16,6 +16,10 @@ func enter() -> void:
 	_capture_original_hitbox_size()
 	_position_hitbox()
 	_resize_hitbox()
+	VFXHelper.spawn_melee_swing(
+		player.global_position + _attack_direction * hitbox_offset,
+		_attack_direction.angle()
+	)
 	player.hitbox.damage = player.get_ability_damage(player.player_stats.get_effective_damage())
 	player.hitbox.activate()
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)

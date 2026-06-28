@@ -88,4 +88,19 @@ Once the plan is approved, for each selected task:
 3. After completing the task, immediately update `todo.md` by changing `- [ ]` to `- [x]` for that specific item
 4. Continue to the next selected task
 
-After all selected tasks are done, give a brief summary of what was implemented.
+After all selected tasks are done, output the following in order:
+
+1. **Summary** — Brief summary of what was implemented
+2. **Test checklist** — A short list of things the user should manually test in-game. Focus on the golden path and the most important edge cases. Keep it to 3-6 items max. Format:
+   ```
+   Things to test:
+   - [ ] Attack an enemy and verify hit flash + screen shake
+   - [ ] Check damage numbers appear and float upward
+   ...
+   ```
+3. **Commit message** — A short commit message the user can copy-paste:
+   ```
+   Commit message: <message here>
+   ```
+
+**Important:** Do NOT run any git commands (add, commit, push, etc.) yourself. The user will handle git manually.

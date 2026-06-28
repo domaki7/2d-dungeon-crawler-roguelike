@@ -138,5 +138,5 @@ func _on_stats_changed() -> void:
 	health_component.set_max_hp(player_stats.get_effective_max_hp())
 
 func _on_health_damaged(_amount: int) -> void:
-	AudioManager.play_sfx(&"player_hurt")
+	AudioManager.play_sfx_varied(&"player_hurt")
 	state_machine.transition_to(&"HurtState")

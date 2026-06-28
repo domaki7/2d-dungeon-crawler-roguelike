@@ -6,6 +6,10 @@ var sfx_volume_db: float:
 	get: return GameConfig.config.audio_sfx_volume_db
 var music_volume_db: float:
 	get: return GameConfig.config.audio_music_volume_db
+var sfx_pitch_min: float:
+	get: return GameConfig.config.audio_sfx_pitch_min
+var sfx_pitch_max: float:
+	get: return GameConfig.config.audio_sfx_pitch_max
 
 var _sfx_pool: Array[AudioStreamPlayer] = []
 var _sfx_index: int = 0
@@ -24,6 +28,22 @@ func play_sfx(sfx_name: StringName) -> void:
 	var player: AudioStreamPlayer = _sfx_pool[_sfx_index]
 	player.stream = stream
 	player.volume_db = sfx_volume_db
+	player.pitch_scale = 1.0
+	player.play()
+	_sfx_index = (_sfx_index + 1) % SFX_POOL_SIZE
+
+func play_sfx_varied(sfx_name: StringName, pitch_min: float = -1.0, pitch_max: float = -1.0) -> void:
+	if pitch_min < 0.0:
+		pitch_min = sfx_pitch_min
+	if pitch_max < 0.0:
+		pitch_max = sfx_pitch_max
+	var stream: AudioStream = _load_sfx(sfx_name)
+	if stream == null:
+		return
+	var player: AudioStreamPlayer = _sfx_pool[_sfx_index]
+	player.stream = stream
+	player.volume_db = sfx_volume_db
+	player.pitch_scale = randf_range(pitch_min, pitch_max)
 	player.play()
 	_sfx_index = (_sfx_index + 1) % SFX_POOL_SIZE
 
