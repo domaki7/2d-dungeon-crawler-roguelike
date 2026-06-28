@@ -19,6 +19,12 @@ Make existing attacks feel impactful. Creates VFX infrastructure reused by later
 - [ ] **Melee swing trail** — Create `scenes/effects/melee_swing.tscn` (animated arc sprite). Spawn in `attack_state.gd`
 - [ ] **Projectile impact** — Spawn hit_sparks on arrow collision in `arrow.gd` and `player_arrow.gd`
 
+## Melee Combat Depth
+
+- [ ] **Active frames system** — Replace the always-on hitbox with specific active frames during the swing animation. Add `active_frame_start` and `active_frame_end` config values so the hitbox only deals damage during the middle of the swing, making timing matter
+- [ ] **Charged heavy attack** — Hold the attack button to charge a heavy swing (0.6-0.8s wind-up) that deals 2x damage with increased knockback and a wider hitbox. Add a visual indicator (sprite glow or weapon shake) during charge-up
+- [ ] **Dodge-cancel out of attacks** — Add a dodge roll state that can interrupt the last 40% of attack animations, letting players commit to a swing but escape if they mistime it. Uses a short invincible dash in the movement direction
+
 ## Phase 2: Status Effects System
 
 Only stun exists. Add burn, poison, freeze, slow.
