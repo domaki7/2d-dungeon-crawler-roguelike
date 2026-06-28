@@ -24,3 +24,11 @@ extends Resource
 @export_group("War Cry")
 @export var buff_duration: float = 5.0
 @export var damage_multiplier: float = 1.5
+
+@export_group("Multishot")
+@export var arrow_count: int = 5
+@export var spread_angle_degrees: float = 30.0
+
+@export_group("Rain of Arrows")
+@export var rain_delay: float = 0.4
+@export var rain_duration: float = 0.6

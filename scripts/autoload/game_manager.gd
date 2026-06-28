@@ -1,8 +1,10 @@
 extends Node
 
 enum GameState { TITLE, RUN, POST_RUN }
+enum PlayerClass { WARRIOR, RANGER }
 
 var current_state: int = GameState.TITLE
+var selected_class: int = PlayerClass.WARRIOR
 
 var _title_screen_layer: CanvasLayer = null
 var _run_summary_layer: CanvasLayer = null
@@ -21,10 +23,11 @@ func show_title_screen() -> void:
 	var title_screen: Control = title_scene.instantiate() as Control
 	_title_screen_layer.add_child(title_screen)
 
-func start_run() -> void:
+func start_run(player_class: int = PlayerClass.WARRIOR) -> void:
+	selected_class = player_class
 	current_state = GameState.RUN
 	_clear_ui()
-	RunManager.start_run()
+	RunManager.start_run(player_class)
 
 func show_run_summary(victory: bool, stats: Dictionary) -> void:
 	current_state = GameState.POST_RUN

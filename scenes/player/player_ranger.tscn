@@ -1,0 +1,309 @@
+[gd_scene load_steps=55 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player_ranger.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ranger_idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ranger_run_state.gd" id="4_run"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ranged_attack_state.gd" id="5_atk"]
+[ext_resource type="Script" path="res://scripts/player/player_states/hurt_state.gd" id="6_hurt"]
+[ext_resource type="Script" path="res://scripts/player/player_states/dead_state.gd" id="7_dead"]
+[ext_resource type="Script" path="res://scripts/player/player_states/multishot_state.gd" id="8_ms"]
+[ext_resource type="Script" path="res://scripts/player/player_states/dodge_roll_state.gd" id="9_dr"]
+[ext_resource type="Script" path="res://scripts/player/player_states/rain_of_arrows_state.gd" id="10_roa"]
+[ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="11_hc"]
+[ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="12_kb"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="13_hurtbox"]
+[ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="14_shader"]
+[ext_resource type="Script" path="res://scripts/player/player_stats.gd" id="15_stats"]
+[ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="16_effects"]
+[ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="17_am"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ability_state.gd" id="18_abs"]
+[ext_resource type="PackedScene" path="res://scenes/attacks/player_arrow.tscn" id="19_arrow"]
+[ext_resource type="Resource" path="res://resources/abilities/multishot.tres" id="20_ms_data"]
+[ext_resource type="Resource" path="res://resources/abilities/dodge_roll.tres" id="21_dr_data"]
+[ext_resource type="Resource" path="res://resources/abilities/rain_of_arrows.tres" id="22_roa_data"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_down_0.svg" id="t_sd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_down_1.svg" id="t_sd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_down_2.svg" id="t_sd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_up_0.svg" id="t_su0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_up_1.svg" id="t_su1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_up_2.svg" id="t_su2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_side_0.svg" id="t_ss0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_side_1.svg" id="t_ss1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_shoot_side_2.svg" id="t_ss2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_dodge_roll_down_0.svg" id="t_drd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_dodge_roll_down_1.svg" id="t_drd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_dodge_roll_down_2.svg" id="t_drd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_rain_of_arrows_0.svg" id="t_roa0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_rain_of_arrows_1.svg" id="t_roa1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/ranger_rain_of_arrows_2.svg" id="t_roa2"]
+
+[sub_resource type="SpriteFrames" id="SubResource_sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_id0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_id1")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_iu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_iu1")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_is0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_is1")
+}],
+"loop": true,
+"name": &"idle_side",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ws0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws3")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_sd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_sd2")
+}],
+"loop": false,
+"name": &"shoot_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_su0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_su1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_su2")
+}],
+"loop": false,
+"name": &"shoot_up",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ss0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ss1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ss2")
+}],
+"loop": false,
+"name": &"shoot_side",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_drd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_drd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_drd2")
+}],
+"loop": false,
+"name": &"dodge_roll_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_roa0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_roa1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_roa2")
+}],
+"loop": false,
+"name": &"rain_of_arrows",
+"speed": 8.0
+}]
+
+[sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
+shader = ExtResource("14_shader")
+shader_parameter/flash_intensity = 0.0
+
+[sub_resource type="CircleShape2D" id="SubResource_body"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="SubResource_hurtbox_shape"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_p")
+arrow_scene = ExtResource("19_arrow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("SubResource_shader_mat")
+position = Vector2(0, -8)
+sprite_frames = SubResource("SubResource_sf")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SubResource_body")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_sm")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("3_idle")
+
+[node name="RunState" type="Node" parent="StateMachine"]
+script = ExtResource("4_run")
+
+[node name="RangedAttackState" type="Node" parent="StateMachine"]
+script = ExtResource("5_atk")
+
+[node name="HurtState" type="Node" parent="StateMachine"]
+script = ExtResource("6_hurt")
+
+[node name="DeadState" type="Node" parent="StateMachine"]
+script = ExtResource("7_dead")
+
+[node name="MultishotState" type="Node" parent="StateMachine"]
+script = ExtResource("8_ms")
+ability_index = 0
+
+[node name="DodgeRollState" type="Node" parent="StateMachine"]
+script = ExtResource("9_dr")
+ability_index = 1
+
+[node name="RainOfArrowsState" type="Node" parent="StateMachine"]
+script = ExtResource("10_roa")
+ability_index = 2
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("11_hc")
+max_hp = 8
+i_frame_duration = 0.5
+
+[node name="KnockbackComponent" type="Node" parent="."]
+script = ExtResource("12_kb")
+friction = 800.0
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("15_stats")
+base_damage = 2
+base_defense = 0
+base_max_hp = 8
+base_speed = 130.0
+base_knockback_force = 80.0
+base_crit_chance = 0.05
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("13_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("SubResource_hurtbox_shape")
+
+[node name="AbilityManager" type="Node" parent="."]
+script = ExtResource("17_am")
+abilities = [ExtResource("20_ms_data"), ExtResource("21_dr_data"), ExtResource("22_roa_data")]
+
+[node name="ItemEffectHandler" type="Node" parent="."]
+script = ExtResource("16_effects")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0

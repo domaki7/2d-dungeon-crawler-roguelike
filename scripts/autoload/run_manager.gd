@@ -6,9 +6,15 @@ var current_floor: int = 0
 var run_active: bool = false
 var run_stats: Dictionary = {}
 
+const PLAYER_SCENES: Dictionary = {
+	GameManager.PlayerClass.WARRIOR: "res://scenes/player/player.tscn",
+	GameManager.PlayerClass.RANGER: "res://scenes/player/player_ranger.tscn",
+}
+
 var _floor_configs: Array[FloorConfig] = []
 var _game_scene: PackedScene = preload("res://scenes/main/game.tscn")
 var _game_instance: Node = null
+var _selected_class: int = GameManager.PlayerClass.WARRIOR
 var _run_start_time: float = 0.0
 var _last_gold: int = 0
 
@@ -20,7 +26,8 @@ func _ready() -> void:
 	EventBus.room_cleared.connect(_on_room_cleared)
 	EventBus.gold_changed.connect(_on_gold_changed)
 
-func start_run() -> void:
+func start_run(player_class: int = GameManager.PlayerClass.WARRIOR) -> void:
+	_selected_class = player_class
 	current_floor = 0
 	run_active = true
 	_run_start_time = Time.get_ticks_msec() / 1000.0
@@ -33,6 +40,7 @@ func start_run() -> void:
 		"time_elapsed": 0.0,
 	}
 	_spawn_game_scene()
+	_spawn_player()
 	advance_floor()
 	EventBus.run_started.emit()
 
@@ -72,6 +80,12 @@ func _spawn_game_scene() -> void:
 	cleanup_game()
 	_game_instance = _game_scene.instantiate()
 	get_tree().root.add_child(_game_instance)
+
+func _spawn_player() -> void:
+	var scene_path: String = PLAYER_SCENES.get(_selected_class, PLAYER_SCENES[GameManager.PlayerClass.WARRIOR])
+	var player_scene: PackedScene = load(scene_path) as PackedScene
+	var player_node: CharacterBody2D = player_scene.instantiate() as CharacterBody2D
+	_game_instance.initialize_with_player(player_node)
 
 func _get_player() -> CharacterBody2D:
 	var players: Array[Node] = get_tree().get_nodes_in_group(&"player")

@@ -14,12 +14,13 @@ func _ready() -> void:
 	_owner_node = owner as CharacterBody2D
 	_player_stats = owner.get_node("PlayerStats") as PlayerStats
 	_health_component = owner.get_node("HealthComponent") as HealthComponent
-	_hitbox = owner.get_node("Hitbox") as Hitbox
+	_hitbox = owner.get_node_or_null("Hitbox") as Hitbox
 	_hurtbox = owner.get_node("Hurtbox") as Hurtbox
 	_initialized = true
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 	_hurtbox.hit_received.connect(_on_player_received_hit)
-	_hitbox.hit_landed.connect(_on_player_hit_landed)
+	if _hitbox:
+		_hitbox.hit_landed.connect(_on_player_hit_landed)
 	_health_component.health_changed.connect(_on_health_changed)
 
 func reset_for_run() -> void:
@@ -80,4 +81,5 @@ func _on_health_changed(_current_hp: int, _max_hp: int) -> void:
 	_refresh_damage()
 
 func _refresh_damage() -> void:
-	_hitbox.damage = _player_stats.get_effective_damage() + get_bonus_damage()
+	if _hitbox:
+		_hitbox.damage = _player_stats.get_effective_damage() + get_bonus_damage()

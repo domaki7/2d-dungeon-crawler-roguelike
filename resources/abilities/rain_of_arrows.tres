@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/abilities/ability_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ability_id = &"rain_of_arrows"
+display_name = "Rain of Arrows"
+description = "Call down a volley of arrows on a target area."
+cooldown = 10.0
+damage = 3
+knockback_force = 40.0
+aoe_radius = 24.0
+rain_delay = 0.4
+rain_duration = 0.6

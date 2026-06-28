@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/abilities/ability_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ability_id = &"multishot"
+display_name = "Multishot"
+description = "Fire a spread of arrows at enemies."
+cooldown = 5.0
+damage = 2
+knockback_force = 60.0
+arrow_count = 5
+spread_angle_degrees = 30.0
