@@ -77,7 +77,15 @@ After all questions are answered:
 Once the plan is approved, for each selected task:
 
 1. Implement the task following the approved plan and the project's architecture and conventions from CLAUDE.md
-2. After completing the task, immediately update `todo.md` by changing `- [ ]` to `- [x]` for that specific item
-3. Continue to the next selected task
+2. **Add all tunable values to `game_config_data.gd`:**
+   - Every hardcoded gameplay value (speed, duration, damage, range, cooldown, size, color, etc.) MUST be added as an `@export var` in `scripts/config/game_config_data.gd`
+   - Use the existing naming convention: `section_property_name` (e.g. `skeleton_speed`, `combat_hit_pause_duration`, `ui_damage_float_speed`)
+   - Group values under the appropriate `@export_group()` — create a new group if the feature doesn't fit an existing one
+   - Use `@export_subgroup()` for sub-categorization when a group has many related values (see Items section for examples)
+   - Add a `##` doc comment above each exported var explaining what it controls, including units (pixels, seconds, pixels/sec, etc.)
+   - Use the correct type (`int`, `float`, `Vector2`, `Color`, etc.) and set a sensible default value
+   - In the implementation scripts, read these values from `GameConfig.config.<property>` — never hardcode tunable numbers
+3. After completing the task, immediately update `todo.md` by changing `- [ ]` to `- [x]` for that specific item
+4. Continue to the next selected task
 
 After all selected tasks are done, give a brief summary of what was implemented.

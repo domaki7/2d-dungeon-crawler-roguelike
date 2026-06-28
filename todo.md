@@ -10,9 +10,9 @@ Core game is feature-complete (2 classes, 5 enemies, boss, shop, minimap, 3 floo
 
 Make existing attacks feel impactful. Creates VFX infrastructure reused by later phases.
 
-- [ ] **Parameterize hit feedback** — Add `@export` shake/pause values to `hitbox.gd` so each attack tunes its own feedback (boss slam ≠ slime poke). Update `hurtbox.gd` to use hitbox values instead of hardcoded `0.06` / `2.0, 0.15`
-- [ ] **Wire hit flash shader** — `shaders/hit_flash.gdshader` exists but is never used. Create `scripts/combat/vfx_helper.gd` with `apply_hit_flash()` and `spawn_particles_at()` static methods. Call from `hurtbox.gd` on every hit
-- [ ] **Particle effects** — Create `scenes/effects/` GPUParticles2D scenes: `hit_sparks.tscn`, `death_poof.tscn`, `crit_flash.tscn`. Spawn via VFXHelper
+- [x] **Parameterize hit feedback** — Add `@export` shake/pause values to `hitbox.gd` so each attack tunes its own feedback (boss slam ≠ slime poke). Update `hurtbox.gd` to use hitbox values instead of hardcoded `0.06` / `2.0, 0.15`
+- [x] **Wire hit flash shader** — `shaders/hit_flash.gdshader` exists but is never used. Create `scripts/combat/vfx_helper.gd` with `apply_hit_flash()` and `spawn_particles_at()` static methods. Call from `hurtbox.gd` on every hit
+- [x] **Particle effects** — Create `scenes/effects/` GPUParticles2D scenes: `hit_sparks.tscn`, `death_poof.tscn`, `crit_flash.tscn`. Spawn via VFXHelper
 - [ ] **Enemy death effects** — All `*_dead_state.gd` currently just set alpha 0.5 and queue_free. Change to: hit flash → death particles → tween scale down + fade → queue_free. Boss: bigger particles + shake
 - [ ] **Enemy attack telegraphing** — Add `@export var windup_duration` to enemy attack states. During windup: flash sprite, show telegraph indicator. Create `scenes/effects/telegraph_indicator.tscn`
 - [ ] **SFX pitch variation** — Add `play_sfx_varied(sfx_name, pitch_min, pitch_max)` to `audio_manager.gd`. Use for combat SFX

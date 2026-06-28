@@ -8,6 +8,11 @@ signal hit_landed(hurtbox: Hurtbox)
 @export var crit_chance: float = 0.0
 @export var stun_duration: float = 0.0
 
+@export_group("Hit Feedback")
+@export var screen_shake_intensity: float = -1.0
+@export var screen_shake_duration: float = -1.0
+@export var hit_pause_duration: float = -1.0
+
 var _hit_targets: Array[Node] = []
 
 func _ready() -> void:

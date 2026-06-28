@@ -7,16 +7,9 @@ var _stun_timer: float = 0.0
 
 func enter() -> void:
 	_stun_timer = stun_duration
-	var material: ShaderMaterial = player.animated_sprite.material as ShaderMaterial
-	if material:
-		material.set_shader_parameter("flash_intensity", 1.0)
-		var tween: Tween = player.create_tween()
-		tween.tween_property(material, "shader_parameter/flash_intensity", 0.0, 0.15)
 
 func exit() -> void:
-	var material: ShaderMaterial = player.animated_sprite.material as ShaderMaterial
-	if material:
-		material.set_shader_parameter("flash_intensity", 0.0)
+	pass
 
 func physics_process_state(delta: float) -> void:
 	player.velocity = player.knockback_component.knockback_velocity

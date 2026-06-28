@@ -25,6 +25,7 @@ RunManager="*res://scripts/autoload/run_manager.gd"
 GameManager="*res://scripts/autoload/game_manager.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 GameConfig="*res://scripts/autoload/game_config.gd"
+VFXHelper="*res://scripts/autoload/vfx_helper.gd"
 
 [display]
 

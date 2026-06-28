@@ -22,11 +22,12 @@ func _process(delta: float) -> void:
 			if _camera:
 				_camera.offset = Vector2.ZERO
 
-func calculate_damage(base_damage: int, defense: int = 0, crit_chance: float = 0.0) -> int:
+func calculate_damage(base_damage: int, defense: int = 0, crit_chance: float = 0.0) -> Dictionary:
 	var damage: int = maxi(1, base_damage - defense)
-	if crit_chance > 0.0 and randf() < crit_chance:
+	var is_crit: bool = crit_chance > 0.0 and randf() < crit_chance
+	if is_crit:
 		damage *= GameConfig.config.combat_crit_multiplier
-	return damage
+	return {"damage": damage, "is_crit": is_crit}
 
 func apply_hit_pause(real_duration: float) -> void:
 	Engine.time_scale = 0.05

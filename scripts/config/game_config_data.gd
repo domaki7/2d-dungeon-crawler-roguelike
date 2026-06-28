@@ -423,6 +423,12 @@ extends Resource
 # UI / VISUAL EFFECTS
 # =============================================================================
 
+@export_group("VFX")
+
+## Duration of the white hit flash on damaged entities (seconds)
+@export var vfx_hit_flash_duration: float = 0.15
+
+
 @export_group("UI - Damage Numbers")
 
 ## How fast damage numbers float upward (pixels/sec)
