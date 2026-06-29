@@ -2,6 +2,7 @@ extends Control
 
 var _main_vbox: VBoxContainer
 var _class_select_container: Control
+var _settings_container: Control
 
 func _ready() -> void:
 	size = get_viewport().get_visible_rect().size
@@ -53,6 +54,12 @@ func _build_ui() -> void:
 	unlocks_btn.add_theme_font_size_override("font_size", 8)
 	unlocks_btn.pressed.connect(_on_unlocks_pressed)
 	_main_vbox.add_child(unlocks_btn)
+
+	var settings_btn: Button = Button.new()
+	settings_btn.text = "Settings"
+	settings_btn.add_theme_font_size_override("font_size", 8)
+	settings_btn.pressed.connect(_on_settings_pressed)
+	_main_vbox.add_child(settings_btn)
 
 	var quit_btn: Button = Button.new()
 	quit_btn.text = "Quit"
@@ -187,8 +194,58 @@ func _create_class_button(class_name_text: String, desc: String, stats: String, 
 
 	return btn
 
+func _on_settings_pressed() -> void:
+	_show_settings()
+
 func _on_back_from_class_select() -> void:
 	if _class_select_container:
 		_class_select_container.queue_free()
 		_class_select_container = null
+	_main_vbox.visible = true
+
+func _show_settings() -> void:
+	_main_vbox.visible = false
+
+	_settings_container = Control.new()
+	_settings_container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(_settings_container)
+
+	var center: CenterContainer = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_settings_container.add_child(center)
+
+	var vbox: VBoxContainer = VBoxContainer.new()
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_theme_constant_override("separation", 8)
+	center.add_child(vbox)
+
+	var header: Label = Label.new()
+	header.text = "SETTINGS"
+	header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	header.add_theme_font_size_override("font_size", 10)
+	header.add_theme_color_override("font_color", Color(0.9, 0.8, 0.5))
+	vbox.add_child(header)
+
+	var spacer: Control = Control.new()
+	spacer.custom_minimum_size = Vector2(0, 4)
+	vbox.add_child(spacer)
+
+	var settings_scene: PackedScene = preload("res://scenes/ui/settings_panel.tscn")
+	var settings_panel: VBoxContainer = settings_scene.instantiate() as VBoxContainer
+	vbox.add_child(settings_panel)
+
+	var spacer2: Control = Control.new()
+	spacer2.custom_minimum_size = Vector2(0, 4)
+	vbox.add_child(spacer2)
+
+	var back_btn: Button = Button.new()
+	back_btn.text = "Back"
+	back_btn.add_theme_font_size_override("font_size", 7)
+	back_btn.pressed.connect(_on_back_from_settings)
+	vbox.add_child(back_btn)
+
+func _on_back_from_settings() -> void:
+	if _settings_container:
+		_settings_container.queue_free()
+		_settings_container = null
 	_main_vbox.visible = true

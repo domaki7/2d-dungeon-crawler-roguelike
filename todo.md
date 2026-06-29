@@ -71,6 +71,7 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Inventory stat comparison** — Show stat diff vs equipped item (green +, red -) in `inventory_ui.gd`
 - [x] **Shop comparison** — Show equipped item comparison alongside shop item stats in `shop_ui.gd`
 - [x] **Ability cooldown polish** — Radial cooldown overlay or countdown number in `ability_slot.gd`
+- [x] **Title screen settings** — Add a "Settings" button to the title screen that opens volume/fullscreen/shake options, so players can configure before starting a run
 
 ## Enemy AI & Behavior
 

@@ -669,12 +669,12 @@ extends Resource
 ## Tint color applied to the player during War Cry buff
 @export var ui_war_cry_buff_color: Color = Color(1.2, 1.1, 0.8, 1.0)
 
-@export_group("UI - Pause Menu")
+@export_group("UI - Settings")
 
-## Minimum volume for pause menu sliders (decibels)
-@export var ui_pause_volume_min_db: float = -20.0
-## Maximum volume for pause menu sliders (decibels)
-@export var ui_pause_volume_max_db: float = 0.0
+## Minimum volume for settings sliders (decibels)
+@export var ui_settings_volume_min_db: float = -20.0
+## Maximum volume for settings sliders (decibels)
+@export var ui_settings_volume_max_db: float = 0.0
 
 @export_group("UI - Stat Comparison")
 
