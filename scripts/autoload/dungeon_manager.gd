@@ -81,6 +81,26 @@ func get_difficulty_multiplier() -> float:
 		return _current_config.enemy_difficulty_multiplier
 	return 1.0
 
+func get_speed_multiplier() -> float:
+	if _current_config:
+		return _current_config.enemy_speed_multiplier
+	return 1.0
+
+func get_elite_chance() -> float:
+	if _current_config:
+		return _current_config.elite_chance
+	return 0.0
+
+func get_gold_multiplier() -> float:
+	if _current_config:
+		return _current_config.gold_multiplier
+	return 1.0
+
+func get_enemy_pool() -> Array[PackedScene]:
+	if _current_config:
+		return _current_config.enemy_pool
+	return []
+
 func is_final_room(room_id: int) -> bool:
 	var room_data: Dictionary = _floor_graph.get(room_id, {})
 	return room_data.get("is_final", false)

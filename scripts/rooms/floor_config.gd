@@ -26,3 +26,9 @@ extends Resource
 
 @export_group("Difficulty")
 @export var enemy_difficulty_multiplier: float = 1.0
+@export var enemy_speed_multiplier: float = 1.0
+@export_range(0.0, 1.0) var elite_chance: float = 0.0
+@export var gold_multiplier: float = 1.0
+
+@export_group("Enemy Pool")
+@export var enemy_pool: Array[PackedScene] = []

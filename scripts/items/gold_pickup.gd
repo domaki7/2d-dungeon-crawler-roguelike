@@ -1,7 +1,9 @@
 extends Area2D
 
+var gold_multiplier: float = 1.0
+
 var gold_value: int:
-	get: return GameConfig.config.economy_gold_pickup_value
+	get: return maxi(1, int(GameConfig.config.economy_gold_pickup_value * gold_multiplier))
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

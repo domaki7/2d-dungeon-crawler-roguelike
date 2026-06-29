@@ -50,12 +50,12 @@ Currently `_build_floor_graph()` creates a strict N→S linear chain. Need prope
 
 Runs too short/easy, difficulty doesn't ramp, items feel like stat-sticks.
 
-- [ ] **Expand FloorConfig** — Add `enemy_speed_multiplier`, `enemy_pool: Array[PackedScene]`, `elite_chance`, `gold_multiplier` to `floor_config.gd`
-- [ ] **Apply speed scaling** — `room_template.gd` `_populate_enemies()` currently only scales HP/damage. Add speed scaling
-- [ ] **Elite enemies** — Create `scripts/combat/elite_modifier.gd` (Node): 2x HP, 1.5x damage, 1.2x speed, status effect on hitbox, visual tint. Roll for elite chance per spawn in `room_template.gd`
-- [ ] **Floor-specific enemy pools** — Add `@export var use_floor_pool: bool` to `spawn_point.gd`. Floor 1: slime + skeleton. Floor 2: add bat + archer. Floor 3: all + elites
-- [ ] **Extend run length** — Add `floor_4.tres`, `floor_5.tres`. Change `max_floors` from 3 to 5 in `run_manager.gd`
-- [ ] **Item impact** — Widen stat gaps between COMMON/UNCOMMON/RARE tiers. Rare items should feel game-changing
+- [x] **Expand FloorConfig** — Add `enemy_speed_multiplier`, `enemy_pool: Array[PackedScene]`, `elite_chance`, `gold_multiplier` to `floor_config.gd`
+- [x] **Apply speed scaling** — `room_template.gd` `_populate_enemies()` currently only scales HP/damage. Add speed scaling
+- [x] **Elite enemies** — Create `scripts/combat/elite_modifier.gd` (Node): 2x HP, 1.5x damage, 1.2x speed, status effect on hitbox, visual tint. Roll for elite chance per spawn in `room_template.gd`
+- [x] **Floor-specific enemy pools** — Add `@export var use_floor_pool: bool` to `spawn_point.gd`. Floor 1: slime + skeleton. Floor 2: add bat + archer. Floor 3: all + elites
+- [x] **Extend run length** — Add `floor_4.tres`, `floor_5.tres`. Change `max_floors` from 3 to 5 in `run_manager.gd`
+- [x] **Item impact** — Widen stat gaps between COMMON/UNCOMMON/RARE tiers. Rare items should feel game-changing
 
 ## Phase 5: Meta-Progression Wiring
 

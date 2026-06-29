@@ -2,9 +2,13 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
+var difficulty_speed_multiplier: float = 1.0
+var is_elite: bool = false
+var gold_multiplier: float = 1.0
+
 var speed: float:
 	get:
-		var base: float = GameConfig.config.skeleton_speed
+		var base: float = GameConfig.config.skeleton_speed * difficulty_speed_multiplier
 		if status_effect_component:
 			return base * status_effect_component.get_speed_multiplier()
 		return base

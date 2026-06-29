@@ -478,6 +478,45 @@ extends Resource
 
 
 # =============================================================================
+# ELITE ENEMIES
+# =============================================================================
+
+@export_group("Elite Enemies - Stat Scaling")
+
+## HP multiplier for elite enemies (2.0 = double HP)
+@export var elite_hp_multiplier: float = 2.0
+## Damage multiplier for elite enemies (1.5 = 50% more damage)
+@export var elite_damage_multiplier: float = 1.5
+## Speed multiplier for elite enemies (1.2 = 20% faster)
+@export var elite_speed_multiplier: float = 1.2
+
+@export_group("Elite Enemies - Visuals")
+
+## Scale multiplier for elite enemy sprites
+@export var elite_scale: float = 1.3
+## Tint color applied to elite enemy sprites
+@export var elite_tint_color: Color = Color(1.0, 0.3, 0.3, 1.0)
+
+@export_group("Elite Enemies - Loot")
+
+## Drop chance for elite enemy item drops (1.0 = guaranteed)
+@export var elite_guaranteed_drop_chance: float = 1.0
+## Number of extra gold pickups dropped by elite enemies
+@export var elite_bonus_gold_drops: int = 2
+
+@export_group("Elite Enemies - Status Effects")
+
+## Duration of SLOW applied by elite skeletons (seconds)
+@export var elite_skeleton_status_duration: float = 2.0
+## Duration of POISON applied by elite slimes (seconds)
+@export var elite_slime_status_duration: float = 3.0
+## Duration of BURN applied by elite bats (seconds)
+@export var elite_bat_status_duration: float = 2.0
+## Duration of FREEZE applied by elite archers (seconds)
+@export var elite_archer_status_duration: float = 2.5
+
+
+# =============================================================================
 # DUNGEON
 # =============================================================================
 
@@ -489,7 +528,7 @@ extends Resource
 @export_group("Dungeon - Floors")
 
 ## Total number of floors in a run
-@export var dungeon_max_floors: int = 3
+@export var dungeon_max_floors: int = 5
 
 @export_group("Dungeon - Branching")
 
@@ -627,28 +666,28 @@ extends Resource
 @export var iron_sword_sell_price: int = 5
 
 @export_subgroup("Steel Greatsword")
-@export var steel_greatsword_bonus_damage: int = 4
+@export var steel_greatsword_bonus_damage: int = 5
 @export var steel_greatsword_bonus_defense: int = 0
 @export var steel_greatsword_bonus_max_hp: int = 0
 ## Negative value = slower movement
 @export var steel_greatsword_bonus_speed: float = -10.0
-@export var steel_greatsword_bonus_knockback_force: float = 50.0
+@export var steel_greatsword_bonus_knockback_force: float = 80.0
 @export var steel_greatsword_bonus_crit_chance: float = 0.0
 @export var steel_greatsword_effect_value: float = 0.0
-@export var steel_greatsword_buy_price: int = 25
-@export var steel_greatsword_sell_price: int = 8
+@export var steel_greatsword_buy_price: int = 35
+@export var steel_greatsword_sell_price: int = 12
 
 @export_subgroup("Ember Blade")
-@export var ember_blade_bonus_damage: int = 3
+@export var ember_blade_bonus_damage: int = 6
 @export var ember_blade_bonus_defense: int = 0
 @export var ember_blade_bonus_max_hp: int = 0
 @export var ember_blade_bonus_speed: float = 0.0
 @export var ember_blade_bonus_knockback_force: float = 0.0
-@export var ember_blade_bonus_crit_chance: float = 0.0
+@export var ember_blade_bonus_crit_chance: float = 0.1
 ## Burn damage per tick
-@export var ember_blade_effect_value: float = 2.0
-@export var ember_blade_buy_price: int = 40
-@export var ember_blade_sell_price: int = 15
+@export var ember_blade_effect_value: float = 3.0
+@export var ember_blade_buy_price: int = 60
+@export var ember_blade_sell_price: int = 22
 
 @export_subgroup("Short Bow")
 @export var short_bow_bonus_damage: int = 1
@@ -662,26 +701,26 @@ extends Resource
 @export var short_bow_sell_price: int = 4
 
 @export_subgroup("Longbow")
-@export var longbow_bonus_damage: int = 3
+@export var longbow_bonus_damage: int = 4
 @export var longbow_bonus_defense: int = 0
 @export var longbow_bonus_max_hp: int = 0
 @export var longbow_bonus_speed: float = 0.0
-@export var longbow_bonus_knockback_force: float = 30.0
+@export var longbow_bonus_knockback_force: float = 50.0
 @export var longbow_bonus_crit_chance: float = 0.0
 @export var longbow_effect_value: float = 0.0
-@export var longbow_buy_price: int = 25
-@export var longbow_sell_price: int = 10
+@export var longbow_buy_price: int = 35
+@export var longbow_sell_price: int = 12
 
 @export_subgroup("Shadow Bow")
-@export var shadow_bow_bonus_damage: int = 2
+@export var shadow_bow_bonus_damage: int = 5
 @export var shadow_bow_bonus_defense: int = 0
 @export var shadow_bow_bonus_max_hp: int = 0
 @export var shadow_bow_bonus_speed: float = 0.0
 @export var shadow_bow_bonus_knockback_force: float = 0.0
-@export var shadow_bow_bonus_crit_chance: float = 0.15
+@export var shadow_bow_bonus_crit_chance: float = 0.25
 @export var shadow_bow_effect_value: float = 0.0
-@export var shadow_bow_buy_price: int = 40
-@export var shadow_bow_sell_price: int = 18
+@export var shadow_bow_buy_price: int = 65
+@export var shadow_bow_sell_price: int = 25
 
 @export_group("Items - Armor")
 
@@ -698,40 +737,40 @@ extends Resource
 
 @export_subgroup("Chainmail")
 @export var chainmail_bonus_damage: int = 0
-@export var chainmail_bonus_defense: int = 3
-@export var chainmail_bonus_max_hp: int = 0
+@export var chainmail_bonus_defense: int = 4
+@export var chainmail_bonus_max_hp: int = 5
 ## Negative value = slower movement
 @export var chainmail_bonus_speed: float = -15.0
 @export var chainmail_bonus_knockback_force: float = 0.0
 @export var chainmail_bonus_crit_chance: float = 0.0
 @export var chainmail_effect_value: float = 0.0
-@export var chainmail_buy_price: int = 30
-@export var chainmail_sell_price: int = 10
+@export var chainmail_buy_price: int = 35
+@export var chainmail_sell_price: int = 12
 
 @export_subgroup("Thorn Vest")
 @export var thorn_vest_bonus_damage: int = 0
-@export var thorn_vest_bonus_defense: int = 1
-@export var thorn_vest_bonus_max_hp: int = 0
+@export var thorn_vest_bonus_defense: int = 3
+@export var thorn_vest_bonus_max_hp: int = 5
 @export var thorn_vest_bonus_speed: float = 0.0
 @export var thorn_vest_bonus_knockback_force: float = 0.0
 @export var thorn_vest_bonus_crit_chance: float = 0.0
 ## Thorn reflect damage
-@export var thorn_vest_effect_value: float = 1.0
-@export var thorn_vest_buy_price: int = 35
-@export var thorn_vest_sell_price: int = 12
+@export var thorn_vest_effect_value: float = 2.0
+@export var thorn_vest_buy_price: int = 60
+@export var thorn_vest_sell_price: int = 22
 
 @export_group("Items - Rings")
 
 @export_subgroup("Ring of Vitality")
 @export var ring_of_vitality_bonus_damage: int = 0
-@export var ring_of_vitality_bonus_defense: int = 0
-@export var ring_of_vitality_bonus_max_hp: int = 3
+@export var ring_of_vitality_bonus_defense: int = 1
+@export var ring_of_vitality_bonus_max_hp: int = 5
 @export var ring_of_vitality_bonus_speed: float = 0.0
 @export var ring_of_vitality_bonus_knockback_force: float = 0.0
 @export var ring_of_vitality_bonus_crit_chance: float = 0.0
 @export var ring_of_vitality_effect_value: float = 0.0
-@export var ring_of_vitality_buy_price: int = 25
-@export var ring_of_vitality_sell_price: int = 8
+@export var ring_of_vitality_buy_price: int = 30
+@export var ring_of_vitality_sell_price: int = 10
 
 @export_subgroup("Ring of Haste")
 @export var ring_of_haste_bonus_damage: int = 0
@@ -745,65 +784,65 @@ extends Resource
 @export var ring_of_haste_sell_price: int = 5
 
 @export_subgroup("Berserker Band")
-@export var berserker_band_bonus_damage: int = 1
+@export var berserker_band_bonus_damage: int = 3
 @export var berserker_band_bonus_defense: int = 0
 @export var berserker_band_bonus_max_hp: int = 0
 @export var berserker_band_bonus_speed: float = 0.0
 @export var berserker_band_bonus_knockback_force: float = 0.0
-@export var berserker_band_bonus_crit_chance: float = 0.15
+@export var berserker_band_bonus_crit_chance: float = 0.25
 ## Bonus damage when below half HP
-@export var berserker_band_effect_value: float = 3.0
-@export var berserker_band_buy_price: int = 40
-@export var berserker_band_sell_price: int = 15
+@export var berserker_band_effect_value: float = 5.0
+@export var berserker_band_buy_price: int = 65
+@export var berserker_band_sell_price: int = 25
 
 @export_group("Items - Accessories")
 
 @export_subgroup("Vampire Pendant")
 @export var vampire_pendant_bonus_damage: int = 0
-@export var vampire_pendant_bonus_defense: int = 0
+@export var vampire_pendant_bonus_defense: int = 1
 @export var vampire_pendant_bonus_max_hp: int = 0
 @export var vampire_pendant_bonus_speed: float = 0.0
 @export var vampire_pendant_bonus_knockback_force: float = 0.0
 @export var vampire_pendant_bonus_crit_chance: float = 0.0
 ## HP healed per kill
-@export var vampire_pendant_effect_value: float = 1.0
-@export var vampire_pendant_buy_price: int = 30
-@export var vampire_pendant_sell_price: int = 10
+@export var vampire_pendant_effect_value: float = 2.0
+@export var vampire_pendant_buy_price: int = 35
+@export var vampire_pendant_sell_price: int = 12
 
 @export_subgroup("Lucky Coin")
-@export var lucky_coin_bonus_damage: int = 0
+@export var lucky_coin_bonus_damage: int = 1
 @export var lucky_coin_bonus_defense: int = 0
 @export var lucky_coin_bonus_max_hp: int = 0
 @export var lucky_coin_bonus_speed: float = 0.0
 @export var lucky_coin_bonus_knockback_force: float = 0.0
 @export var lucky_coin_bonus_crit_chance: float = 0.0
 ## Extra gold dropped per kill
-@export var lucky_coin_effect_value: float = 2.0
-@export var lucky_coin_buy_price: int = 20
-@export var lucky_coin_sell_price: int = 7
+@export var lucky_coin_effect_value: float = 3.0
+@export var lucky_coin_buy_price: int = 30
+@export var lucky_coin_sell_price: int = 10
 
 @export_subgroup("Guardian Idol")
 @export var guardian_idol_bonus_damage: int = 0
-@export var guardian_idol_bonus_defense: int = 0
-@export var guardian_idol_bonus_max_hp: int = 2
+@export var guardian_idol_bonus_defense: int = 2
+@export var guardian_idol_bonus_max_hp: int = 5
 @export var guardian_idol_bonus_speed: float = 0.0
 @export var guardian_idol_bonus_knockback_force: float = 0.0
 @export var guardian_idol_bonus_crit_chance: float = 0.0
 ## HP restored on revive
-@export var guardian_idol_effect_value: float = 5.0
-@export var guardian_idol_buy_price: int = 50
-@export var guardian_idol_sell_price: int = 18
+@export var guardian_idol_effect_value: float = 8.0
+@export var guardian_idol_buy_price: int = 75
+@export var guardian_idol_sell_price: int = 28
 
 @export_subgroup("Quiver of Speed")
-@export var quiver_of_speed_bonus_damage: int = 1
+@export var quiver_of_speed_bonus_damage: int = 2
 @export var quiver_of_speed_bonus_defense: int = 0
 @export var quiver_of_speed_bonus_max_hp: int = 0
-@export var quiver_of_speed_bonus_speed: float = 20.0
+@export var quiver_of_speed_bonus_speed: float = 25.0
 @export var quiver_of_speed_bonus_knockback_force: float = 0.0
 @export var quiver_of_speed_bonus_crit_chance: float = 0.0
 @export var quiver_of_speed_effect_value: float = 0.0
-@export var quiver_of_speed_buy_price: int = 20
-@export var quiver_of_speed_sell_price: int = 8
+@export var quiver_of_speed_buy_price: int = 30
+@export var quiver_of_speed_sell_price: int = 10
 
 
 # =============================================================================

@@ -6,6 +6,7 @@ enum SpawnType { SKELETON, SLIME, BAT, BOSS, GOLD, CHEST }
 @export var spawn_type: SpawnType = SpawnType.SKELETON
 @export_range(0.0, 1.0) var spawn_chance: float = 1.0
 @export var spawn_scene: PackedScene
+@export var use_floor_pool: bool = false
 
 func should_spawn() -> bool:
 	return randf() <= spawn_chance

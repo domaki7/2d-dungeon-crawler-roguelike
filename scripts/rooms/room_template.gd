@@ -69,10 +69,19 @@ func _connect_doors() -> void:
 
 func _populate_enemies() -> void:
 	var multiplier: float = DungeonManager.get_difficulty_multiplier()
+	var speed_mult: float = DungeonManager.get_speed_multiplier()
+	var elite_chance: float = DungeonManager.get_elite_chance()
+	var gold_mult: float = DungeonManager.get_gold_multiplier()
+	var enemy_pool: Array[PackedScene] = DungeonManager.get_enemy_pool()
+
 	for sp_node: Node in spawn_points_container.get_children():
 		var sp: SpawnPoint = sp_node as SpawnPoint
 		if sp == null:
 			continue
+
+		if sp.use_floor_pool and not enemy_pool.is_empty():
+			sp.spawn_scene = enemy_pool.pick_random()
+
 		var enemy: Node2D = sp.spawn()
 		if enemy:
 			add_child(enemy)
@@ -87,6 +96,14 @@ func _populate_enemies() -> void:
 				var hitbox: Hitbox = enemy.get_node("Hitbox") as Hitbox
 				if hitbox:
 					hitbox.damage = maxi(1, int(float(hitbox.damage) * multiplier))
+
+			if "difficulty_speed_multiplier" in enemy:
+				enemy.difficulty_speed_multiplier = speed_mult
+			if "gold_multiplier" in enemy:
+				enemy.gold_multiplier = gold_mult
+
+			if elite_chance > 0.0 and randf() < elite_chance and sp.spawn_type != SpawnPoint.SpawnType.BOSS:
+				EliteModifier.apply(enemy, sp.spawn_type)
 
 func _lock_all_doors() -> void:
 	for door_node: Node in doors_container.get_children():

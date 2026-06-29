@@ -7,6 +7,12 @@ extends Resource
 func roll() -> ItemData:
 	if randf() > drop_chance:
 		return null
+	return _roll_from_entries()
+
+func roll_guaranteed() -> ItemData:
+	return _roll_from_entries()
+
+func _roll_from_entries() -> ItemData:
 	if entries.is_empty():
 		return null
 	var total_weight: float = 0.0

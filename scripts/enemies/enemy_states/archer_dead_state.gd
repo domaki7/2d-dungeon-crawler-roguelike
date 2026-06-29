@@ -30,10 +30,17 @@ func enter() -> void:
 func _spawn_drops() -> void:
 	if gold_drop_scene:
 		var gold: Area2D = gold_drop_scene.instantiate() as Area2D
+		gold.gold_multiplier = enemy.gold_multiplier
 		gold.global_position = enemy.global_position
 		enemy.get_parent().add_child(gold)
+	if enemy.is_elite and gold_drop_scene:
+		for i: int in range(GameConfig.config.elite_bonus_gold_drops):
+			var bonus_gold: Area2D = gold_drop_scene.instantiate() as Area2D
+			bonus_gold.gold_multiplier = enemy.gold_multiplier
+			bonus_gold.global_position = enemy.global_position + Vector2(randf_range(-12.0, 12.0), randf_range(-12.0, 12.0))
+			enemy.get_parent().add_child(bonus_gold)
 	if loot_table and item_pickup_scene:
-		var item: ItemData = loot_table.roll()
+		var item: ItemData = loot_table.roll_guaranteed() if enemy.is_elite else loot_table.roll()
 		if item:
 			var pickup: Node2D = item_pickup_scene.instantiate() as Node2D
 			pickup.item_data = item
