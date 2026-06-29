@@ -17,6 +17,8 @@ var _slot_labels: Array[Label] = []
 var _tooltip_name: Label
 var _tooltip_stats: Label
 var _tooltip_effect: Label
+var _total_header: Label
+var _total_stats: Label
 var _panel: PanelContainer
 
 func _ready() -> void:
@@ -63,8 +65,8 @@ func _build_ui() -> void:
 
 	_panel = PanelContainer.new()
 	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.custom_minimum_size = Vector2(200, 180)
-	_panel.position = Vector2(-100, -90)
+	_panel.custom_minimum_size = Vector2(260, 190)
+	_panel.position = Vector2(-130, -95)
 	var panel_style: StyleBoxFlat = StyleBoxFlat.new()
 	panel_style.bg_color = Color(0.1, 0.08, 0.15, 0.95)
 	panel_style.border_color = Color(0.4, 0.35, 0.5)
@@ -127,32 +129,57 @@ func _build_ui() -> void:
 	var sep2: HSeparator = HSeparator.new()
 	main_vbox.add_child(sep2)
 
-	var tooltip_panel: PanelContainer = PanelContainer.new()
-	var tp_style: StyleBoxFlat = StyleBoxFlat.new()
-	tp_style.bg_color = Color(0.08, 0.06, 0.12)
-	tp_style.set_content_margin_all(4)
-	tooltip_panel.add_theme_stylebox_override("panel", tp_style)
-	tooltip_panel.custom_minimum_size.y = 40
-	main_vbox.add_child(tooltip_panel)
+	var tooltip_hbox: HBoxContainer = HBoxContainer.new()
+	tooltip_hbox.add_theme_constant_override("separation", 4)
+	main_vbox.add_child(tooltip_hbox)
 
-	var tooltip_vbox: VBoxContainer = VBoxContainer.new()
-	tooltip_vbox.add_theme_constant_override("separation", 2)
-	tooltip_panel.add_child(tooltip_vbox)
+	var left_panel: PanelContainer = _create_tooltip_panel()
+	tooltip_hbox.add_child(left_panel)
+	var left_vbox: VBoxContainer = VBoxContainer.new()
+	left_vbox.add_theme_constant_override("separation", 2)
+	left_panel.add_child(left_vbox)
 
 	_tooltip_name = Label.new()
 	_tooltip_name.add_theme_font_size_override("font_size", 8)
 	_tooltip_name.add_theme_color_override("font_color", Color.WHITE)
-	tooltip_vbox.add_child(_tooltip_name)
+	left_vbox.add_child(_tooltip_name)
 
 	_tooltip_stats = Label.new()
 	_tooltip_stats.add_theme_font_size_override("font_size", 7)
 	_tooltip_stats.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
-	tooltip_vbox.add_child(_tooltip_stats)
+	left_vbox.add_child(_tooltip_stats)
 
 	_tooltip_effect = Label.new()
 	_tooltip_effect.add_theme_font_size_override("font_size", 7)
 	_tooltip_effect.add_theme_color_override("font_color", Color(0.4, 0.8, 0.4))
-	tooltip_vbox.add_child(_tooltip_effect)
+	left_vbox.add_child(_tooltip_effect)
+
+	var right_panel: PanelContainer = _create_tooltip_panel()
+	tooltip_hbox.add_child(right_panel)
+	var right_vbox: VBoxContainer = VBoxContainer.new()
+	right_vbox.add_theme_constant_override("separation", 2)
+	right_panel.add_child(right_vbox)
+
+	_total_header = Label.new()
+	_total_header.text = "Total Equipment"
+	_total_header.add_theme_font_size_override("font_size", 8)
+	_total_header.add_theme_color_override("font_color", Color(0.7, 0.65, 0.9))
+	right_vbox.add_child(_total_header)
+
+	_total_stats = Label.new()
+	_total_stats.add_theme_font_size_override("font_size", 7)
+	_total_stats.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
+	right_vbox.add_child(_total_stats)
+
+func _create_tooltip_panel() -> PanelContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.06, 0.12)
+	style.set_content_margin_all(4)
+	panel.add_theme_stylebox_override("panel", style)
+	panel.custom_minimum_size = Vector2(115, 40)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return panel
 
 func _refresh_slots() -> void:
 	if _player_stats == null:
@@ -178,6 +205,7 @@ func _select_slot(index: int) -> void:
 			style.border_color = Color(0.3, 0.25, 0.4)
 	_selected_index = index
 	_update_tooltip()
+	_update_total_stats()
 
 func _update_tooltip() -> void:
 	if _player_stats == null:
@@ -191,26 +219,65 @@ func _update_tooltip() -> void:
 	var rarity_color: Color = RARITY_COLORS.get(item.rarity as int, Color.WHITE)
 	_tooltip_name.add_theme_color_override("font_color", rarity_color)
 	_tooltip_name.text = item.display_name
-	var stats_parts: Array[String] = []
-	if item.bonus_damage != 0:
-		stats_parts.append("+%d Damage" % item.bonus_damage)
-	if item.bonus_defense != 0:
-		stats_parts.append("+%d Defense" % item.bonus_defense)
-	if item.bonus_max_hp != 0:
-		stats_parts.append("+%d Max HP" % item.bonus_max_hp)
-	if item.bonus_speed != 0.0:
-		stats_parts.append("+%.0f Speed" % item.bonus_speed)
-	if item.bonus_knockback_force != 0.0:
-		stats_parts.append("+%.0f Knockback" % item.bonus_knockback_force)
-	if item.bonus_crit_chance != 0.0:
-		stats_parts.append("+%.0f%% Crit" % (item.bonus_crit_chance * 100.0))
-	_tooltip_stats.text = ", ".join(stats_parts) if not stats_parts.is_empty() else "No stat bonuses"
+	_tooltip_stats.text = _format_item_stats(item)
 	if item.effect_id != &"":
 		_tooltip_effect.text = item.description
 	else:
 		_tooltip_effect.text = ""
 
+func _update_total_stats() -> void:
+	if _player_stats == null:
+		_total_stats.text = "No data"
+		return
+	var total_damage: int = 0
+	var total_defense: int = 0
+	var total_max_hp: int = 0
+	var total_speed: float = 0.0
+	var total_knockback: float = 0.0
+	var total_crit: float = 0.0
+	for slot_type: int in SLOT_TYPES:
+		var item: ItemData = _player_stats.get_equipped(slot_type as ItemData.SlotType)
+		if item == null:
+			continue
+		total_damage += item.bonus_damage
+		total_defense += item.bonus_defense
+		total_max_hp += item.bonus_max_hp
+		total_speed += item.bonus_speed
+		total_knockback += item.bonus_knockback_force
+		total_crit += item.bonus_crit_chance
+	var parts: Array[String] = []
+	if total_damage != 0:
+		parts.append("+%d Dmg" % total_damage)
+	if total_defense != 0:
+		parts.append("+%d Def" % total_defense)
+	if total_max_hp != 0:
+		parts.append("+%d HP" % total_max_hp)
+	if total_speed != 0.0:
+		parts.append("%+.0f Spd" % total_speed)
+	if total_knockback != 0.0:
+		parts.append("+%.0f KB" % total_knockback)
+	if total_crit != 0.0:
+		parts.append("+%.0f%% Crit" % (total_crit * 100.0))
+	_total_stats.text = "\n".join(parts) if not parts.is_empty() else "No bonuses"
+
+func _format_item_stats(item: ItemData) -> String:
+	var parts: Array[String] = []
+	if item.bonus_damage != 0:
+		parts.append("+%d Damage" % item.bonus_damage)
+	if item.bonus_defense != 0:
+		parts.append("+%d Defense" % item.bonus_defense)
+	if item.bonus_max_hp != 0:
+		parts.append("+%d Max HP" % item.bonus_max_hp)
+	if item.bonus_speed != 0.0:
+		parts.append("+%.0f Speed" % item.bonus_speed)
+	if item.bonus_knockback_force != 0.0:
+		parts.append("+%.0f Knockback" % item.bonus_knockback_force)
+	if item.bonus_crit_chance != 0.0:
+		parts.append("+%.0f%% Crit" % (item.bonus_crit_chance * 100.0))
+	return "\n".join(parts) if not parts.is_empty() else "No stat bonuses"
+
 func _on_equipment_changed(_slot_type: int, _item_data: ItemData) -> void:
 	if _is_open:
 		_refresh_slots()
 		_update_tooltip()
+		_update_total_stats()

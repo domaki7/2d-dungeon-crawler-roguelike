@@ -12,9 +12,16 @@ var lifetime_stats: Dictionary = {
 	"total_kills": 0,
 	"total_gold_earned": 0,
 }
+var settings: Dictionary = {
+	"sfx_volume_db": -5.0,
+	"music_volume_db": -10.0,
+	"fullscreen": false,
+	"screen_shake_enabled": true,
+}
 
 func _ready() -> void:
 	load_data()
+	_apply_settings()
 
 func save() -> void:
 	var data: Dictionary = {
@@ -23,6 +30,7 @@ func save() -> void:
 		"unlocked_items": _string_name_array_to_strings(unlocked_items),
 		"unlocked_abilities": _string_name_array_to_strings(unlocked_abilities),
 		"lifetime_stats": lifetime_stats,
+		"settings": settings,
 	}
 	var json_string: String = JSON.stringify(data, "\t")
 	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -74,6 +82,24 @@ func update_lifetime_stats(run_stats: Dictionary) -> void:
 	if floors_cleared > lifetime_stats.get("best_floor", 0):
 		lifetime_stats.best_floor = floors_cleared
 
+func get_setting(key: String, default_value: Variant = null) -> Variant:
+	return settings.get(key, default_value)
+
+func set_setting(key: String, value: Variant) -> void:
+	settings[key] = value
+	save()
+
+func _apply_settings() -> void:
+	var sfx_db: float = settings.get("sfx_volume_db", -5.0) as float
+	var music_db: float = settings.get("music_volume_db", -10.0) as float
+	GameConfig.config.audio_sfx_volume_db = sfx_db
+	GameConfig.config.audio_music_volume_db = music_db
+	var fullscreen: bool = settings.get("fullscreen", false) as bool
+	if fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
 func _apply_save_data(data: Dictionary) -> void:
 	meta_currency = data.get("meta_currency", 0) as int
 	var items_raw: Array = data.get("unlocked_items", []) as Array
@@ -87,6 +113,10 @@ func _apply_save_data(data: Dictionary) -> void:
 	var stats_raw: Variant = data.get("lifetime_stats", {})
 	if stats_raw is Dictionary:
 		lifetime_stats = stats_raw as Dictionary
+	var settings_raw: Variant = data.get("settings", {})
+	if settings_raw is Dictionary:
+		for key: String in (settings_raw as Dictionary).keys():
+			settings[key] = (settings_raw as Dictionary)[key]
 
 func _string_name_array_to_strings(arr: Array[StringName]) -> Array[String]:
 	var result: Array[String] = []

@@ -68,6 +68,14 @@ func stop_music(fade_duration: float = 0.5) -> void:
 	tween.tween_property(_music_player, "volume_db", -40.0, fade_duration)
 	tween.tween_callback(_music_player.stop)
 
+func set_sfx_volume(db: float) -> void:
+	GameConfig.config.audio_sfx_volume_db = db
+
+func set_music_volume(db: float) -> void:
+	GameConfig.config.audio_music_volume_db = db
+	if _music_player and _music_player.playing:
+		_music_player.volume_db = db
+
 func _create_sfx_pool() -> void:
 	for i: int in range(SFX_POOL_SIZE):
 		var player: AudioStreamPlayer = AudioStreamPlayer.new()

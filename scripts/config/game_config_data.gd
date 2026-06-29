@@ -651,6 +651,27 @@ extends Resource
 ## Tint color applied to the player during War Cry buff
 @export var ui_war_cry_buff_color: Color = Color(1.2, 1.1, 0.8, 1.0)
 
+@export_group("UI - Pause Menu")
+
+## Minimum volume for pause menu sliders (decibels)
+@export var ui_pause_volume_min_db: float = -20.0
+## Maximum volume for pause menu sliders (decibels)
+@export var ui_pause_volume_max_db: float = 0.0
+
+@export_group("UI - Stat Comparison")
+
+## Color for positive stat differences (green)
+@export var ui_stat_positive_color: Color = Color(0.3, 0.9, 0.3)
+## Color for negative stat differences (red)
+@export var ui_stat_negative_color: Color = Color(0.9, 0.3, 0.3)
+
+@export_group("UI - Ability Cooldown")
+
+## Overlay color for radial cooldown sweep
+@export var ui_cooldown_overlay_color: Color = Color(0.0, 0.0, 0.0, 0.6)
+## Font size for cooldown countdown text (pixels)
+@export var ui_cooldown_text_size: int = 7
+
 
 # =============================================================================
 # AUDIO

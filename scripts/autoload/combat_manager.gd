@@ -35,6 +35,8 @@ func apply_hit_pause(real_duration: float) -> void:
 	Engine.time_scale = 1.0
 
 func apply_screen_shake(intensity: float, duration: float) -> void:
+	if not SaveManager.get_setting("screen_shake_enabled", true):
+		return
 	if _camera == null:
 		_camera = get_tree().get_first_node_in_group(&"main_camera") as Camera2D
 	if _camera == null:

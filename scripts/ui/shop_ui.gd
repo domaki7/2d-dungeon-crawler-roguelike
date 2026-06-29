@@ -19,6 +19,10 @@ var _selected_index: int = 0
 var _tooltip_name: Label
 var _tooltip_stats: Label
 var _tooltip_effect: Label
+var _equipped_panel: PanelContainer
+var _equipped_header: Label
+var _equipped_stats: Label
+var _equipped_diff: RichTextLabel
 
 func _ready() -> void:
 	layer = 10
@@ -82,8 +86,8 @@ func _build_ui() -> void:
 
 	_panel = PanelContainer.new()
 	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.custom_minimum_size = Vector2(220, 190)
-	_panel.position = Vector2(-110, -95)
+	_panel.custom_minimum_size = Vector2(280, 200)
+	_panel.position = Vector2(-140, -100)
 	var panel_style: StyleBoxFlat = StyleBoxFlat.new()
 	panel_style.bg_color = Color(0.1, 0.08, 0.15, 0.95)
 	panel_style.border_color = Color(0.5, 0.4, 0.2)
@@ -113,31 +117,52 @@ func _build_ui() -> void:
 	var sep2: HSeparator = HSeparator.new()
 	main_vbox.add_child(sep2)
 
-	var tooltip_panel: PanelContainer = PanelContainer.new()
-	var tp_style: StyleBoxFlat = StyleBoxFlat.new()
-	tp_style.bg_color = Color(0.08, 0.06, 0.12)
-	tp_style.set_content_margin_all(4)
-	tooltip_panel.add_theme_stylebox_override("panel", tp_style)
-	tooltip_panel.custom_minimum_size.y = 36
-	main_vbox.add_child(tooltip_panel)
+	var tooltip_hbox: HBoxContainer = HBoxContainer.new()
+	tooltip_hbox.add_theme_constant_override("separation", 4)
+	main_vbox.add_child(tooltip_hbox)
 
-	var tooltip_vbox: VBoxContainer = VBoxContainer.new()
-	tooltip_vbox.add_theme_constant_override("separation", 1)
-	tooltip_panel.add_child(tooltip_vbox)
+	var left_panel: PanelContainer = _create_tooltip_panel()
+	tooltip_hbox.add_child(left_panel)
+	var left_vbox: VBoxContainer = VBoxContainer.new()
+	left_vbox.add_theme_constant_override("separation", 1)
+	left_panel.add_child(left_vbox)
 
 	_tooltip_name = Label.new()
 	_tooltip_name.add_theme_font_size_override("font_size", 8)
-	tooltip_vbox.add_child(_tooltip_name)
+	left_vbox.add_child(_tooltip_name)
 
 	_tooltip_stats = Label.new()
 	_tooltip_stats.add_theme_font_size_override("font_size", 7)
 	_tooltip_stats.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
-	tooltip_vbox.add_child(_tooltip_stats)
+	left_vbox.add_child(_tooltip_stats)
 
 	_tooltip_effect = Label.new()
 	_tooltip_effect.add_theme_font_size_override("font_size", 7)
 	_tooltip_effect.add_theme_color_override("font_color", Color(0.4, 0.8, 0.4))
-	tooltip_vbox.add_child(_tooltip_effect)
+	left_vbox.add_child(_tooltip_effect)
+
+	_equipped_panel = _create_tooltip_panel()
+	tooltip_hbox.add_child(_equipped_panel)
+	var right_vbox: VBoxContainer = VBoxContainer.new()
+	right_vbox.add_theme_constant_override("separation", 1)
+	_equipped_panel.add_child(right_vbox)
+
+	_equipped_header = Label.new()
+	_equipped_header.add_theme_font_size_override("font_size", 8)
+	_equipped_header.add_theme_color_override("font_color", Color(0.6, 0.55, 0.7))
+	right_vbox.add_child(_equipped_header)
+
+	_equipped_stats = Label.new()
+	_equipped_stats.add_theme_font_size_override("font_size", 7)
+	_equipped_stats.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
+	right_vbox.add_child(_equipped_stats)
+
+	_equipped_diff = RichTextLabel.new()
+	_equipped_diff.bbcode_enabled = true
+	_equipped_diff.fit_content = true
+	_equipped_diff.scroll_active = false
+	_equipped_diff.add_theme_font_size_override("normal_font_size", 7)
+	right_vbox.add_child(_equipped_diff)
 
 	var sep3: HSeparator = HSeparator.new()
 	main_vbox.add_child(sep3)
@@ -157,6 +182,16 @@ func _build_ui() -> void:
 	hint_label.add_theme_font_size_override("font_size", 6)
 	hint_label.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 	bottom_hbox.add_child(hint_label)
+
+func _create_tooltip_panel() -> PanelContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.06, 0.12)
+	style.set_content_margin_all(4)
+	panel.add_theme_stylebox_override("panel", style)
+	panel.custom_minimum_size = Vector2(125, 36)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return panel
 
 func _refresh_items() -> void:
 	for child: Node in _items_container.get_children():
@@ -219,6 +254,7 @@ func _select_item(index: int) -> void:
 			else:
 				style.border_color = Color(0.3, 0.25, 0.4)
 	_update_tooltip()
+	_update_comparison()
 
 func _update_tooltip() -> void:
 	if _selected_index >= _shop_items.size():
@@ -227,24 +263,94 @@ func _update_tooltip() -> void:
 	var rarity_color: Color = RARITY_COLORS.get(item.rarity as int, Color.WHITE)
 	_tooltip_name.add_theme_color_override("font_color", rarity_color)
 	_tooltip_name.text = item.display_name
-	var stats_parts: Array[String] = []
-	if item.bonus_damage != 0:
-		stats_parts.append("+%d Damage" % item.bonus_damage)
-	if item.bonus_defense != 0:
-		stats_parts.append("+%d Defense" % item.bonus_defense)
-	if item.bonus_max_hp != 0:
-		stats_parts.append("+%d Max HP" % item.bonus_max_hp)
-	if item.bonus_speed != 0.0:
-		stats_parts.append("+%.0f Speed" % item.bonus_speed)
-	if item.bonus_knockback_force != 0.0:
-		stats_parts.append("+%.0f Knockback" % item.bonus_knockback_force)
-	if item.bonus_crit_chance != 0.0:
-		stats_parts.append("+%.0f%% Crit" % (item.bonus_crit_chance * 100.0))
-	_tooltip_stats.text = ", ".join(stats_parts) if not stats_parts.is_empty() else "No stat bonuses"
+	_tooltip_stats.text = _format_item_stats(item)
 	if item.effect_id != &"":
 		_tooltip_effect.text = item.description
 	else:
 		_tooltip_effect.text = ""
+
+func _update_comparison() -> void:
+	if _selected_index >= _shop_items.size() or _player_ref == null:
+		_equipped_panel.visible = false
+		return
+	var shop_item: ItemData = _shop_items[_selected_index]
+	var can_afford: bool = _player_ref.gold >= shop_item.buy_price
+	if not can_afford:
+		_equipped_panel.visible = false
+		return
+	_equipped_panel.visible = true
+	if _player_stats == null:
+		_equipped_header.text = "Equipped"
+		_equipped_stats.text = "No data"
+		_equipped_diff.text = ""
+		return
+	var equipped: ItemData = _player_stats.get_equipped(shop_item.slot_type)
+	if equipped == null:
+		_equipped_header.text = "Equipped: None"
+		_equipped_stats.text = ""
+		_equipped_diff.text = _build_diff_text(shop_item, null)
+		return
+	var eq_rarity_color: Color = RARITY_COLORS.get(equipped.rarity as int, Color.WHITE)
+	_equipped_header.add_theme_color_override("font_color", eq_rarity_color)
+	_equipped_header.text = equipped.display_name
+	_equipped_stats.text = _format_item_stats(equipped)
+	_equipped_diff.text = _build_diff_text(shop_item, equipped)
+
+func _build_diff_text(new_item: ItemData, old_item: ItemData) -> String:
+	var pos_color: Color = GameConfig.config.ui_stat_positive_color
+	var neg_color: Color = GameConfig.config.ui_stat_negative_color
+	var old_dmg: int = old_item.bonus_damage if old_item else 0
+	var old_def: int = old_item.bonus_defense if old_item else 0
+	var old_hp: int = old_item.bonus_max_hp if old_item else 0
+	var old_spd: float = old_item.bonus_speed if old_item else 0.0
+	var old_kb: float = old_item.bonus_knockback_force if old_item else 0.0
+	var old_crit: float = old_item.bonus_crit_chance if old_item else 0.0
+	var lines: Array[String] = []
+	var diff_dmg: int = new_item.bonus_damage - old_dmg
+	var diff_def: int = new_item.bonus_defense - old_def
+	var diff_hp: int = new_item.bonus_max_hp - old_hp
+	var diff_spd: float = new_item.bonus_speed - old_spd
+	var diff_kb: float = new_item.bonus_knockback_force - old_kb
+	var diff_crit: float = new_item.bonus_crit_chance - old_crit
+	if diff_dmg != 0:
+		lines.append(_diff_line("Dmg", diff_dmg, pos_color, neg_color))
+	if diff_def != 0:
+		lines.append(_diff_line("Def", diff_def, pos_color, neg_color))
+	if diff_hp != 0:
+		lines.append(_diff_line("HP", diff_hp, pos_color, neg_color))
+	if not is_zero_approx(diff_spd):
+		lines.append(_diff_line_f("Spd", diff_spd, pos_color, neg_color))
+	if not is_zero_approx(diff_kb):
+		lines.append(_diff_line_f("KB", diff_kb, pos_color, neg_color))
+	if not is_zero_approx(diff_crit):
+		lines.append(_diff_line_f("Crit", diff_crit * 100.0, pos_color, neg_color, "%%"))
+	return "\n".join(lines) if not lines.is_empty() else "No change"
+
+func _diff_line(label: String, diff: int, pos_color: Color, neg_color: Color) -> String:
+	var color: Color = pos_color if diff > 0 else neg_color
+	var prefix: String = "+" if diff > 0 else ""
+	return "[color=#%s]%s%d %s[/color]" % [color.to_html(false), prefix, diff, label]
+
+func _diff_line_f(label: String, diff: float, pos_color: Color, neg_color: Color, suffix: String = "") -> String:
+	var color: Color = pos_color if diff > 0.0 else neg_color
+	var prefix: String = "+" if diff > 0.0 else ""
+	return "[color=#%s]%s%.0f%s %s[/color]" % [color.to_html(false), prefix, diff, suffix, label]
+
+func _format_item_stats(item: ItemData) -> String:
+	var parts: Array[String] = []
+	if item.bonus_damage != 0:
+		parts.append("+%d Damage" % item.bonus_damage)
+	if item.bonus_defense != 0:
+		parts.append("+%d Defense" % item.bonus_defense)
+	if item.bonus_max_hp != 0:
+		parts.append("+%d Max HP" % item.bonus_max_hp)
+	if item.bonus_speed != 0.0:
+		parts.append("+%.0f Speed" % item.bonus_speed)
+	if item.bonus_knockback_force != 0.0:
+		parts.append("+%.0f Knockback" % item.bonus_knockback_force)
+	if item.bonus_crit_chance != 0.0:
+		parts.append("+%.0f%% Crit" % (item.bonus_crit_chance * 100.0))
+	return "\n".join(parts) if not parts.is_empty() else "No stat bonuses"
 
 func _buy_selected() -> void:
 	if _selected_index >= _shop_items.size():

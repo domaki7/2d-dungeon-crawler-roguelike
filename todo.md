@@ -67,10 +67,10 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 
 ## Phase 6: UI Improvements
 
-- [ ] **Pause menu** — Add SFX/music volume sliders, fullscreen toggle, screen shake toggle, resume/restart/quit to `pause_menu.gd`
-- [ ] **Inventory stat comparison** — Show stat diff vs equipped item (green +, red -) in `inventory_ui.gd`
-- [ ] **Shop comparison** — Show equipped item comparison alongside shop item stats in `shop_ui.gd`
-- [ ] **Ability cooldown polish** — Radial cooldown overlay or countdown number in `ability_slot.gd`
+- [x] **Pause menu** — Add SFX/music volume sliders, fullscreen toggle, screen shake toggle, resume/restart/quit to `pause_menu.gd`
+- [x] **Inventory stat comparison** — Show stat diff vs equipped item (green +, red -) in `inventory_ui.gd`
+- [x] **Shop comparison** — Show equipped item comparison alongside shop item stats in `shop_ui.gd`
+- [x] **Ability cooldown polish** — Radial cooldown overlay or countdown number in `ability_slot.gd`
 
 ---
 
