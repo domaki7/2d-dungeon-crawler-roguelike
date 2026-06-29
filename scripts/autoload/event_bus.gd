@@ -33,3 +33,6 @@ signal status_effect_applied(type: int, duration: float)
 signal status_effect_removed(type: int)
 
 signal mana_changed(current_mana: int, max_mana: int)
+
+signal legendary_item_found(item_data: Resource)
+signal chest_enemies_spawned(enemies: Array)

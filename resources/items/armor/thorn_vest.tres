@@ -11,6 +11,7 @@ description = "A vest woven with barbed vines. Reflects damage back to attackers
 icon = ExtResource("2")
 slot_type = 1
 rarity = 2
+set_id = &"infernal"
 bonus_damage = 0
 bonus_defense = 3
 bonus_max_hp = 5

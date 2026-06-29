@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/chest.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/chest_locked.svg" id="2_closed"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/chest_open.svg" id="3_open"]
+[ext_resource type="Resource" path="res://resources/loot_tables/chest_loot.tres" id="4_loot"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/item_pickup.tscn" id="5_item_pickup"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(12, 10)
+
+[node name="LockedChest" type="Area2D"]
+collision_layer = 256
+collision_mask = 2
+script = ExtResource("1")
+chest_type = 1
+loot_table = ExtResource("4_loot")
+item_pickup_scene = ExtResource("5_item_pickup")
+closed_texture = ExtResource("2_closed")
+open_texture = ExtResource("3_open")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("2_closed")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape")
+
+[node name="InteractLabel" type="Label" parent="."]
+offset_left = -14.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -12.0
+horizontal_alignment = 1
+text = "[F] 50g"

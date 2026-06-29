@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/hellfire_greatsword.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"hellfire_greatsword"
+display_name = "Hellfire Greatsword"
+description = "A cursed blade forged in hellfire. Enemies explode on death, damaging nearby foes."
+icon = ExtResource("2")
+slot_type = 0
+rarity = 3
+bonus_damage = 8
+bonus_defense = 0
+bonus_max_hp = 0
+bonus_speed = -10.0
+bonus_knockback_force = 100.0
+bonus_crit_chance = 0.15
+effect_id = &"explosion_on_kill"
+effect_value = 5.0
+buy_price = 120
+sell_price = 45

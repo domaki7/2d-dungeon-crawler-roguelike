@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LootTable" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="LootTable" load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/items/loot_table.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/items/loot_entry.gd" id="2"]
@@ -7,6 +7,13 @@
 [ext_resource type="Resource" path="res://resources/items/rings/berserker_band.tres" id="5"]
 [ext_resource type="Resource" path="res://resources/items/accessories/guardian_idol.tres" id="6"]
 [ext_resource type="Resource" path="res://resources/items/weapons/shadow_bow.tres" id="7"]
+[ext_resource type="Resource" path="res://resources/items/weapons/frostbrand.tres" id="8"]
+[ext_resource type="Resource" path="res://resources/items/accessories/leech_pendant.tres" id="9"]
+[ext_resource type="Resource" path="res://resources/items/weapons/hellfire_greatsword.tres" id="10"]
+[ext_resource type="Resource" path="res://resources/items/armor/aegis_of_the_undying.tres" id="11"]
+[ext_resource type="Resource" path="res://resources/items/rings/ring_of_storms.tres" id="12"]
+[ext_resource type="Resource" path="res://resources/items/accessories/bloodthirst_amulet.tres" id="13"]
+[ext_resource type="Resource" path="res://resources/items/accessories/boots_of_the_wind.tres" id="14"]
 
 [sub_resource type="Resource" id="e1"]
 script = ExtResource("2")
@@ -33,7 +40,42 @@ script = ExtResource("2")
 item = ExtResource("7")
 weight = 1.0
 
+[sub_resource type="Resource" id="e6"]
+script = ExtResource("2")
+item = ExtResource("8")
+weight = 1.0
+
+[sub_resource type="Resource" id="e7"]
+script = ExtResource("2")
+item = ExtResource("9")
+weight = 1.0
+
+[sub_resource type="Resource" id="e8"]
+script = ExtResource("2")
+item = ExtResource("10")
+weight = 0.5
+
+[sub_resource type="Resource" id="e9"]
+script = ExtResource("2")
+item = ExtResource("11")
+weight = 0.5
+
+[sub_resource type="Resource" id="e10"]
+script = ExtResource("2")
+item = ExtResource("12")
+weight = 0.5
+
+[sub_resource type="Resource" id="e11"]
+script = ExtResource("2")
+item = ExtResource("13")
+weight = 0.5
+
+[sub_resource type="Resource" id="e12"]
+script = ExtResource("2")
+item = ExtResource("14")
+weight = 0.5
+
 [resource]
 script = ExtResource("1")
-entries = [SubResource("e1"), SubResource("e2"), SubResource("e3"), SubResource("e4"), SubResource("e5")]
+entries = [SubResource("e1"), SubResource("e2"), SubResource("e3"), SubResource("e4"), SubResource("e5"), SubResource("e6"), SubResource("e7"), SubResource("e8"), SubResource("e9"), SubResource("e10"), SubResource("e11"), SubResource("e12")]
 drop_chance = 1.0

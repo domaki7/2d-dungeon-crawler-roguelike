@@ -11,6 +11,7 @@ description = "Heavy interlocking rings. Good protection but weighs you down."
 icon = ExtResource("2")
 slot_type = 1
 rarity = 1
+set_id = &"guardian"
 bonus_damage = 0
 bonus_defense = 4
 bonus_max_hp = 5

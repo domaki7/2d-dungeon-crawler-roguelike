@@ -4,6 +4,7 @@ const RARITY_COLORS: Dictionary = {
 	0: Color(0.8, 0.8, 0.8),
 	1: Color(0.3, 0.8, 0.3),
 	2: Color(0.3, 0.5, 1.0),
+	3: Color(1.0, 0.84, 0.0),
 }
 
 var _is_open: bool = false

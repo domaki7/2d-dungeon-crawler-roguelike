@@ -40,7 +40,12 @@ func _spawn_drops() -> void:
 			bonus_gold.global_position = enemy.global_position + Vector2(randf_range(-12.0, 12.0), randf_range(-12.0, 12.0))
 			enemy.get_parent().add_child(bonus_gold)
 	if loot_table and item_pickup_scene:
-		var item: ItemData = loot_table.roll_guaranteed() if enemy.is_elite else loot_table.roll()
+		var rare_mult: float = DungeonManager.get_rare_weight_multiplier()
+		var leg_mult: float = DungeonManager.get_legendary_weight_multiplier()
+		var excluded: Array[int] = []
+		if RunManager.has_legendary_limit_reached():
+			excluded.append(ItemData.Rarity.LEGENDARY as int)
+		var item: ItemData = loot_table.roll_guaranteed_for_floor(rare_mult, leg_mult, excluded) if enemy.is_elite else loot_table.roll_for_floor(rare_mult, leg_mult, excluded)
 		if item:
 			var pickup: Node2D = item_pickup_scene.instantiate() as Node2D
 			pickup.item_data = item

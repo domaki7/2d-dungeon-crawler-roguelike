@@ -30,5 +30,11 @@ extends Resource
 @export_range(0.0, 1.0) var elite_chance: float = 0.0
 @export var gold_multiplier: float = 1.0
 
+@export_group("Loot")
+## Weight multiplier for RARE items on this floor (0.0 = never drops)
+@export var rare_weight_multiplier: float = 1.0
+## Weight multiplier for LEGENDARY items on this floor (0.0 = never drops)
+@export var legendary_weight_multiplier: float = 0.0
+
 @export_group("Enemy Pool")
 @export var enemy_pool: Array[PackedScene] = []

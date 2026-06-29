@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/leech_pendant.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"leech_pendant"
+display_name = "Leech Pendant"
+description = "A sickly green gem that siphons life force. Heals a small amount on each hit."
+icon = ExtResource("2")
+slot_type = 3
+rarity = 2
+bonus_damage = 2
+bonus_defense = 0
+bonus_max_hp = 0
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"lifesteal_on_hit"
+effect_value = 2.0
+buy_price = 55
+sell_price = 20

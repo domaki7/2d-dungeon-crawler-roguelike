@@ -101,6 +101,19 @@ func get_enemy_pool() -> Array[PackedScene]:
 		return _current_config.enemy_pool
 	return []
 
+func get_current_floor_config() -> FloorConfig:
+	return _current_config
+
+func get_rare_weight_multiplier() -> float:
+	if _current_config:
+		return _current_config.rare_weight_multiplier
+	return 1.0
+
+func get_legendary_weight_multiplier() -> float:
+	if _current_config:
+		return _current_config.legendary_weight_multiplier
+	return 0.0
+
 func is_final_room(room_id: int) -> bool:
 	var room_data: Dictionary = _floor_graph.get(room_id, {})
 	return room_data.get("is_final", false)

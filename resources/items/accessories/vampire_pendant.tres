@@ -11,6 +11,7 @@ description = "A crimson amulet that thirsts for blood. Heals 1 HP on each enemy
 icon = ExtResource("2")
 slot_type = 3
 rarity = 1
+set_id = &"shadow"
 bonus_damage = 0
 bonus_defense = 1
 bonus_max_hp = 0

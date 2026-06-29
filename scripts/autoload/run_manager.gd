@@ -27,6 +27,7 @@ func _ready() -> void:
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 	EventBus.room_cleared.connect(_on_room_cleared)
 	EventBus.gold_changed.connect(_on_gold_changed)
+	EventBus.item_picked_up.connect(_on_item_picked_up)
 
 func start_run(player_class: int = GameManager.PlayerClass.WARRIOR) -> void:
 	_selected_class = player_class
@@ -40,6 +41,7 @@ func start_run(player_class: int = GameManager.PlayerClass.WARRIOR) -> void:
 		"floors_cleared": 0,
 		"gold_earned": 0,
 		"time_elapsed": 0.0,
+		"legendaries_found": 0,
 	}
 	_spawn_game_scene()
 	_spawn_player()
@@ -144,3 +146,17 @@ func _on_gold_changed(new_amount: int) -> void:
 	if delta > 0:
 		run_stats.gold_earned = run_stats.get("gold_earned", 0) + delta
 	_last_gold = new_amount
+
+func _on_item_picked_up(item_data: Resource) -> void:
+	if not run_active:
+		return
+	var item: ItemData = item_data as ItemData
+	if item and item.rarity == ItemData.Rarity.LEGENDARY:
+		run_stats.legendaries_found = run_stats.get("legendaries_found", 0) + 1
+		EventBus.legendary_item_found.emit(item)
+
+func has_legendary_limit_reached() -> bool:
+	var max_per_run: int = GameConfig.config.legendary_max_per_run
+	if max_per_run <= 0:
+		return false
+	return run_stats.get("legendaries_found", 0) >= max_per_run

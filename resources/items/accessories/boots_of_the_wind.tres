@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/boots_of_the_wind.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"boots_of_the_wind"
+display_name = "Boots of the Wind"
+description = "Enchanted boots that convert swiftness into precision. Speed bonus increases crit chance."
+icon = ExtResource("2")
+slot_type = 3
+rarity = 3
+bonus_damage = 0
+bonus_defense = 0
+bonus_max_hp = 0
+bonus_speed = 40.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"speed_to_crit"
+effect_value = 0.01
+buy_price = 90
+sell_price = 35

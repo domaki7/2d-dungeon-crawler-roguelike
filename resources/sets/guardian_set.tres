@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="SetBonusData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/set_bonus_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+set_id = &"guardian"
+set_name = "Guardian Set"
+required_pieces = 3
+description = "Become unbreakable. +5 Defense, +10 HP, Thorns 1."
+bonus_damage = 0
+bonus_defense = 5
+bonus_max_hp = 10
+bonus_speed = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"thorns"
+effect_value = 1.0

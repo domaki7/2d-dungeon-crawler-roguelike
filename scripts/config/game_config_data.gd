@@ -1073,6 +1073,191 @@ extends Resource
 
 
 # =============================================================================
+# LEGENDARY ITEMS
+# =============================================================================
+
+@export_group("Legendary Items")
+
+## Maximum legendary item drops per run (0 = unlimited)
+@export var legendary_max_per_run: int = 1
+## Tint color for legendary item pickups
+@export var legendary_pickup_tint: Color = Color(1.0, 0.84, 0.0)
+## AOE radius for explosion_on_kill effect (pixels)
+@export var legendary_explosion_radius: float = 40.0
+## Damage dealt by explosion_on_kill AOE
+@export var legendary_explosion_damage: int = 5
+## Number of chain lightning bounces on crit
+@export var legendary_chain_lightning_bounces: int = 2
+## Chain lightning bounce range (pixels)
+@export var legendary_chain_lightning_range: float = 50.0
+## Chain lightning damage per bounce
+@export var legendary_chain_lightning_damage: int = 3
+## Lifesteal percentage for lifesteal_percent effect (0.0 to 1.0)
+@export var legendary_lifesteal_percent: float = 0.2
+## Crit chance gained per 10 speed bonus from speed_to_crit (0.0 to 1.0)
+@export var legendary_speed_to_crit_ratio: float = 0.01
+
+
+# =============================================================================
+# ON-HIT PROC EFFECTS
+# =============================================================================
+
+@export_group("Status Effects - On-Hit Procs")
+
+## Duration of freeze applied by freeze_on_hit items (seconds)
+@export var proc_freeze_duration: float = 1.5
+## Duration of poison applied by poison_on_hit items (seconds)
+@export var proc_poison_duration: float = 4.0
+## Tick interval for poison_on_hit (seconds)
+@export var proc_poison_tick_interval: float = 1.0
+
+
+# =============================================================================
+# CHESTS
+# =============================================================================
+
+@export_group("Chests")
+
+## Gold cost to open a locked chest on floor 1
+@export var chest_locked_base_cost: int = 50
+## Gold cost increase per floor for locked chests
+@export var chest_locked_cost_per_floor: int = 25
+## Number of enemies spawned by mimic chests
+@export var chest_mimic_enemy_count: int = 3
+## Number of enemies spawned by gilded chest guard wave
+@export var chest_gilded_guard_count: int = 4
+
+
+# =============================================================================
+# SET BONUSES
+# =============================================================================
+
+@export_group("Set Bonuses - Infernal")
+
+## Bonus damage granted by Infernal 2-piece set
+@export var set_infernal_bonus_damage: int = 2
+## Bonus burn damage per tick granted by Infernal 2-piece set
+@export var set_infernal_bonus_burn_damage: int = 3
+
+@export_group("Set Bonuses - Shadow")
+
+## Bonus crit chance granted by Shadow 2-piece set (0.0 to 1.0)
+@export var set_shadow_bonus_crit_chance: float = 0.15
+## Bonus heal on kill granted by Shadow 2-piece set
+@export var set_shadow_bonus_heal_on_kill: int = 2
+
+@export_group("Set Bonuses - Guardian")
+
+## Bonus defense granted by Guardian 3-piece set
+@export var set_guardian_bonus_defense: int = 5
+## Bonus max HP granted by Guardian 3-piece set
+@export var set_guardian_bonus_max_hp: int = 10
+## Thorns damage granted by Guardian 3-piece set
+@export var set_guardian_bonus_thorns: float = 1.0
+
+
+# =============================================================================
+# ITEMS - LEGENDARY
+# =============================================================================
+
+@export_group("Items - Legendary Weapons")
+
+@export_subgroup("Hellfire Greatsword")
+@export var hellfire_greatsword_bonus_damage: int = 8
+@export var hellfire_greatsword_bonus_defense: int = 0
+@export var hellfire_greatsword_bonus_max_hp: int = 0
+@export var hellfire_greatsword_bonus_speed: float = -10.0
+@export var hellfire_greatsword_bonus_knockback_force: float = 100.0
+@export var hellfire_greatsword_bonus_crit_chance: float = 0.15
+@export var hellfire_greatsword_effect_value: float = 5.0
+@export var hellfire_greatsword_buy_price: int = 120
+@export var hellfire_greatsword_sell_price: int = 45
+
+@export_subgroup("Frostbrand")
+@export var frostbrand_bonus_damage: int = 4
+@export var frostbrand_bonus_defense: int = 0
+@export var frostbrand_bonus_max_hp: int = 0
+@export var frostbrand_bonus_speed: float = 0.0
+@export var frostbrand_bonus_knockback_force: float = 0.0
+@export var frostbrand_bonus_crit_chance: float = 0.05
+@export var frostbrand_effect_value: float = 1.5
+@export var frostbrand_buy_price: int = 55
+@export var frostbrand_sell_price: int = 20
+
+@export_group("Items - Legendary Armor")
+
+@export_subgroup("Aegis of the Undying")
+@export var aegis_of_the_undying_bonus_damage: int = 0
+@export var aegis_of_the_undying_bonus_defense: int = 6
+@export var aegis_of_the_undying_bonus_max_hp: int = 10
+@export var aegis_of_the_undying_bonus_speed: float = 0.0
+@export var aegis_of_the_undying_bonus_knockback_force: float = 0.0
+@export var aegis_of_the_undying_bonus_crit_chance: float = 0.0
+@export var aegis_of_the_undying_effect_value: float = 1.0
+@export var aegis_of_the_undying_buy_price: int = 130
+@export var aegis_of_the_undying_sell_price: int = 50
+
+@export_group("Items - Legendary Rings")
+
+@export_subgroup("Ring of Storms")
+@export var ring_of_storms_bonus_damage: int = 5
+@export var ring_of_storms_bonus_defense: int = 0
+@export var ring_of_storms_bonus_max_hp: int = 0
+@export var ring_of_storms_bonus_speed: float = 0.0
+@export var ring_of_storms_bonus_knockback_force: float = 0.0
+@export var ring_of_storms_bonus_crit_chance: float = 0.3
+@export var ring_of_storms_effect_value: float = 3.0
+@export var ring_of_storms_buy_price: int = 110
+@export var ring_of_storms_sell_price: int = 42
+
+@export_subgroup("Venom Ring")
+@export var venom_ring_bonus_damage: int = 0
+@export var venom_ring_bonus_defense: int = 1
+@export var venom_ring_bonus_max_hp: int = 0
+@export var venom_ring_bonus_speed: float = 0.0
+@export var venom_ring_bonus_knockback_force: float = 0.0
+@export var venom_ring_bonus_crit_chance: float = 0.0
+@export var venom_ring_effect_value: float = 2.0
+@export var venom_ring_buy_price: int = 30
+@export var venom_ring_sell_price: int = 10
+
+@export_group("Items - Legendary Accessories")
+
+@export_subgroup("Bloodthirst Amulet")
+@export var bloodthirst_amulet_bonus_damage: int = 4
+@export var bloodthirst_amulet_bonus_defense: int = 0
+@export var bloodthirst_amulet_bonus_max_hp: int = 0
+@export var bloodthirst_amulet_bonus_speed: float = 0.0
+@export var bloodthirst_amulet_bonus_knockback_force: float = 0.0
+@export var bloodthirst_amulet_bonus_crit_chance: float = 0.0
+@export var bloodthirst_amulet_effect_value: float = 0.2
+@export var bloodthirst_amulet_buy_price: int = 100
+@export var bloodthirst_amulet_sell_price: int = 38
+
+@export_subgroup("Boots of the Wind")
+@export var boots_of_the_wind_bonus_damage: int = 0
+@export var boots_of_the_wind_bonus_defense: int = 0
+@export var boots_of_the_wind_bonus_max_hp: int = 0
+@export var boots_of_the_wind_bonus_speed: float = 40.0
+@export var boots_of_the_wind_bonus_knockback_force: float = 0.0
+@export var boots_of_the_wind_bonus_crit_chance: float = 0.0
+@export var boots_of_the_wind_effect_value: float = 0.01
+@export var boots_of_the_wind_buy_price: int = 90
+@export var boots_of_the_wind_sell_price: int = 35
+
+@export_subgroup("Leech Pendant")
+@export var leech_pendant_bonus_damage: int = 2
+@export var leech_pendant_bonus_defense: int = 0
+@export var leech_pendant_bonus_max_hp: int = 0
+@export var leech_pendant_bonus_speed: float = 0.0
+@export var leech_pendant_bonus_knockback_force: float = 0.0
+@export var leech_pendant_bonus_crit_chance: float = 0.0
+@export var leech_pendant_effect_value: float = 2.0
+@export var leech_pendant_buy_price: int = 55
+@export var leech_pendant_sell_price: int = 20
+
+
+# =============================================================================
 # HELPER METHODS
 # =============================================================================
 

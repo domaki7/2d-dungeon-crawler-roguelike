@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/aegis_of_the_undying.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"aegis_of_the_undying"
+display_name = "Aegis of the Undying"
+description = "An indestructible shield that turns defense into offense. Your defense stat also adds to damage."
+icon = ExtResource("2")
+slot_type = 1
+rarity = 3
+bonus_damage = 0
+bonus_defense = 6
+bonus_max_hp = 10
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"defense_adds_damage"
+effect_value = 1.0
+buy_price = 130
+sell_price = 50

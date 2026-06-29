@@ -26,10 +26,12 @@ GameManager="*res://scripts/autoload/game_manager.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 GameConfig="*res://scripts/autoload/game_config.gd"
 VFXHelper="*res://scripts/autoload/vfx_helper.gd"
+SetBonusManager="*res://scripts/autoload/set_bonus_manager.gd"
 
 [display]
 
 window/size/mode=3
+window/size/initial_position_type=0
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="viewport"

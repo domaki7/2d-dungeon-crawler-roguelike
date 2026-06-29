@@ -46,24 +46,32 @@ func get_effective_damage() -> int:
 	var total: int = base_damage
 	for item: ItemData in _equipment.values():
 		total += item.bonus_damage
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		total += bonus.bonus_damage
 	return total
 
 func get_effective_defense() -> int:
 	var total: int = base_defense
 	for item: ItemData in _equipment.values():
 		total += item.bonus_defense
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		total += bonus.bonus_defense
 	return total
 
 func get_effective_max_hp() -> int:
 	var total: int = base_max_hp
 	for item: ItemData in _equipment.values():
 		total += item.bonus_max_hp
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		total += bonus.bonus_max_hp
 	return total
 
 func get_effective_speed() -> float:
 	var total: float = base_speed
 	for item: ItemData in _equipment.values():
 		total += item.bonus_speed
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		total += bonus.bonus_speed
 	return total
 
 func get_effective_knockback_force() -> float:
@@ -76,19 +84,38 @@ func get_effective_crit_chance() -> float:
 	var total: float = base_crit_chance
 	for item: ItemData in _equipment.values():
 		total += item.bonus_crit_chance
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		total += bonus.bonus_crit_chance
+	if has_effect(&"speed_to_crit"):
+		var speed_bonus: float = get_effective_speed() - base_speed
+		if speed_bonus > 0.0:
+			total += speed_bonus * GameConfig.config.legendary_speed_to_crit_ratio
 	return total
 
 func has_effect(effect_id: StringName) -> bool:
 	for item: ItemData in _equipment.values():
 		if item.effect_id == effect_id:
 			return true
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		if bonus.effect_id == effect_id:
+			return true
 	return false
 
 func get_effect_value(effect_id: StringName) -> float:
+	var total: float = 0.0
 	for item: ItemData in _equipment.values():
 		if item.effect_id == effect_id:
-			return item.effect_value
-	return 0.0
+			total += item.effect_value
+	for bonus: SetBonusData in _get_active_set_bonuses():
+		if bonus.effect_id == effect_id:
+			total += bonus.effect_value
+	return total
+
+func get_active_sets() -> Array[SetBonusData]:
+	return _get_active_set_bonuses()
+
+func _get_active_set_bonuses() -> Array[SetBonusData]:
+	return SetBonusManager.get_active_set_bonuses(_equipment)
 
 func _slot_type_name(slot_type: ItemData.SlotType) -> String:
 	match slot_type:

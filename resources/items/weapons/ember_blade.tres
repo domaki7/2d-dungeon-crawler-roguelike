@@ -11,6 +11,7 @@ description = "A blade wreathed in flame. Burns enemies on contact for bonus dam
 icon = ExtResource("2")
 slot_type = 0
 rarity = 2
+set_id = &"infernal"
 bonus_damage = 6
 bonus_defense = 0
 bonus_max_hp = 0

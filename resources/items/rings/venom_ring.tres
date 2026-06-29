@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/venom_ring.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"venom_ring"
+display_name = "Venom Ring"
+description = "A ring oozing with toxin. Poisons enemies on contact, dealing damage over time."
+icon = ExtResource("2")
+slot_type = 2
+rarity = 1
+bonus_damage = 0
+bonus_defense = 1
+bonus_max_hp = 0
+bonus_speed = 0.0
+bonus_knockback_force = 0.0
+bonus_crit_chance = 0.0
+effect_id = &"poison_on_hit"
+effect_value = 2.0
+buy_price = 30
+sell_price = 10

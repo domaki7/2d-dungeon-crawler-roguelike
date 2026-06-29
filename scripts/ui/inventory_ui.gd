@@ -6,6 +6,7 @@ const RARITY_COLORS: Dictionary = {
 	0: Color(0.8, 0.8, 0.8),
 	1: Color(0.3, 0.8, 0.3),
 	2: Color(0.3, 0.5, 1.0),
+	3: Color(1.0, 0.84, 0.0),
 }
 
 var _is_open: bool = false
@@ -19,6 +20,7 @@ var _tooltip_stats: Label
 var _tooltip_effect: Label
 var _total_header: Label
 var _total_stats: Label
+var _set_bonus_label: Label
 var _panel: PanelContainer
 
 func _ready() -> void:
@@ -171,6 +173,11 @@ func _build_ui() -> void:
 	_total_stats.add_theme_color_override("font_color", Color(0.7, 0.7, 0.8))
 	right_vbox.add_child(_total_stats)
 
+	_set_bonus_label = Label.new()
+	_set_bonus_label.add_theme_font_size_override("font_size", 7)
+	_set_bonus_label.add_theme_color_override("font_color", Color(0.3, 0.9, 0.9))
+	right_vbox.add_child(_set_bonus_label)
+
 func _create_tooltip_panel() -> PanelContainer:
 	var panel: PanelContainer = PanelContainer.new()
 	var style: StyleBoxFlat = StyleBoxFlat.new()
@@ -259,6 +266,7 @@ func _update_total_stats() -> void:
 	if total_crit != 0.0:
 		parts.append("+%.0f%% Crit" % (total_crit * 100.0))
 	_total_stats.text = "\n".join(parts) if not parts.is_empty() else "No bonuses"
+	_update_set_bonuses()
 
 func _format_item_stats(item: ItemData) -> String:
 	var parts: Array[String] = []
@@ -275,6 +283,22 @@ func _format_item_stats(item: ItemData) -> String:
 	if item.bonus_crit_chance != 0.0:
 		parts.append("+%.0f%% Crit" % (item.bonus_crit_chance * 100.0))
 	return "\n".join(parts) if not parts.is_empty() else "No stat bonuses"
+
+func _update_set_bonuses() -> void:
+	if _player_stats == null:
+		_set_bonus_label.text = ""
+		return
+	var active: Array[SetBonusData] = _player_stats.get_active_sets()
+	if active.is_empty():
+		_set_bonus_label.text = ""
+		return
+	var lines: Array[String] = []
+	for bonus: SetBonusData in active:
+		var equipped: int = SetBonusManager.get_set_pieces_equipped(bonus.set_id, _player_stats._equipment)
+		var total: int = SetBonusManager.get_set_total_pieces(bonus.set_id)
+		lines.append("%s (%d/%d)" % [bonus.set_name, equipped, total])
+		lines.append("  %s" % bonus.description)
+	_set_bonus_label.text = "\n".join(lines)
 
 func _on_equipment_changed(_slot_type: int, _item_data: ItemData) -> void:
 	if _is_open:

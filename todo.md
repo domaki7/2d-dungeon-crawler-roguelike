@@ -77,6 +77,15 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 
 - [x] **Idle patrol wandering** — All enemies stand still in IdleState until aggroed. Add a WanderState where enemies slowly drift between random nearby points, making rooms feel alive before combat starts
 
+## Items & Loot
+
+- [x] **Set bonuses** — Add a `set_id` field to ItemData and a SetBonusData resource so equipping 2+ items from the same set grants bonus stats or a unique effect
+- [x] **Floor-scaled loot tables** — Create per-floor loot table overrides so early floors only drop Common/Uncommon items and Rare+ items appear from floor 3 onward
+- [x] **Legendary rarity tier** — Add a LEGENDARY tier with gold-colored names, unique pickup particles, a guaranteed special effect, and a 1-per-run drop limit
+- [x] **Stackable item effects** — Allow items sharing the same effect_id to sum their values instead of last-equipped-wins, enabling build diversity
+- [x] **More on-hit proc effects** — Add freeze_on_hit, poison_on_hit, and lifesteal_on_hit effects through the existing StatusEffectComponent, then create items that use them
+- [x] **Chest variety** — Add locked chests (require keys from elites), mimic chests (enemy encounter on open), and gilded chests (guaranteed Rare+ drop with a guard wave)
+
 ---
 
 ## Bugs

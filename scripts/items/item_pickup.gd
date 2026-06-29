@@ -21,6 +21,8 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 	if item_data and item_data.icon:
 		_sprite.texture = item_data.icon
+	if item_data and item_data.rarity == ItemData.Rarity.LEGENDARY:
+		_sprite.modulate = GameConfig.config.legendary_pickup_tint
 
 func _process(delta: float) -> void:
 	_time += delta
