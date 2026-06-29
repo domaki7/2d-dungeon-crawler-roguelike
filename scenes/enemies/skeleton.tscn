@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3]
+[gd_scene load_steps=43 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/skeleton.gd" id="1_skel"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="11_hitbox"]
 [ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="12_shader"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_states/stunned_state.gd" id="16_stun"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/wander_state.gd" id="18_wander"]
 [ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="17_sec"]
 [ext_resource type="PackedScene" path="res://scenes/pickups/gold_pickup.tscn" id="13_gold"]
 [ext_resource type="Resource" path="res://resources/loot_tables/skeleton_loot.tres" id="14_loot"]
@@ -211,6 +212,9 @@ script = ExtResource("2_sm")
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("3_idle")
+
+[node name="WanderState" type="Node" parent="StateMachine"]
+script = ExtResource("18_wander")
 
 [node name="ChaseState" type="Node" parent="StateMachine"]
 script = ExtResource("4_chase")

@@ -143,6 +143,24 @@ extends Resource
 
 
 # =============================================================================
+# ENEMY - WANDER (shared idle patrol behavior)
+# =============================================================================
+
+@export_group("Enemy - Wander")
+
+## Wander speed as a fraction of the enemy's chase speed (0.3 = 30%)
+@export var enemy_wander_speed_multiplier: float = 0.3
+## Max distance an enemy will wander from its spawn point (pixels)
+@export var enemy_wander_radius: float = 48.0
+## Minimum pause duration between wander moves (seconds)
+@export var enemy_wander_pause_min: float = 1.0
+## Maximum pause duration between wander moves (seconds)
+@export var enemy_wander_pause_max: float = 3.0
+## Boss wander speed as a fraction of chase speed (slightly slower than regular enemies)
+@export var boss_wander_speed_multiplier: float = 0.25
+
+
+# =============================================================================
 # SKELETON
 # =============================================================================
 

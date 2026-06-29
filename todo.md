@@ -72,6 +72,10 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Shop comparison** — Show equipped item comparison alongside shop item stats in `shop_ui.gd`
 - [x] **Ability cooldown polish** — Radial cooldown overlay or countdown number in `ability_slot.gd`
 
+## Enemy AI & Behavior
+
+- [x] **Idle patrol wandering** — All enemies stand still in IdleState until aggroed. Add a WanderState where enemies slowly drift between random nearby points, making rooms feel alive before combat starts
+
 ---
 
 ## Bugs

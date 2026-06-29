@@ -29,13 +29,14 @@ var friction: float:
 var facing_direction: int = FacingDirection.DOWN
 var is_player_detected: bool = false
 var is_aggroed: bool = false
+var spawn_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group(&"enemies")
+	spawn_position = global_position
 	health_component.damaged.connect(_on_health_damaged)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
-	EventBus.room_entered.connect(_on_room_entered)
 	EventBus.enemy_aggroed.connect(_on_enemy_aggroed)
 	_start_state_machine.call_deferred()
 
@@ -84,9 +85,6 @@ func _on_detection_body_entered(body: Node2D) -> void:
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		is_player_detected = false
-
-func _on_room_entered(_room_id: int) -> void:
-	is_aggroed = true
 
 func _on_enemy_aggroed() -> void:
 	is_aggroed = true

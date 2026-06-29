@@ -33,11 +33,13 @@ var phase_3_threshold: float:
 var facing_direction: int = FacingDirection.DOWN
 var is_player_detected: bool = false
 var current_phase: int = 1
+var spawn_position: Vector2 = Vector2.ZERO
 var _fight_started: bool = false
 
 func _ready() -> void:
 	add_to_group(&"enemies")
 	add_to_group(&"bosses")
+	spawn_position = global_position
 	health_component.damaged.connect(_on_health_damaged)
 	health_component.health_changed.connect(_on_health_changed)
 	detection_area.body_entered.connect(_on_detection_body_entered)

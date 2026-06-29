@@ -14,6 +14,7 @@ var _slam_timer: float = 0.0
 var _summon_timer: float = 0.0
 
 func enter() -> void:
+	enemy.start_boss_fight()
 	enemy.play_directional_animation("walk")
 	if _charge_timer <= 0.0:
 		_charge_timer = charge_cooldown * 0.5
