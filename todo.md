@@ -77,6 +77,8 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 ## Bugs
 
 - [ ] **Arrows pass through walls** — Projectiles (arrows) don't collide with wall tiles. Add wall collision detection to arrow scripts so they stop/despawn on wall contact
+- [ ] **Death screen broken** — When the player dies, the restart button doesn't appear and enemies continue attacking the dead player. Need to show the restart UI and stop enemy AI on player death
+- [ ] **Mage Fire Wall (R) useless** — The Fire Wall spell needs tuning/fixing to be more effective and worth the 25 mana cost
 
 ---
 
@@ -86,7 +88,7 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [ ] Consumable items (health potions, buff potions, throwables)
 - [ ] More enemy types
 - [ ] More music tracks
-- [ ] **Mage class** — Ranged magic user with spell-based attacks (fireball, lightning), mana resource, AoE abilities, glass cannon stats
+- [x] **Mage class** — Ranged magic user with spell-based attacks (fireball, lightning), mana resource, AoE abilities, glass cannon stats
 - [ ] **Rogue class** — Fast melee with daggers, backstab crit bonus, dash ability, stealth mechanic, high speed / low HP
 - [ ] **Cleric class** — Hybrid support/melee with mace, healing ability, holy damage vs undead, shield/buff spells, tanky stats
 - [ ] Room environmental variety (water, lava, darkness)

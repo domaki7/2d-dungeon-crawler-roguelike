@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Frame 0: Left leg forward -->
+  <!-- Hood top (body bobbed down 1px) -->
+  <rect x="5" y="1" width="6" height="1" fill="#7A1818"/>
+  <rect x="4" y="2" width="8" height="1" fill="#7A1818"/>
+  <rect x="4" y="3" width="8" height="2" fill="#8B2020"/>
+  <!-- Hood sides -->
+  <rect x="4" y="5" width="1" height="3" fill="#7A1818"/>
+  <rect x="11" y="5" width="1" height="3" fill="#7A1818"/>
+  <!-- Face -->
+  <rect x="5" y="5" width="6" height="3" fill="#E8B888"/>
+  <rect x="6" y="6" width="4" height="2" fill="#D4A070"/>
+  <!-- Eyes -->
+  <rect x="6" y="6" width="1" height="1" fill="#1E1E32"/>
+  <rect x="9" y="6" width="1" height="1" fill="#1E1E32"/>
+  <rect x="6" y="6" width="1" height="1" fill="#AAEEFF" opacity="0.6"/>
+  <rect x="9" y="6" width="1" height="1" fill="#AAEEFF" opacity="0.6"/>
+  <!-- Hood bottom -->
+  <rect x="5" y="8" width="6" height="1" fill="#7A1818"/>
+  <!-- Gold collar -->
+  <rect x="5" y="9" width="6" height="1" fill="#DAA520"/>
+  <!-- Robe body -->
+  <rect x="4" y="10" width="8" height="2" fill="#A03030"/>
+  <rect x="5" y="12" width="6" height="4" fill="#8B2020"/>
+  <rect x="6" y="12" width="4" height="4" fill="#A03030"/>
+  <rect x="7" y="10" width="2" height="6" fill="#B8860B"/>
+  <!-- Sleeves (arms swinging - left forward, right back) -->
+  <rect x="2" y="11" width="3" height="1" fill="#8B2020"/>
+  <rect x="1" y="12" width="3" height="2" fill="#7A1818"/>
+  <rect x="1" y="14" width="2" height="1" fill="#D4A878"/>
+  <rect x="11" y="10" width="3" height="1" fill="#8B2020"/>
+  <rect x="12" y="11" width="3" height="2" fill="#7A1818"/>
+  <rect x="13" y="13" width="2" height="1" fill="#D4A878"/>
+  <!-- Robe lower -->
+  <rect x="4" y="16" width="8" height="2" fill="#8B2020"/>
+  <rect x="5" y="18" width="6" height="3" fill="#6A1818"/>
+  <rect x="7" y="16" width="2" height="5" fill="#7A1818"/>
+  <!-- Gold hem -->
+  <rect x="5" y="21" width="6" height="1" fill="#DAA520"/>
+  <!-- Robe split for legs -->
+  <rect x="4" y="22" width="4" height="3" fill="#6A1818"/>
+  <rect x="8" y="22" width="4" height="3" fill="#6A1818"/>
+  <!-- Gold bottom trim -->
+  <rect x="4" y="25" width="4" height="1" fill="#B8860B"/>
+  <rect x="8" y="25" width="4" height="1" fill="#B8860B"/>
+  <!-- Left leg forward -->
+  <rect x="4" y="26" width="3" height="3" fill="#2A2A3A"/>
+  <rect x="3" y="29" width="4" height="1" fill="#2A2A3A"/>
+  <rect x="3" y="30" width="4" height="1" fill="#1E1E2E"/>
+  <!-- Right leg back -->
+  <rect x="9" y="26" width="3" height="2" fill="#2A2A3A"/>
+  <rect x="9" y="28" width="4" height="1" fill="#2A2A3A"/>
+  <rect x="9" y="29" width="4" height="1" fill="#1E1E2E"/>
+  <!-- Staff (tilted slightly left from walk) -->
+  <rect x="14" y="2" width="1" height="13" fill="#4A3020"/>
+  <rect x="15" y="4" width="1" height="9" fill="#3A2818"/>
+  <!-- Staff orb -->
+  <rect x="13" y="0" width="3" height="1" fill="#DAA520"/>
+  <rect x="13" y="1" width="3" height="2" fill="#FFD700"/>
+  <rect x="14" y="1" width="1" height="1" fill="#FFEC80"/>
+</svg>

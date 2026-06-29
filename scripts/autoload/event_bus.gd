@@ -31,3 +31,5 @@ signal enemy_aggroed()
 
 signal status_effect_applied(type: int, duration: float)
 signal status_effect_removed(type: int)
+
+signal mana_changed(current_mana: int, max_mana: int)

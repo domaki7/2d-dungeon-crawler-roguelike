@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/ice_shard_projectile.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/effects/ice_shard.svg" id="2_sprite"]
+
+[sub_resource type="RectangleShape2D" id="SubResource_shape"]
+size = Vector2(8, 3)
+
+[node name="IceShard" type="Area2D"]
+collision_layer = 32
+collision_mask = 16
+monitoring = true
+monitorable = false
+script = ExtResource("1_script")
+knockback_force = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SubResource_shape")

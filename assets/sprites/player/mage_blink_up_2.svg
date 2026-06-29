@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Almost gone - back view, faint outline/shimmer -->
+  <!-- Magic shimmer particles scattered -->
+  <rect x="3" y="1" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="12" y="4" width="1" height="1" fill="#88CCEE"/>
+  <rect x="2" y="14" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="13" y="18" width="1" height="1" fill="#88CCEE"/>
+  <rect x="5" y="29" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="10" y="24" width="1" height="1" fill="#88CCEE"/>
+  <rect x="8" y="0" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="14" y="8" width="1" height="1" fill="#AAEEFF"/>
+  <!-- Faint ghostly outline - hood -->
+  <rect x="5" y="1" width="1" height="1" fill="#C08888"/>
+  <rect x="10" y="1" width="1" height="1" fill="#C08888"/>
+  <rect x="4" y="3" width="1" height="4" fill="#C08888"/>
+  <rect x="11" y="3" width="1" height="4" fill="#C08888"/>
+  <!-- Faint body outline -->
+  <rect x="5" y="8" width="1" height="1" fill="#C08888"/>
+  <rect x="10" y="8" width="1" height="1" fill="#C08888"/>
+  <rect x="5" y="14" width="1" height="1" fill="#C08888"/>
+  <rect x="10" y="14" width="1" height="1" fill="#C08888"/>
+  <rect x="5" y="18" width="1" height="1" fill="#DDC888"/>
+  <rect x="10" y="18" width="1" height="1" fill="#DDC888"/>
+  <!-- Faint robe bottom outline -->
+  <rect x="4" y="23" width="1" height="1" fill="#C08888"/>
+  <rect x="11" y="23" width="1" height="1" fill="#C08888"/>
+  <rect x="4" y="26" width="1" height="1" fill="#DDC888"/>
+  <rect x="11" y="26" width="1" height="1" fill="#DDC888"/>
+</svg>

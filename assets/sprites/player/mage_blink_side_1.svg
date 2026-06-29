@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 32" shape-rendering="crispEdges">
+  <!-- Partially transparent/fading - side view, desaturated -->
+  <!-- Magic shimmer particles -->
+  <rect x="2" y="3" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="14" y="8" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="1" y="22" width="1" height="1" fill="#88CCEE"/>
+  <rect x="13" y="15" width="1" height="1" fill="#88CCEE"/>
+  <rect x="3" y="28" width="1" height="1" fill="#AAEEFF"/>
+  <rect x="12" y="0" width="1" height="1" fill="#88CCEE"/>
+  <!-- Hood (faded) side -->
+  <rect x="5" y="0" width="5" height="1" fill="#9A5050"/>
+  <rect x="4" y="1" width="7" height="1" fill="#9A5050"/>
+  <rect x="4" y="2" width="7" height="3" fill="#9A5050"/>
+  <rect x="5" y="2" width="5" height="2" fill="#AA6060"/>
+  <!-- Eye (still glowing) -->
+  <rect x="4" y="4" width="7" height="1" fill="#9A5050"/>
+  <rect x="9" y="4" width="1" height="1" fill="#AAEEFF"/>
+  <!-- Face (faded) -->
+  <rect x="5" y="5" width="6" height="2" fill="#E8C8A8"/>
+  <rect x="4" y="5" width="1" height="2" fill="#9A5050"/>
+  <!-- Robe body (faded) -->
+  <rect x="5" y="8" width="6" height="2" fill="#AA6060"/>
+  <rect x="6" y="8" width="4" height="2" fill="#BB7070"/>
+  <rect x="5" y="8" width="1" height="2" fill="#DDC070"/>
+  <!-- Robe torso (faded with gaps) -->
+  <rect x="5" y="10" width="2" height="4" fill="#AA6060"/>
+  <rect x="9" y="10" width="2" height="4" fill="#AA6060"/>
+  <rect x="6" y="11" width="4" height="3" fill="#BB7070"/>
+  <rect x="5" y="15" width="6" height="3" fill="#AA6060"/>
+  <rect x="6" y="15" width="4" height="3" fill="#BB7070"/>
+  <!-- Arms (faded) -->
+  <rect x="4" y="11" width="2" height="4" fill="#8A4848"/>
+  <rect x="11" y="11" width="2" height="4" fill="#9A5050"/>
+  <!-- Robe bottom (faded) -->
+  <rect x="5" y="18" width="6" height="1" fill="#DDC070"/>
+  <rect x="5" y="19" width="2" height="4" fill="#8A4848"/>
+  <rect x="9" y="19" width="2" height="4" fill="#8A4848"/>
+  <rect x="6" y="20" width="4" height="4" fill="#9A5050"/>
+  <rect x="5" y="24" width="6" height="2" fill="#8A4848"/>
+  <!-- Gold hem (faded) -->
+  <rect x="5" y="26" width="6" height="1" fill="#DDC070"/>
+  <!-- Boots (faded) -->
+  <rect x="5" y="27" width="3" height="3" fill="#4A4A5A"/>
+  <rect x="8" y="27" width="3" height="3" fill="#4A4A5A"/>
+</svg>

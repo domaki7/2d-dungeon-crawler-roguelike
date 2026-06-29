@@ -1,7 +1,7 @@
 extends Node
 
 enum GameState { TITLE, RUN, POST_RUN }
-enum PlayerClass { WARRIOR, RANGER }
+enum PlayerClass { WARRIOR, RANGER, MAGE }
 
 var current_state: int = GameState.TITLE
 var selected_class: int = PlayerClass.WARRIOR

@@ -32,3 +32,24 @@ extends Resource
 @export_group("Rain of Arrows")
 @export var rain_delay: float = 0.4
 @export var rain_duration: float = 0.6
+
+@export_group("Mana")
+@export var mana_cost: int = 0
+
+@export_group("Ice Shard")
+@export var slow_duration: float = 3.0
+
+@export_group("Chain Lightning")
+@export var bounce_count: int = 3
+@export var bounce_range: float = 60.0
+@export var cast_range: float = 80.0
+
+@export_group("Fire Wall")
+@export var wall_length: float = 48.0
+@export var wall_width: float = 12.0
+@export var wall_duration: float = 3.0
+@export var wall_tick_interval: float = 0.5
+@export var burn_duration: float = 2.0
+
+@export_group("Blink")
+@export var blink_distance: float = 60.0

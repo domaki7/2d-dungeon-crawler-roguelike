@@ -93,3 +93,25 @@ func _apply_single_ability_tuning(ability: AbilityData) -> void:
 		ability.rain_delay = tuning["rain_delay"]
 	if tuning.has("rain_duration"):
 		ability.rain_duration = tuning["rain_duration"]
+	if tuning.has("mana_cost"):
+		ability.mana_cost = tuning["mana_cost"]
+	if tuning.has("slow_duration"):
+		ability.slow_duration = tuning["slow_duration"]
+	if tuning.has("bounce_count"):
+		ability.bounce_count = tuning["bounce_count"]
+	if tuning.has("bounce_range"):
+		ability.bounce_range = tuning["bounce_range"]
+	if tuning.has("cast_range"):
+		ability.cast_range = tuning["cast_range"]
+	if tuning.has("length"):
+		ability.wall_length = tuning["length"]
+	if tuning.has("width"):
+		ability.wall_width = tuning["width"]
+	if tuning.has("duration"):
+		ability.wall_duration = tuning["duration"]
+	if tuning.has("tick_interval"):
+		ability.wall_tick_interval = tuning["tick_interval"]
+	if tuning.has("burn_duration"):
+		ability.burn_duration = tuning["burn_duration"]
+	if tuning.has("distance"):
+		ability.blink_distance = tuning["distance"]

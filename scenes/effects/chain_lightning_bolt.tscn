@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lightning"]
+blend_mode = 1
+
+[node name="ChainLightningBolt" type="Line2D"]
+material = SubResource("CanvasItemMaterial_lightning")
+width = 2.0
+default_color = Color(0.6, 0.8, 1, 1)

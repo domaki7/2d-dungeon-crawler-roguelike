@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var death_screen: Control = $DeathScreen
 
 var _floor_label: Label
+var _mana_bar: ProgressBar = null
 var _boss_bar: ProgressBar = null
 var _boss_label: Label = null
 var _boss_health_component: HealthComponent = null
@@ -15,6 +16,7 @@ func _ready() -> void:
 	EventBus.floor_started.connect(_on_floor_started)
 	EventBus.boss_fight_started.connect(_on_boss_fight_started)
 	EventBus.boss_defeated.connect(_on_boss_defeated)
+	EventBus.mana_changed.connect(_on_mana_changed)
 	gold_label.text = "0"
 	_create_ability_bar()
 	_create_floor_label()
@@ -39,6 +41,9 @@ func _connect_to_player() -> void:
 		health_bar.max_value = hc.max_hp
 		health_bar.value = hc.current_hp
 		hc.health_changed.connect(_on_health_changed)
+	if player and player.has_node("ManaComponent"):
+		var mc: ManaComponent = player.get_node("ManaComponent") as ManaComponent
+		_create_mana_bar(mc.current_mana, mc.max_mana)
 
 func _on_health_changed(current_hp: int, max_hp: int) -> void:
 	health_bar.max_value = max_hp
@@ -137,3 +142,23 @@ func _on_item_picked_up(item_data: Resource) -> void:
 	tween.tween_interval(1.5)
 	tween.tween_property(notification, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(notification.queue_free)
+
+func _create_mana_bar(current: int, max_mana: int) -> void:
+	_mana_bar = ProgressBar.new()
+	_mana_bar.custom_minimum_size = Vector2(60, 4)
+	_mana_bar.max_value = max_mana
+	_mana_bar.value = current
+	_mana_bar.show_percentage = false
+	_mana_bar.position = Vector2(4.0, 14.0)
+	var fill_style: StyleBoxFlat = StyleBoxFlat.new()
+	fill_style.bg_color = Color(0.2, 0.3, 0.8)
+	_mana_bar.add_theme_stylebox_override("fill", fill_style)
+	var bg_style: StyleBoxFlat = StyleBoxFlat.new()
+	bg_style.bg_color = Color(0.1, 0.1, 0.2)
+	_mana_bar.add_theme_stylebox_override("background", bg_style)
+	add_child(_mana_bar)
+
+func _on_mana_changed(current_mana: int, max_mana: int) -> void:
+	if _mana_bar:
+		_mana_bar.max_value = max_mana
+		_mana_bar.value = current_mana

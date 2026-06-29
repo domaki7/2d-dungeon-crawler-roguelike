@@ -93,6 +93,56 @@ extends Resource
 
 
 # =============================================================================
+# PLAYER - MAGE
+# =============================================================================
+
+@export_group("Mage - Base Stats")
+
+## Starting damage before equipment bonuses
+@export var mage_base_damage: int = 4
+## Starting defense before equipment bonuses
+@export var mage_base_defense: int = 0
+## Starting max HP before equipment bonuses
+@export var mage_base_max_hp: int = 7
+## Base movement speed (pixels/sec)
+@export var mage_base_speed: float = 110.0
+## Base knockback force applied to enemies on hit
+@export var mage_base_knockback_force: float = 80.0
+## Base critical hit chance (0.0 to 1.0)
+@export var mage_base_crit_chance: float = 0.0
+
+@export_group("Mage - Movement")
+
+## How quickly the mage reaches max speed (pixels/sec^2)
+@export var mage_acceleration: float = 700.0
+## How quickly the mage decelerates when not moving (pixels/sec^2)
+@export var mage_friction: float = 550.0
+
+@export_group("Mage - Mana")
+
+## Maximum mana pool
+@export var mage_max_mana: int = 50
+## Mana regenerated per second
+@export var mage_mana_regen_rate: float = 5.0
+
+@export_group("Mage - Magic Bolt")
+
+## Magic bolt travel speed (pixels/sec)
+@export var mage_bolt_speed: float = 140.0
+## How long before the magic bolt despawns (seconds)
+@export var mage_bolt_lifetime: float = 2.5
+## Knockback force applied by magic bolt
+@export var mage_bolt_knockback: float = 60.0
+
+@export_group("Mage - Ice Shard Projectile")
+
+## Ice shard travel speed (pixels/sec)
+@export var mage_ice_shard_speed: float = 120.0
+## How long before the ice shard despawns (seconds)
+@export var mage_ice_shard_lifetime: float = 2.5
+
+
+# =============================================================================
 # SKELETON
 # =============================================================================
 
@@ -921,6 +971,66 @@ extends Resource
 @export var ability_rain_of_arrows_rain_delay: float = 0.4
 ## Duration of the arrow rain (seconds)
 @export var ability_rain_of_arrows_rain_duration: float = 0.6
+
+@export_group("Abilities - Ice Shard")
+
+## Cooldown between uses (seconds)
+@export var ability_ice_shard_cooldown: float = 4.0
+## Damage dealt on hit
+@export var ability_ice_shard_damage: int = 3
+## Knockback force applied to enemies
+@export var ability_ice_shard_knockback_force: float = 40.0
+## Duration of SLOW applied on hit (seconds)
+@export var ability_ice_shard_slow_duration: float = 3.0
+## Mana cost to cast
+@export var ability_ice_shard_mana_cost: int = 15
+
+@export_group("Abilities - Chain Lightning")
+
+## Cooldown between uses (seconds)
+@export var ability_chain_lightning_cooldown: float = 6.0
+## Damage dealt per bounce
+@export var ability_chain_lightning_damage: int = 5
+## Knockback force applied to enemies
+@export var ability_chain_lightning_knockback_force: float = 30.0
+## Number of times lightning bounces to additional enemies
+@export var ability_chain_lightning_bounce_count: int = 3
+## Maximum range to find the next bounce target (pixels)
+@export var ability_chain_lightning_bounce_range: float = 60.0
+## Maximum range to find initial target (pixels)
+@export var ability_chain_lightning_cast_range: float = 80.0
+## Mana cost to cast
+@export var ability_chain_lightning_mana_cost: int = 20
+
+@export_group("Abilities - Fire Wall")
+
+## Cooldown between uses (seconds)
+@export var ability_fire_wall_cooldown: float = 10.0
+## Damage dealt per tick to enemies in the wall
+@export var ability_fire_wall_damage: int = 2
+## Knockback force applied per tick
+@export var ability_fire_wall_knockback_force: float = 0.0
+## Length of the fire wall (pixels)
+@export var ability_fire_wall_length: float = 48.0
+## Width of the fire wall (pixels)
+@export var ability_fire_wall_width: float = 12.0
+## How long the fire wall persists (seconds)
+@export var ability_fire_wall_duration: float = 3.0
+## Time between damage ticks (seconds)
+@export var ability_fire_wall_tick_interval: float = 0.5
+## Duration of BURN applied to enemies (seconds)
+@export var ability_fire_wall_burn_duration: float = 2.0
+## Mana cost to cast
+@export var ability_fire_wall_mana_cost: int = 25
+
+@export_group("Abilities - Blink")
+
+## Cooldown between uses (seconds)
+@export var ability_blink_cooldown: float = 3.0
+## Teleport distance (pixels)
+@export var ability_blink_distance: float = 60.0
+## Mana cost to cast
+@export var ability_blink_mana_cost: int = 10
 
 
 # =============================================================================

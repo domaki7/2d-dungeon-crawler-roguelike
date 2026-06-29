@@ -10,6 +10,7 @@ var run_stats: Dictionary = {}
 const PLAYER_SCENES: Dictionary = {
 	GameManager.PlayerClass.WARRIOR: "res://scenes/player/player.tscn",
 	GameManager.PlayerClass.RANGER: "res://scenes/player/player_ranger.tscn",
+	GameManager.PlayerClass.MAGE: "res://scenes/player/player_mage.tscn",
 }
 
 var _floor_configs: Array[FloorConfig] = []

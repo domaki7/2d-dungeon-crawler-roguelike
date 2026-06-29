@@ -1,0 +1,309 @@
+[gd_scene load_steps=56 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player_mage.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" path="res://scripts/player/player_states/mage_idle_state.gd" id="3_idle"]
+[ext_resource type="Script" path="res://scripts/player/player_states/mage_run_state.gd" id="4_run"]
+[ext_resource type="Script" path="res://scripts/player/player_states/mage_cast_state.gd" id="5_cast"]
+[ext_resource type="Script" path="res://scripts/player/player_states/hurt_state.gd" id="6_hurt"]
+[ext_resource type="Script" path="res://scripts/player/player_states/dead_state.gd" id="7_dead"]
+[ext_resource type="Script" path="res://scripts/player/player_states/ice_shard_state.gd" id="8_is"]
+[ext_resource type="Script" path="res://scripts/player/player_states/chain_lightning_state.gd" id="9_cl"]
+[ext_resource type="Script" path="res://scripts/player/player_states/fire_wall_state.gd" id="10_fw"]
+[ext_resource type="Script" path="res://scripts/player/player_states/blink_state.gd" id="11_blink"]
+[ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="12_hc"]
+[ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="13_kb"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="14_hurtbox"]
+[ext_resource type="Shader" path="res://shaders/hit_flash.gdshader" id="15_shader"]
+[ext_resource type="Script" path="res://scripts/player/player_stats.gd" id="16_stats"]
+[ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="17_effects"]
+[ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="18_am"]
+[ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="19_sec"]
+[ext_resource type="Script" path="res://scripts/combat/mana_component.gd" id="20_mana"]
+[ext_resource type="PackedScene" path="res://scenes/attacks/magic_bolt.tscn" id="21_bolt"]
+[ext_resource type="PackedScene" path="res://scenes/attacks/ice_shard.tscn" id="22_shard"]
+[ext_resource type="Resource" path="res://resources/abilities/ice_shard.tres" id="23_is_data"]
+[ext_resource type="Resource" path="res://resources/abilities/chain_lightning.tres" id="24_cl_data"]
+[ext_resource type="Resource" path="res://resources/abilities/fire_wall.tres" id="25_fw_data"]
+[ext_resource type="Resource" path="res://resources/abilities/blink.tres" id="26_blink_data"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_down_0.svg" id="t_id0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_down_1.svg" id="t_id1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_up_0.svg" id="t_iu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_up_1.svg" id="t_iu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_side_0.svg" id="t_is0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_idle_side_1.svg" id="t_is1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_down_0.svg" id="t_wd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_down_1.svg" id="t_wd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_down_2.svg" id="t_wd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_down_3.svg" id="t_wd3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_up_0.svg" id="t_wu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_up_1.svg" id="t_wu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_up_2.svg" id="t_wu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_up_3.svg" id="t_wu3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_side_0.svg" id="t_ws0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_side_1.svg" id="t_ws1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_side_2.svg" id="t_ws2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_walk_side_3.svg" id="t_ws3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_down_0.svg" id="t_cd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_down_1.svg" id="t_cd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_down_2.svg" id="t_cd2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_up_0.svg" id="t_cu0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_up_1.svg" id="t_cu1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_up_2.svg" id="t_cu2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_side_0.svg" id="t_cs0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_side_1.svg" id="t_cs1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_cast_side_2.svg" id="t_cs2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_blink_down_0.svg" id="t_bd0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_blink_down_1.svg" id="t_bd1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/mage_blink_down_2.svg" id="t_bd2"]
+
+[sub_resource type="SpriteFrames" id="SubResource_sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_id0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_id1")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_iu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_iu1")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_is0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_is1")
+}],
+"loop": true,
+"name": &"idle_side",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wd3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_wu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_wu3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_ws0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_ws3")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_cd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cd2")
+}],
+"loop": false,
+"name": &"cast_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_cu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cu2")
+}],
+"loop": false,
+"name": &"cast_up",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_cs0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cs1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_cs2")
+}],
+"loop": false,
+"name": &"cast_side",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("t_bd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_bd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("t_bd2")
+}],
+"loop": false,
+"name": &"blink_down",
+"speed": 12.0
+}]
+
+[sub_resource type="ShaderMaterial" id="SubResource_shader_mat"]
+shader = ExtResource("15_shader")
+shader_parameter/flash_intensity = 0.0
+
+[sub_resource type="CircleShape2D" id="SubResource_body"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="SubResource_hurtbox_shape"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_p")
+bolt_scene = ExtResource("21_bolt")
+ice_shard_scene = ExtResource("22_shard")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("SubResource_shader_mat")
+position = Vector2(0, -8)
+sprite_frames = SubResource("SubResource_sf")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SubResource_body")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_sm")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("3_idle")
+
+[node name="RunState" type="Node" parent="StateMachine"]
+script = ExtResource("4_run")
+
+[node name="CastState" type="Node" parent="StateMachine"]
+script = ExtResource("5_cast")
+
+[node name="HurtState" type="Node" parent="StateMachine"]
+script = ExtResource("6_hurt")
+
+[node name="DeadState" type="Node" parent="StateMachine"]
+script = ExtResource("7_dead")
+
+[node name="IceShardState" type="Node" parent="StateMachine"]
+script = ExtResource("8_is")
+ability_index = 0
+
+[node name="ChainLightningState" type="Node" parent="StateMachine"]
+script = ExtResource("9_cl")
+ability_index = 1
+
+[node name="FireWallState" type="Node" parent="StateMachine"]
+script = ExtResource("10_fw")
+ability_index = 2
+
+[node name="BlinkState" type="Node" parent="StateMachine"]
+script = ExtResource("11_blink")
+ability_index = 3
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("12_hc")
+max_hp = 7
+i_frame_duration = 0.5
+
+[node name="KnockbackComponent" type="Node" parent="."]
+script = ExtResource("13_kb")
+friction = 800.0
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("16_stats")
+base_damage = 4
+base_defense = 0
+base_max_hp = 7
+base_speed = 110.0
+base_knockback_force = 80.0
+base_crit_chance = 0.0
+
+[node name="ManaComponent" type="Node" parent="."]
+script = ExtResource("20_mana")
+max_mana = 50
+regen_rate = 5.0
+
+[node name="StatusEffectComponent" type="Node" parent="."]
+script = ExtResource("19_sec")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("14_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("SubResource_hurtbox_shape")
+
+[node name="AbilityManager" type="Node" parent="."]
+script = ExtResource("18_am")
+abilities = [ExtResource("23_is_data"), ExtResource("24_cl_data"), ExtResource("25_fw_data"), ExtResource("26_blink_data")]
+
+[node name="ItemEffectHandler" type="Node" parent="."]
+script = ExtResource("17_effects")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0

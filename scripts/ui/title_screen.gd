@@ -127,6 +127,16 @@ func _show_class_selection() -> void:
 		GameManager.start_run(GameManager.PlayerClass.RANGER))
 	classes_hbox.add_child(ranger_btn)
 
+	var mage_btn: Button = _create_class_button(
+		"Mage",
+		"Ranged spellcaster with\nmana and AoE spells.",
+		"HP: 7  DMG: 4\nSPD: 110  MANA: 50",
+		Color(0.7, 0.2, 0.2),
+	)
+	mage_btn.pressed.connect(func() -> void:
+		GameManager.start_run(GameManager.PlayerClass.MAGE))
+	classes_hbox.add_child(mage_btn)
+
 	var spacer2: Control = Control.new()
 	spacer2.custom_minimum_size = Vector2(0, 4)
 	vbox.add_child(spacer2)

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="Gradient" id="Gradient_blink"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.8, 0.5, 1, 1, 0.5, 0.2, 0.8, 0.6, 0.3, 0.1, 0.5, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_blink"]
+gradient = SubResource("Gradient_blink")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blink"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 2.5
+color_ramp = SubResource("GradientTexture1D_blink")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_blink"]
+blend_mode = 1
+
+[node name="BlinkPoof" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_blink")
+emitting = false
+amount = 8
+process_material = SubResource("ParticleProcessMaterial_blink")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0

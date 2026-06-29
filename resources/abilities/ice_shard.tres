@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/abilities/ability_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ability_id = &"ice_shard"
+display_name = "Ice Shard"
+description = "Fire a piercing shard of ice that slows enemies."
+cooldown = 4.0
+damage = 3
+knockback_force = 40.0
+mana_cost = 15
+slow_duration = 3.0
