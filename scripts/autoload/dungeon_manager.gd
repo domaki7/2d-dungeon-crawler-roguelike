@@ -92,6 +92,9 @@ func _build_floor_graph(config: FloorConfig) -> void:
 		push_error("FloorConfig has no combat room scenes")
 		return
 
+	var next_id: int = 0
+	var grid_to_id: Dictionary = {}
+
 	var room_types: Array[String] = []
 	for i: int in range(room_count):
 		room_types.append("combat")
@@ -101,57 +104,161 @@ func _build_floor_graph(config: FloorConfig) -> void:
 		special_positions.append(i)
 	special_positions.shuffle()
 
+	var shop_placed: bool = false
+	var treasure_placed: bool = false
+
 	if config.has_shop and config.shop_room_scene and not special_positions.is_empty():
 		var pos: int = special_positions.pop_front()
 		room_types[pos] = "shop"
+		shop_placed = true
 
 	if config.has_treasure and config.treasure_room_scene and not special_positions.is_empty():
 		var pos: int = special_positions.pop_front()
 		room_types[pos] = "treasure"
+		treasure_placed = true
 
-	var total_rooms: int = room_count
-	if config.has_boss and config.boss_room_scene:
-		total_rooms += 1
+	var main_path_ids: Array[int] = []
+	for i: int in range(room_count):
+		var room_id: int = next_id
+		next_id += 1
+		main_path_ids.append(room_id)
+		var grid_pos: Vector2i = Vector2i(0, i)
+		grid_to_id[grid_pos] = room_id
 
-	for i: int in range(total_rooms):
-		var scene_path: String
-		var room_type: String
-		var is_final: bool = false
-
-		if config.has_boss and config.boss_room_scene and i == total_rooms - 1:
-			scene_path = config.boss_room_scene.resource_path
-			room_type = "boss"
-			is_final = true
-		elif i < room_count:
-			room_type = room_types[i]
-			match room_type:
-				"shop":
-					scene_path = config.shop_room_scene.resource_path
-				"treasure":
-					scene_path = config.treasure_room_scene.resource_path
-				_:
-					scene_path = combat_scenes.pick_random().resource_path
-		else:
-			continue
-
-		if not config.has_boss and i == total_rooms - 1:
-			is_final = true
-
+		var scene_path: String = _get_scene_path_for_type(room_types[i], config, combat_scenes)
 		var connections: Dictionary = {}
 		if i > 0:
-			connections[Door.Direction.NORTH] = i - 1
-		if i < total_rooms - 1:
-			connections[Door.Direction.SOUTH] = i + 1
-
-		_floor_graph[i] = {
-			"id": i,
+			connections[Door.Direction.NORTH] = main_path_ids[i - 1]
+		_floor_graph[room_id] = {
+			"id": room_id,
 			"scene_path": scene_path,
-			"room_type": room_type,
+			"room_type": room_types[i],
 			"connections": connections,
 			"is_visited": false,
 			"is_cleared": false,
-			"is_final": is_final,
+			"is_final": false,
+			"grid_pos": grid_pos,
 		}
+
+	for i: int in range(room_count - 1):
+		_floor_graph[main_path_ids[i]].connections[Door.Direction.SOUTH] = main_path_ids[i + 1]
+
+	for i: int in range(1, room_count - 1):
+		if randf() > config.branch_chance:
+			continue
+
+		var direction: Door.Direction
+		var dx: int
+		var east_pos: Vector2i = Vector2i(1, i)
+		var west_pos: Vector2i = Vector2i(-1, i)
+		var east_free: bool = not grid_to_id.has(east_pos)
+		var west_free: bool = not grid_to_id.has(west_pos)
+
+		if east_free and west_free:
+			if randi() % 2 == 0:
+				direction = Door.Direction.EAST
+				dx = 1
+			else:
+				direction = Door.Direction.WEST
+				dx = -1
+		elif east_free:
+			direction = Door.Direction.EAST
+			dx = 1
+		elif west_free:
+			direction = Door.Direction.WEST
+			dx = -1
+		else:
+			continue
+
+		var opposite_dir: Door.Direction = Door.Direction.WEST if direction == Door.Direction.EAST else Door.Direction.EAST
+		var branch_main_id: int = main_path_ids[i]
+
+		var branch_type: String = "combat"
+		var branch_depth: int = randi_range(1, config.max_branch_depth)
+
+		var branch_grid_1: Vector2i = Vector2i(dx, i)
+		var branch_id_1: int = next_id
+		next_id += 1
+		grid_to_id[branch_grid_1] = branch_id_1
+
+		var scene_path_1: String = combat_scenes.pick_random().resource_path
+		_floor_graph[branch_id_1] = {
+			"id": branch_id_1,
+			"scene_path": scene_path_1,
+			"room_type": branch_type,
+			"connections": {opposite_dir: branch_main_id},
+			"is_visited": false,
+			"is_cleared": false,
+			"is_final": false,
+			"grid_pos": branch_grid_1,
+		}
+		_floor_graph[branch_main_id].connections[direction] = branch_id_1
+
+		if branch_depth >= 2:
+			var branch_grid_2: Vector2i = Vector2i(dx, i + 1)
+			if grid_to_id.has(branch_grid_2):
+				continue
+
+			var branch_id_2: int = next_id
+			next_id += 1
+			grid_to_id[branch_grid_2] = branch_id_2
+
+			var depth2_type: String = "combat"
+			if not shop_placed and config.has_shop and config.shop_room_scene:
+				depth2_type = "shop"
+				shop_placed = true
+			elif not treasure_placed and config.has_treasure and config.treasure_room_scene:
+				depth2_type = "treasure"
+				treasure_placed = true
+
+			var scene_path_2: String = _get_scene_path_for_type(depth2_type, config, combat_scenes)
+			_floor_graph[branch_id_2] = {
+				"id": branch_id_2,
+				"scene_path": scene_path_2,
+				"room_type": depth2_type,
+				"connections": {Door.Direction.NORTH: branch_id_1},
+				"is_visited": false,
+				"is_cleared": false,
+				"is_final": false,
+				"grid_pos": branch_grid_2,
+			}
+			_floor_graph[branch_id_1].connections[Door.Direction.SOUTH] = branch_id_2
+
+			var loop_target_grid: Vector2i = Vector2i(0, i + 1)
+			if grid_to_id.has(loop_target_grid):
+				var loop_target_id: int = grid_to_id[loop_target_grid] as int
+				_floor_graph[branch_id_2].connections[opposite_dir] = loop_target_id
+				_floor_graph[loop_target_id].connections[direction] = branch_id_2
+
+	if config.has_boss and config.boss_room_scene:
+		var boss_id: int = next_id
+		var boss_grid: Vector2i = Vector2i(0, room_count)
+		grid_to_id[boss_grid] = boss_id
+		var last_main_id: int = main_path_ids[room_count - 1]
+
+		_floor_graph[last_main_id].connections[Door.Direction.SOUTH] = boss_id
+		_floor_graph[boss_id] = {
+			"id": boss_id,
+			"scene_path": config.boss_room_scene.resource_path,
+			"room_type": "boss",
+			"connections": {Door.Direction.NORTH: last_main_id},
+			"is_visited": false,
+			"is_cleared": false,
+			"is_final": true,
+			"grid_pos": boss_grid,
+		}
+	else:
+		var last_id: int = main_path_ids[room_count - 1]
+		_floor_graph[last_id].is_final = true
+
+func _get_scene_path_for_type(room_type: String, config: FloorConfig, combat_scenes: Array[PackedScene]) -> String:
+	match room_type:
+		"shop":
+			return config.shop_room_scene.resource_path
+		"treasure":
+			return config.treasure_room_scene.resource_path
+		_:
+			return combat_scenes.pick_random().resource_path
 
 func _cleanup_room() -> void:
 	if _current_room and is_instance_valid(_current_room):

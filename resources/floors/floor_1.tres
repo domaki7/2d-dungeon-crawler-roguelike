@@ -22,4 +22,6 @@ has_treasure = true
 treasure_room_scene = ExtResource("9_treasure")
 has_boss = true
 boss_room_scene = ExtResource("10_boss")
+branch_chance = 0.4
+max_branch_depth = 2
 enemy_difficulty_multiplier = 1.0

@@ -40,11 +40,11 @@ Only stun exists. Add burn, poison, freeze, slow.
 
 Currently `_build_floor_graph()` creates a strict N→S linear chain. Need proper dungeon map.
 
-- [ ] **Rework floor graph generation** — Rewrite `dungeon_manager.gd` `_build_floor_graph()`: generate main N→S path, branch E/W randomly, 1-2 room deep side paths for treasure/shop. Store `grid_pos: Vector2i` per room
-- [ ] **Add FloorConfig params** — `branch_chance`, `max_branch_depth` exports in `floor_config.gd`
-- [ ] **Update minimap** — Replace `Vector2(0, room_id * room_spacing)` with `room.grid_pos * room_spacing` in `minimap.gd`
-- [ ] **Add E/W doors to rooms** — All room `.tscn` files need EAST and WEST door instances. `_configure_doors()` already locks unused ones
-- [ ] **Backtracking** — Already works (cleared rooms skip spawning). Just needs the graph rework
+- [x] **Rework floor graph generation** — Rewrite `dungeon_manager.gd` `_build_floor_graph()`: generate main N→S path, branch E/W randomly, 1-2 room deep side paths for treasure/shop. Store `grid_pos: Vector2i` per room
+- [x] **Add FloorConfig params** — `branch_chance`, `max_branch_depth` exports in `floor_config.gd`
+- [x] **Update minimap** — Replace `Vector2(0, room_id * room_spacing)` with `room.grid_pos * room_spacing` in `minimap.gd`
+- [x] **Add E/W doors to rooms** — All room `.tscn` files need EAST and WEST door instances. `_configure_doors()` already locks unused ones
+- [x] **Backtracking** — Already works (cleared rooms skip spawning). Just needs the graph rework
 
 ## Phase 4: Difficulty & Balance Pass
 

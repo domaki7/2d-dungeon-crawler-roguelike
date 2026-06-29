@@ -491,6 +491,13 @@ extends Resource
 ## Total number of floors in a run
 @export var dungeon_max_floors: int = 3
 
+@export_group("Dungeon - Branching")
+
+## Probability that each main-path room spawns a side branch (0.0 to 1.0)
+@export var dungeon_branch_chance: float = 0.4
+## Maximum number of rooms deep a branch can extend
+@export var dungeon_max_branch_depth: int = 2
+
 @export_group("Dungeon - Room Defaults")
 
 ## Default room width in pixels

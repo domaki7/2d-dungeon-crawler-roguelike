@@ -34,6 +34,16 @@ direction = 0
 position = Vector2(192, 248)
 direction = 1
 
+[node name="DoorEast" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(376, 128)
+rotation = 1.5708
+direction = 2
+
+[node name="DoorWest" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(8, 128)
+rotation = 1.5708
+direction = 3
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="ShopNPC" parent="." instance=ExtResource("4_shop")]

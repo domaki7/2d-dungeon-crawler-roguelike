@@ -26,15 +26,21 @@ func _draw() -> void:
 		return
 
 	var current_id: int = DungeonManager.get_current_room_id()
+	var current_room: Dictionary = floor_graph.get(current_id, {})
+	var current_grid: Vector2i = current_room.get("grid_pos", Vector2i.ZERO) as Vector2i
+	var center_offset: Vector2 = size / 2.0 - Vector2(current_grid) * room_spacing - room_size / 2.0
 
 	for room_id: int in floor_graph:
 		var room: Dictionary = floor_graph[room_id]
-		var pos: Vector2 = Vector2(0, room_id * room_spacing)
+		var grid_pos: Vector2i = room.get("grid_pos", Vector2i.ZERO) as Vector2i
+		var pos: Vector2 = Vector2(grid_pos) * room_spacing + center_offset
 
 		var connections: Dictionary = room.get("connections", {})
 		for dir: int in connections:
 			var target_id: int = connections[dir] as int
-			var target_pos: Vector2 = Vector2(0, target_id * room_spacing)
+			var target_room: Dictionary = floor_graph.get(target_id, {})
+			var target_grid: Vector2i = target_room.get("grid_pos", Vector2i.ZERO) as Vector2i
+			var target_pos: Vector2 = Vector2(target_grid) * room_spacing + center_offset
 			draw_line(
 				pos + room_size / 2.0,
 				target_pos + room_size / 2.0,
