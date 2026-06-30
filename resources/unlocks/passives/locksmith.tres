@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/meta/unlock_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = &"locksmith"
+display_name = "Locksmith"
+description = "Locked chests cost 50% less gold to open."
+cost = 75
+category = 3
+passive_stat = &"locked_chest_discount"
+passive_value = 0.5
+passive_level = 1
+requires_unlock_id = &""

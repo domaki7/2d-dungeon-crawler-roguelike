@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/meta/unlock_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = &"vitality_2"
+display_name = "Vitality II"
+description = "+10 more Max HP at the start of every run."
+cost = 75
+category = 3
+passive_stat = &"max_hp"
+passive_value = 10.0
+passive_level = 2
+requires_unlock_id = &"vitality_1"

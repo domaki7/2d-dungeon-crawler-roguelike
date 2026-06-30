@@ -1258,8 +1258,32 @@ extends Resource
 
 
 # =============================================================================
+# META-PROGRESSION
+# =============================================================================
+
+@export_group("Meta-Progression")
+
+@export_subgroup("Unlock Costs")
+## Soul Gem cost to unlock an Uncommon rarity item
+@export var unlock_cost_uncommon: int = 50
+## Soul Gem cost to unlock a Rare rarity item
+@export var unlock_cost_rare: int = 100
+## Soul Gem cost to unlock a Legendary rarity item
+@export var unlock_cost_legendary: int = 300
+
+
+# =============================================================================
 # HELPER METHODS
 # =============================================================================
+
+## Returns the Soul Gem cost to unlock an item of the given ItemData.Rarity.
+## COMMON items are always free (cost 0) since they're available without unlocking.
+func get_unlock_cost_for_rarity(rarity: int) -> int:
+	match rarity:
+		1: return unlock_cost_uncommon
+		2: return unlock_cost_rare
+		3: return unlock_cost_legendary
+	return 0
 
 ## Returns the item tuning values for a given item_id as a Dictionary.
 ## Keys: bonus_damage, bonus_defense, bonus_max_hp, bonus_speed,

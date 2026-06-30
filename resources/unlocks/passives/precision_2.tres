@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/meta/unlock_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = &"precision_2"
+display_name = "Precision II"
+description = "+3% more Critical Hit Chance."
+cost = 100
+category = 3
+passive_stat = &"crit_chance"
+passive_value = 0.03
+passive_level = 2
+requires_unlock_id = &"precision_1"

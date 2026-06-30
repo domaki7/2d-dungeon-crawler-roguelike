@@ -10,7 +10,9 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
-		body.gold += gold_value
+		var stats: PlayerStats = body.get_node_or_null("PlayerStats") as PlayerStats
+		var meta_mult: float = stats.meta_gold_multiplier if stats else 1.0
+		body.gold += maxi(1, int(gold_value * meta_mult))
 		EventBus.gold_changed.emit(body.gold)
 		AudioManager.play_sfx(&"gold_pickup")
 		queue_free()

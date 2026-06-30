@@ -17,12 +17,23 @@ func _ready() -> void:
 	_interaction_area.body_exited.connect(_on_body_exited)
 	if shop_items.is_empty() and not available_items.is_empty():
 		_generate_random_shop()
+	_filter_locked_items()
 
 func _generate_random_shop() -> void:
-	var pool: Array[ItemData] = available_items.duplicate()
+	var pool: Array[ItemData] = _filter_unlocked(available_items)
 	pool.shuffle()
 	for i: int in range(mini(random_item_count, pool.size())):
 		shop_items.append(pool[i])
+
+func _filter_locked_items() -> void:
+	shop_items = _filter_unlocked(shop_items)
+
+func _filter_unlocked(items: Array[ItemData]) -> Array[ItemData]:
+	var result: Array[ItemData] = []
+	for item: ItemData in items:
+		if item.rarity == ItemData.Rarity.COMMON or SaveManager.is_unlocked(item.item_id):
+			result.append(item)
+	return result
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _player_nearby and event.is_action_pressed(&"interact"):

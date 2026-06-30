@@ -17,6 +17,11 @@ var base_knockback_force: float:
 var base_crit_chance: float:
 	get: return GameConfig.config.player_base_crit_chance
 
+## Set once at run start from SaveManager meta-progression passives.
+var meta_max_hp_bonus: int = 0
+var meta_crit_chance_bonus: float = 0.0
+var meta_gold_multiplier: float = 1.0
+
 var _equipment: Dictionary = {}
 
 func equip(item: ItemData) -> ItemData:
@@ -59,7 +64,7 @@ func get_effective_defense() -> int:
 	return total
 
 func get_effective_max_hp() -> int:
-	var total: int = base_max_hp
+	var total: int = base_max_hp + meta_max_hp_bonus
 	for item: ItemData in _equipment.values():
 		total += item.bonus_max_hp
 	for bonus: SetBonusData in _get_active_set_bonuses():
@@ -81,7 +86,7 @@ func get_effective_knockback_force() -> float:
 	return total
 
 func get_effective_crit_chance() -> float:
-	var total: float = base_crit_chance
+	var total: float = base_crit_chance + meta_crit_chance_bonus
 	for item: ItemData in _equipment.values():
 		total += item.bonus_crit_chance
 	for bonus: SetBonusData in _get_active_set_bonuses():

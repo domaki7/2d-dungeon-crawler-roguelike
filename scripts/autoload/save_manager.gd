@@ -6,6 +6,7 @@ const SAVE_VERSION: int = 1
 var meta_currency: int = 0
 var unlocked_items: Array[StringName] = []
 var unlocked_abilities: Array[StringName] = []
+var unlocked_passives: Array[StringName] = []
 var lifetime_stats: Dictionary = {
 	"total_runs": 0,
 	"best_floor": 0,
@@ -19,7 +20,10 @@ var settings: Dictionary = {
 	"screen_shake_enabled": true,
 }
 
+var _passive_upgrades: Array[UnlockData] = []
+
 func _ready() -> void:
+	_load_passive_upgrades()
 	load_data()
 	_apply_settings()
 
@@ -29,6 +33,7 @@ func save() -> void:
 		"meta_currency": meta_currency,
 		"unlocked_items": _string_name_array_to_strings(unlocked_items),
 		"unlocked_abilities": _string_name_array_to_strings(unlocked_abilities),
+		"unlocked_passives": _string_name_array_to_strings(unlocked_passives),
 		"lifetime_stats": lifetime_stats,
 		"settings": settings,
 	}
@@ -64,7 +69,7 @@ func spend_meta_currency(amount: int) -> bool:
 	return true
 
 func is_unlocked(unlock_id: StringName) -> bool:
-	return unlock_id in unlocked_items or unlock_id in unlocked_abilities
+	return unlock_id in unlocked_items or unlock_id in unlocked_abilities or unlock_id in unlocked_passives
 
 func unlock_item(unlock_id: StringName) -> void:
 	if unlock_id not in unlocked_items:
@@ -73,6 +78,33 @@ func unlock_item(unlock_id: StringName) -> void:
 func unlock_ability(unlock_id: StringName) -> void:
 	if unlock_id not in unlocked_abilities:
 		unlocked_abilities.append(unlock_id)
+
+func unlock_passive(unlock_id: StringName) -> void:
+	if unlock_id not in unlocked_passives:
+		unlocked_passives.append(unlock_id)
+
+## Returns all loaded passive upgrade resources from resources/unlocks/passives/.
+func get_passive_upgrades() -> Array[UnlockData]:
+	return _passive_upgrades
+
+## Sum of int-valued passive bonuses unlocked for the given stat key.
+func get_passive_bonus_int(stat: StringName) -> int:
+	return int(get_passive_bonus_float(stat))
+
+## Sum of float-valued passive bonuses unlocked for the given stat key.
+func get_passive_bonus_float(stat: StringName) -> float:
+	var total: float = 0.0
+	for upgrade: UnlockData in _passive_upgrades:
+		if upgrade.passive_stat == stat and upgrade.unlock_id in unlocked_passives:
+			total += upgrade.passive_value
+	return total
+
+## True if at least one level of the given passive stat is unlocked.
+func has_passive_bonus(stat: StringName) -> bool:
+	for upgrade: UnlockData in _passive_upgrades:
+		if upgrade.passive_stat == stat and upgrade.unlock_id in unlocked_passives:
+			return true
+	return false
 
 func update_lifetime_stats(run_stats: Dictionary) -> void:
 	lifetime_stats.total_runs = lifetime_stats.get("total_runs", 0) + 1
@@ -110,6 +142,10 @@ func _apply_save_data(data: Dictionary) -> void:
 	unlocked_abilities.clear()
 	for ability_id: Variant in abilities_raw:
 		unlocked_abilities.append(StringName(str(ability_id)))
+	var passives_raw: Array = data.get("unlocked_passives", []) as Array
+	unlocked_passives.clear()
+	for passive_id: Variant in passives_raw:
+		unlocked_passives.append(StringName(str(passive_id)))
 	var stats_raw: Variant = data.get("lifetime_stats", {})
 	if stats_raw is Dictionary:
 		lifetime_stats = stats_raw as Dictionary
@@ -123,3 +159,19 @@ func _string_name_array_to_strings(arr: Array[StringName]) -> Array[String]:
 	for sn: StringName in arr:
 		result.append(String(sn))
 	return result
+
+func _load_passive_upgrades() -> void:
+	_passive_upgrades.clear()
+	var dir_path: String = "res://resources/unlocks/passives/"
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file_name: String = dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".tres"):
+			var upgrade: UnlockData = load(dir_path + file_name) as UnlockData
+			if upgrade:
+				_passive_upgrades.append(upgrade)
+		file_name = dir.get_next()
+	dir.list_dir_end()

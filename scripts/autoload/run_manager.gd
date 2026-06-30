@@ -89,7 +89,16 @@ func _spawn_player() -> void:
 	var scene_path: String = PLAYER_SCENES.get(_selected_class, PLAYER_SCENES[GameManager.PlayerClass.WARRIOR])
 	var player_scene: PackedScene = load(scene_path) as PackedScene
 	var player_node: CharacterBody2D = player_scene.instantiate() as CharacterBody2D
+	_apply_meta_passives(player_node)
 	_game_instance.initialize_with_player(player_node)
+
+func _apply_meta_passives(player_node: CharacterBody2D) -> void:
+	var stats: PlayerStats = player_node.get_node_or_null("PlayerStats") as PlayerStats
+	if stats == null:
+		return
+	stats.meta_max_hp_bonus = SaveManager.get_passive_bonus_int(&"max_hp")
+	stats.meta_crit_chance_bonus = SaveManager.get_passive_bonus_float(&"crit_chance")
+	stats.meta_gold_multiplier = 1.0 + SaveManager.get_passive_bonus_float(&"gold_find")
 
 func _get_player() -> CharacterBody2D:
 	var players: Array[Node] = get_tree().get_nodes_in_group(&"player")

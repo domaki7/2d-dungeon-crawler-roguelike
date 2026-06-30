@@ -48,8 +48,7 @@ func _open_normal() -> void:
 func _open_locked() -> void:
 	if _player_ref == null:
 		return
-	var floor_num: int = DungeonManager.get_current_floor_number()
-	var cost: int = GameConfig.config.chest_locked_base_cost + (floor_num - 1) * GameConfig.config.chest_locked_cost_per_floor
+	var cost: int = _get_locked_cost()
 	if _player_ref.gold < cost:
 		_interact_label.text = "Need %dg" % cost
 		_interact_label.add_theme_color_override("font_color", Color(0.9, 0.3, 0.3))
@@ -142,10 +141,15 @@ func _spawn_item_pickup(item: ItemData) -> void:
 	pickup.global_position = global_position + Vector2(0.0, 16.0)
 	get_parent().call_deferred("add_child", pickup)
 
+func _get_locked_cost() -> int:
+	var floor_num: int = DungeonManager.get_current_floor_number()
+	var base_cost: int = GameConfig.config.chest_locked_base_cost + (floor_num - 1) * GameConfig.config.chest_locked_cost_per_floor
+	var discount: float = SaveManager.get_passive_bonus_float(&"locked_chest_discount")
+	return maxi(1, int(base_cost * (1.0 - discount)))
+
 func _reset_interact_label() -> void:
 	if _player_nearby and not _is_opened:
-		var floor_num: int = DungeonManager.get_current_floor_number()
-		var cost: int = GameConfig.config.chest_locked_base_cost + (floor_num - 1) * GameConfig.config.chest_locked_cost_per_floor
+		var cost: int = _get_locked_cost()
 		_interact_label.text = "[F] %dg" % cost
 		_interact_label.add_theme_color_override("font_color", Color.WHITE)
 
@@ -155,9 +159,7 @@ func _on_body_entered(body: Node2D) -> void:
 		_player_ref = body as CharacterBody2D
 		if not _is_opened:
 			if chest_type == ChestType.LOCKED:
-				var floor_num: int = DungeonManager.get_current_floor_number()
-				var cost: int = GameConfig.config.chest_locked_base_cost + (floor_num - 1) * GameConfig.config.chest_locked_cost_per_floor
-				_interact_label.text = "[F] %dg" % cost
+				_interact_label.text = "[F] %dg" % _get_locked_cost()
 			else:
 				_interact_label.text = "[F]"
 			_interact_label.visible = true

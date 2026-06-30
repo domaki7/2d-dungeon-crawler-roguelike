@@ -61,9 +61,9 @@ Runs too short/easy, difficulty doesn't ramp, items feel like stat-sticks.
 
 Framework exists but unlocks screen is a placeholder ("No unlocks available yet.").
 
-- [ ] **Create unlock resources** — `resources/unlocks/*.tres` for each unlockable (weapons, abilities, passive bonuses). Only starter items available without unlocks
-- [ ] **Rewrite unlocks screen** — Replace `unlocks_screen.gd` placeholder with functional UI: scrollable list, category tabs, currency display, purchase flow
-- [ ] **Gate content** — Filter loot tables by `SaveManager.unlocked_items`. Only offer unlocked abilities. Shop stocks unlocked items only
+- [x] **Create unlock resources** — `resources/unlocks/*.tres` for each unlockable (weapons, abilities, passive bonuses). Only starter items available without unlocks
+- [x] **Rewrite unlocks screen** — Replace `unlocks_screen.gd` placeholder with functional UI: scrollable list, category tabs, currency display, purchase flow
+- [x] **Gate content** — Filter loot tables by `SaveManager.unlocked_items`. Only offer unlocked abilities. Shop stocks unlocked items only
 
 ## Phase 6: UI Improvements
 

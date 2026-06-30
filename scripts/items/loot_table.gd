@@ -25,28 +25,19 @@ func roll_for_floor(rare_mult: float = 1.0, legendary_mult: float = 0.0, exclude
 func roll_guaranteed_for_floor(rare_mult: float = 1.0, legendary_mult: float = 0.0, excluded_rarities: Array[int] = []) -> ItemData:
 	return _roll_weighted(rare_mult, legendary_mult, excluded_rarities)
 
+func _is_entry_available(item: ItemData) -> bool:
+	if item == null:
+		return false
+	if item.rarity == ItemData.Rarity.COMMON:
+		return true
+	return SaveManager.is_unlocked(item.item_id)
+
 func _roll_from_entries() -> ItemData:
 	if entries.is_empty():
 		return null
 	var total_weight: float = 0.0
 	for entry: LootEntry in entries:
-		total_weight += entry.weight
-	if total_weight <= 0.0:
-		return null
-	var roll_value: float = randf() * total_weight
-	var cumulative: float = 0.0
-	for entry: LootEntry in entries:
-		cumulative += entry.weight
-		if roll_value <= cumulative:
-			return entry.item
-	return entries[entries.size() - 1].item
-
-func _roll_filtered(excluded_rarities: Array[int]) -> ItemData:
-	if entries.is_empty():
-		return null
-	var total_weight: float = 0.0
-	for entry: LootEntry in entries:
-		if entry.item and entry.item.rarity as int in excluded_rarities:
+		if not _is_entry_available(entry.item):
 			continue
 		total_weight += entry.weight
 	if total_weight <= 0.0:
@@ -54,7 +45,31 @@ func _roll_filtered(excluded_rarities: Array[int]) -> ItemData:
 	var roll_value: float = randf() * total_weight
 	var cumulative: float = 0.0
 	for entry: LootEntry in entries:
-		if entry.item and entry.item.rarity as int in excluded_rarities:
+		if not _is_entry_available(entry.item):
+			continue
+		cumulative += entry.weight
+		if roll_value <= cumulative:
+			return entry.item
+	return null
+
+func _roll_filtered(excluded_rarities: Array[int]) -> ItemData:
+	if entries.is_empty():
+		return null
+	var total_weight: float = 0.0
+	for entry: LootEntry in entries:
+		if not _is_entry_available(entry.item):
+			continue
+		if entry.item.rarity as int in excluded_rarities:
+			continue
+		total_weight += entry.weight
+	if total_weight <= 0.0:
+		return null
+	var roll_value: float = randf() * total_weight
+	var cumulative: float = 0.0
+	for entry: LootEntry in entries:
+		if not _is_entry_available(entry.item):
+			continue
+		if entry.item.rarity as int in excluded_rarities:
 			continue
 		cumulative += entry.weight
 		if roll_value <= cumulative:
@@ -66,7 +81,7 @@ func _roll_weighted(rare_mult: float, legendary_mult: float, excluded_rarities: 
 		return null
 	var total_weight: float = 0.0
 	for entry: LootEntry in entries:
-		if entry.item == null:
+		if not _is_entry_available(entry.item):
 			continue
 		if entry.item.rarity as int in excluded_rarities:
 			continue
@@ -81,7 +96,7 @@ func _roll_weighted(rare_mult: float, legendary_mult: float, excluded_rarities: 
 	var roll_value: float = randf() * total_weight
 	var cumulative: float = 0.0
 	for entry: LootEntry in entries:
-		if entry.item == null:
+		if not _is_entry_available(entry.item):
 			continue
 		if entry.item.rarity as int in excluded_rarities:
 			continue

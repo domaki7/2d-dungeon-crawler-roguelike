@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/meta/unlock_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = &"treasure_hunter_3"
+display_name = "Treasure Hunter III"
+description = "+15% more Gold Find."
+cost = 100
+category = 3
+passive_stat = &"gold_find"
+passive_value = 0.15
+passive_level = 3
+requires_unlock_id = &"treasure_hunter_2"
