@@ -24,6 +24,9 @@ Make existing attacks feel impactful. Creates VFX infrastructure reused by later
 - [x] **Active frames system** — Replace the always-on hitbox with specific active frames during the swing animation. Add `active_frame_start` and `active_frame_end` config values so the hitbox only deals damage during the middle of the swing, making timing matter
 - [x] **Charged heavy attack** — Hold the attack button to charge a heavy swing (0.6-0.8s wind-up) that deals 2x damage with increased knockback and a wider hitbox. Add a visual indicator (sprite glow or weapon shake) during charge-up
 - [x] **Dodge-cancel out of attacks** — Add a dodge roll state that can interrupt the last 40% of attack animations, letting players commit to a swing but escape if they mistime it. Uses a short invincible dash in the movement direction
+- [ ] **Three-hit light combo string** — Extend `attack_state.gd` beyond the current light→heavy 2-step chain into a light1→light2→light3 string, each hit with slightly increased range/damage and a short input window to continue chaining (falls back to Idle if the player doesn't follow up in time)
+- [ ] **Parry window on enemy telegraphs** — Add a block/parry input that, if pressed during the final frames of an enemy's telegraph windup (`skeleton_attack_state.gd`, `boss_melee_attack_state.gd`, `ogre_attack_state.gd`), stuns the enemy and opens a riposte window — turns the existing telegraph system into an interactive mechanic instead of just a dodge-or-eat-it tell
+- [ ] **Backstab positional bonus** — In `hurtbox.gd`, compare the hitbox's attack direction against the target's facing direction; hits from behind grant bonus crit chance/damage. Lays groundwork for the planned Rogue class's "backstab crit bonus" (todo.md line 106)
 
 ## Phase 2: Status Effects System
 
