@@ -1,6 +1,8 @@
-[gd_scene load_steps=56 format=3]
+[gd_scene load_steps=58 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_ranger.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/player/player_states/charged_shot_state.gd" id="24_charged"]
+[ext_resource type="PackedScene" path="res://scenes/attacks/player_arrow_piercing.tscn" id="25_piercing"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
 [ext_resource type="Script" path="res://scripts/player/player_states/ranger_idle_state.gd" id="3_idle"]
 [ext_resource type="Script" path="res://scripts/player/player_states/ranger_run_state.gd" id="4_run"]
@@ -229,6 +231,7 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_p")
 arrow_scene = ExtResource("19_arrow")
+piercing_arrow_scene = ExtResource("25_piercing")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("SubResource_shader_mat")
@@ -251,6 +254,9 @@ script = ExtResource("4_run")
 
 [node name="RangedAttackState" type="Node" parent="StateMachine"]
 script = ExtResource("5_atk")
+
+[node name="ChargedShotState" type="Node" parent="StateMachine"]
+script = ExtResource("24_charged")
 
 [node name="HurtState" type="Node" parent="StateMachine"]
 script = ExtResource("6_hurt")

@@ -18,7 +18,7 @@ func physics_process_state(delta: float) -> void:
 
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):
-		transition_requested.emit(self, &"RangedAttackState")
+		transition_requested.emit(self, &"ChargedShotState")
 	elif event.is_action_pressed(&"ability_1"):
 		if player.ability_manager.is_ability_ready(0):
 			transition_requested.emit(self, &"MultishotState")

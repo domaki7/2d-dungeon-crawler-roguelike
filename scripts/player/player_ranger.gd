@@ -7,6 +7,7 @@ var acceleration: float:
 var friction: float:
 	get: return GameConfig.config.ranger_friction
 @export var arrow_scene: PackedScene
+@export var piercing_arrow_scene: PackedScene
 
 @onready var state_machine: StateMachine = $StateMachine
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -22,6 +23,8 @@ var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
 var speed: float = 130.0
 var effective_damage: int = 2
+var chain_shot_count: int = 0
+var chain_shot_deadline: float = 0.0
 
 func _ready() -> void:
 	add_to_group(&"player")
@@ -48,6 +51,14 @@ func fire_arrow(direction: Vector2, damage_override: int = -1) -> void:
 	arrow.global_position = global_position
 	var dmg: int = damage_override if damage_override > 0 else _get_live_damage()
 	arrow.setup(direction, dmg)
+	get_parent().add_child(arrow)
+	AudioManager.play_sfx_varied(&"arrow_fire")
+
+func fire_piercing_arrow(direction: Vector2) -> void:
+	var arrow: Area2D = piercing_arrow_scene.instantiate() as Area2D
+	arrow.global_position = global_position
+	var dmg: int = int(float(_get_live_damage()) * GameConfig.config.ranger_charged_shot_damage_multiplier)
+	arrow.call(&"setup", direction, dmg)
 	get_parent().add_child(arrow)
 	AudioManager.play_sfx_varied(&"arrow_fire")
 

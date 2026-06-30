@@ -107,6 +107,12 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Pressure-plate ambush trigger** — Stepping on a plate triggers a one-shot effect (dart volley / door lock + enemy ambush), reusing the spike-trap hazard as its payload
 - [x] **Dedicated Trap Room floor-graph archetype** — New `"trap"` room type wired into `dungeon_manager.gd` `_build_floor_graph()` and `minimap.gd`, alongside shop/treasure — a hazard gauntlet room with a loot reward for clearing it
 
+## Ranged Combat
+
+- [x] **Charged power shot** — Hold the attack button to charge the bow (mirrors `heavy_attack_state.gd`'s CHARGING/SWINGING pattern); release for a heavy arrow that deals 2x damage and pierces through the first enemy hit, continuing on to a second target. Add a visual glow/charge indicator on the arrow during windup
+- [x] **Quick-draw strafing** — `ranged_attack_state.gd` currently zeroes player velocity and fully roots them for the entire shot animation. Allow strafing at reduced speed during the shot so Ranger play doesn't feel like a melee lock
+- [x] **Rapid chain shot** — Firing basic shots in quick succession within a short follow-up window increases fire rate slightly each step (shot1→shot2→shot3), resetting if the player stops shooting — gives the Ranger's basic attack its own light progression, mirroring the melee combo string already planned in `## Melee Combat Depth`
+
 ---
 
 ## Bugs

@@ -91,6 +91,33 @@ extends Resource
 ## How quickly the ranger decelerates when not moving (pixels/sec^2)
 @export var ranger_friction: float = 600.0
 
+@export_group("Ranger - Charged Shot")
+
+## Time to hold attack before a full charged shot fires (seconds)
+@export var ranger_charged_shot_duration: float = 0.6
+## Damage multiplier applied to a fully charged shot vs base arrow damage
+@export var ranger_charged_shot_damage_multiplier: float = 2.0
+## Number of additional enemies the charged arrow pierces through after the first
+@export var ranger_charged_shot_pierce_count: int = 1
+## Damage multiplier applied to each pierce target after the first
+@export var ranger_charged_shot_pierce_damage_falloff: float = 0.5
+## Sprite modulate color the bow glows toward at full charge
+@export var ranger_charged_shot_glow_color: Color = Color(2.0, 1.5, 0.3, 1.0)
+
+@export_group("Ranger - Quick Draw")
+
+## Movement speed fraction allowed during the shoot animation recovery (0.0 = rooted, 1.0 = full speed)
+@export var ranger_quickdraw_move_fraction: float = 0.5
+
+@export_group("Ranger - Chain Shot")
+
+## Time after a shot fires during which the next shot extends the chain (seconds)
+@export var ranger_chain_shot_window: float = 0.5
+## Maximum chain length before the speed bonus resets
+@export var ranger_chain_shot_max_count: int = 3
+## Animation speed multiplier added per chain step (0.15 = each step plays 15% faster)
+@export var ranger_chain_shot_speed_bonus_per_step: float = 0.15
+
 
 # =============================================================================
 # PLAYER - MAGE
