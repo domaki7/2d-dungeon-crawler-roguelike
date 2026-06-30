@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/trap_room.gd" id="1_script"]
+[ext_resource type="TileSet" path="res://resources/tilesets/dungeon_tileset.tres" id="2_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/chest.tscn" id="4_chest"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/hazards/spike_trap.tscn" id="5_spike_trap"]
+
+[node name="TrapRoom" type="Node2D"]
+script = ExtResource("1_script")
+is_combat_room = false
+auto_lock_doors = false
+
+[node name="FloorLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="WallLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="DoorNorth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 8)
+direction = 0
+
+[node name="DoorSouth" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(192, 248)
+direction = 1
+
+[node name="DoorEast" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(376, 128)
+rotation = 1.5708
+direction = 2
+
+[node name="DoorWest" parent="Doors" instance=ExtResource("3_door")]
+position = Vector2(8, 128)
+rotation = 1.5708
+direction = 3
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="SpikeTrap1" parent="Hazards" instance=ExtResource("5_spike_trap")]
+position = Vector2(140, 176)
+
+[node name="SpikeTrap2" parent="Hazards" instance=ExtResource("5_spike_trap")]
+position = Vector2(244, 128)
+
+[node name="SpikeTrap3" parent="Hazards" instance=ExtResource("5_spike_trap")]
+position = Vector2(140, 80)
+
+[node name="Chest1" parent="." instance=ExtResource("4_chest")]
+position = Vector2(192, 40)
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(192, 224)

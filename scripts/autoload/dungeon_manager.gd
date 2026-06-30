@@ -139,6 +139,7 @@ func _build_floor_graph(config: FloorConfig) -> void:
 
 	var shop_placed: bool = false
 	var treasure_placed: bool = false
+	var trap_placed: bool = false
 
 	if config.has_shop and config.shop_room_scene and not special_positions.is_empty():
 		var pos: int = special_positions.pop_front()
@@ -243,6 +244,9 @@ func _build_floor_graph(config: FloorConfig) -> void:
 			elif not treasure_placed and config.has_treasure and config.treasure_room_scene:
 				depth2_type = "treasure"
 				treasure_placed = true
+			elif not trap_placed and config.has_trap_room and config.trap_room_scene and randf() < config.trap_room_chance:
+				depth2_type = "trap"
+				trap_placed = true
 
 			var scene_path_2: String = _get_scene_path_for_type(depth2_type, config, combat_scenes)
 			_floor_graph[branch_id_2] = {
@@ -290,6 +294,8 @@ func _get_scene_path_for_type(room_type: String, config: FloorConfig, combat_sce
 			return config.shop_room_scene.resource_path
 		"treasure":
 			return config.treasure_room_scene.resource_path
+		"trap":
+			return config.trap_room_scene.resource_path
 		_:
 			return combat_scenes.pick_random().resource_path
 

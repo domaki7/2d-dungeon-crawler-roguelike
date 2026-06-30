@@ -672,6 +672,41 @@ extends Resource
 
 
 # =============================================================================
+# HAZARDS
+# =============================================================================
+
+@export_group("Hazards - Spike Trap")
+
+## Damage dealt by an armed spike trap
+@export var spike_trap_damage: int = 2
+## Knockback force applied when a spike trap hits the player
+@export var spike_trap_knockback_force: float = 80.0
+## How long the trap flashes a warning before arming (seconds)
+@export var spike_trap_telegraph_duration: float = 0.5
+## How long the trap stays armed and deals damage (seconds)
+@export var spike_trap_armed_duration: float = 0.4
+## How long the trap stays safely disarmed before telegraphing again (seconds)
+@export var spike_trap_disarmed_duration: float = 1.2
+## Sprite tint while disarmed
+@export var spike_trap_disarmed_color: Color = Color(0.55, 0.55, 0.55)
+## Sprite tint while telegraphing the upcoming arm
+@export var spike_trap_telegraph_color: Color = Color(0.95, 0.75, 0.2)
+## Sprite tint while armed and dealing damage
+@export var spike_trap_armed_color: Color = Color(0.85, 0.15, 0.15)
+
+@export_group("Hazards - Pressure Plate")
+
+## Minimum number of enemies spawned by a pressure-plate ambush
+@export var pressure_plate_ambush_count_min: int = 2
+## Maximum number of enemies spawned by a pressure-plate ambush
+@export var pressure_plate_ambush_count_max: int = 4
+## Radius around the plate that ambush enemies spawn in (pixels)
+@export var pressure_plate_ambush_spawn_radius: float = 28.0
+## Sprite tint after the plate has been triggered
+@export var pressure_plate_triggered_color: Color = Color(0.3, 0.3, 0.3)
+
+
+# =============================================================================
 # UI / VISUAL EFFECTS
 # =============================================================================
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- plate -->
+  <rect x="1" y="1" width="14" height="14" fill="#5A5A5A"/>
+  <rect x="2" y="2" width="12" height="12" fill="#707070"/>
+  <!-- spike nubs -->
+  <rect x="3" y="6" width="2" height="4" fill="#C0C0C0"/>
+  <rect x="7" y="4" width="2" height="6" fill="#C0C0C0"/>
+  <rect x="11" y="6" width="2" height="4" fill="#C0C0C0"/>
+</svg>

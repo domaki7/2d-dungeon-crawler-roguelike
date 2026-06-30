@@ -89,6 +89,12 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **More on-hit proc effects** — Add freeze_on_hit, poison_on_hit, and lifesteal_on_hit effects through the existing StatusEffectComponent, then create items that use them
 - [x] **Chest variety** — Add locked chests (require keys from elites), mimic chests (enemy encounter on open), and gilded chests (guaranteed Rare+ drop with a guard wave)
 
+## Trap & Hazard Rooms
+
+- [x] **Spike trap hazard** — Reusable hazard component (telegraph → arm → damage window → disarm loop) built on the existing Hitbox pattern (`scripts/combat/hitbox.gd`), placeable via a marker in any room scene
+- [x] **Pressure-plate ambush trigger** — Stepping on a plate triggers a one-shot effect (dart volley / door lock + enemy ambush), reusing the spike-trap hazard as its payload
+- [x] **Dedicated Trap Room floor-graph archetype** — New `"trap"` room type wired into `dungeon_manager.gd` `_build_floor_graph()` and `minimap.gd`, alongside shop/treasure — a hazard gauntlet room with a loot reward for clearing it
+
 ---
 
 ## Bugs

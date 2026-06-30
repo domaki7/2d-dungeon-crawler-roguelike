@@ -34,6 +34,29 @@ func activate(already_cleared: bool = false) -> void:
 func get_player_spawn_position() -> Vector2:
 	return player_spawn.global_position
 
+func lock_doors() -> void:
+	_lock_all_doors()
+
+func unlock_doors() -> void:
+	_unlock_all_doors()
+
+func spawn_ambush(count: int, origin: Vector2) -> void:
+	var enemy_pool: Array[PackedScene] = DungeonManager.get_enemy_pool()
+	if enemy_pool.is_empty():
+		return
+	lock_doors()
+	for i: int in range(count):
+		var scene: PackedScene = enemy_pool.pick_random()
+		var enemy: Node2D = scene.instantiate() as Node2D
+		var angle: float = TAU * float(i) / float(count)
+		var spawn_radius: float = GameConfig.config.pressure_plate_ambush_spawn_radius
+		enemy.global_position = origin + Vector2(cos(angle), sin(angle)) * spawn_radius
+		add_child(enemy)
+		if enemy.has_node("HealthComponent"):
+			_enemies_alive += 1
+			var hc: HealthComponent = enemy.get_node("HealthComponent") as HealthComponent
+			hc.died.connect(_on_enemy_died)
+
 func get_door_spawn_position(from_direction: Door.Direction) -> Vector2:
 	var opposite: Door.Direction
 	match from_direction:
