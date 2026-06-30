@@ -13,13 +13,14 @@ func enter() -> void:
 		_charge_timer = charge_cooldown * 0.5
 
 func physics_process_state(delta: float) -> void:
+	update_last_known_position()
 	if not enemy.is_player_detected and not enemy.is_aggroed:
-		transition_requested.emit(self, &"IdleState")
+		transition_requested.emit(self, &"SearchState")
 		return
 
 	_charge_timer -= delta
 
-	var direction: Vector2 = get_direction_to_player()
+	var direction: Vector2 = get_surround_direction(melee_range)
 	if direction != Vector2.ZERO:
 		if enemy.update_facing(direction):
 			enemy.play_directional_animation("walk")

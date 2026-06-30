@@ -79,6 +79,10 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 ## Enemy AI & Behavior
 
 - [x] **Idle patrol wandering** — All enemies stand still in IdleState until aggroed. Add a WanderState where enemies slowly drift between random nearby points, making rooms feel alive before combat starts
+- [x] **Group surround positioning** — Chase states (`skeleton_chase_state.gd`, `ogre_chase_state.gd`, `bat_chase_state.gd`, etc.) path straight to the player's exact position, so multiple aggroed enemies stack into a single-file line instead of surrounding. Add a per-enemy angular offset (derived from instance ID among currently-aggroed enemies) so melee chasers spread around the player
+- [x] **Alert telegraph on first detection** — Idle/Wander → Chase transition is silent; the player gets no feedback that an enemy just noticed them. Add a brief "spotted" indicator (icon + SFX) the moment `is_player_detected`/`is_aggroed` flips true, mirroring the existing attack-telegraph pattern but for awareness instead of attacks
+- [x] **Last-known-position search before giving up** — Chase states drop straight to IdleState the instant the player breaks detection, with no memory. Add a SearchState: enemy moves to the last known player position and pauses/looks around before returning to Idle/Wander
+- [x] **Patrol waypoints** — `wander_state.gd` only picks random points within a radius of spawn. Add an optional `patrol_points: Array[Marker2D]` so specific rooms can author deliberate patrol routes instead of every enemy wandering aimlessly
 
 ## Items & Loot
 

@@ -159,6 +159,31 @@ extends Resource
 ## Boss wander speed as a fraction of chase speed (slightly slower than regular enemies)
 @export var boss_wander_speed_multiplier: float = 0.25
 
+@export_group("Enemy - Search")
+
+## How long an enemy lingers at the player's last-known position before giving up (seconds)
+@export var enemy_search_duration: float = 4.5
+## Distance at which an enemy is considered to have arrived at the search target (pixels)
+@export var enemy_search_arrival_threshold: float = 6.0
+
+@export_group("Enemy - Surround")
+
+## Minimum number of simultaneously chasing melee enemies before they spread into a surround formation
+@export var enemy_surround_min_chasers: int = 2
+
+@export_group("Enemy - Alert")
+
+## How long the "spotted" icon stays visible before fading out (seconds)
+@export var enemy_alert_icon_duration: float = 0.6
+## Distance the alert icon rises while fading out (pixels)
+@export var enemy_alert_icon_rise: float = 12.0
+## Vertical offset above the enemy's origin where the alert icon spawns (pixels, negative = up)
+@export var enemy_alert_icon_offset_y: float = -20.0
+## Minimum pitch for the alert SFX (reuses enemy_hurt.wav)
+@export var enemy_alert_sfx_pitch_min: float = 1.3
+## Maximum pitch for the alert SFX (reuses enemy_hurt.wav)
+@export var enemy_alert_sfx_pitch_max: float = 1.6
+
 
 # =============================================================================
 # SKELETON

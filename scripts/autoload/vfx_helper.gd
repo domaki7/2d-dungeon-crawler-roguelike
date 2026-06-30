@@ -4,6 +4,7 @@ var _hit_sparks_scene: PackedScene = preload("res://scenes/effects/hit_sparks.ts
 var _death_poof_scene: PackedScene = preload("res://scenes/effects/death_poof.tscn")
 var _crit_flash_scene: PackedScene = preload("res://scenes/effects/crit_flash.tscn")
 var _melee_swing_scene: PackedScene = preload("res://scenes/effects/melee_swing.tscn")
+var _alert_indicator_scene: PackedScene = preload("res://scenes/effects/alert_indicator.tscn")
 
 var _flash_tweens: Dictionary = {}
 var _unique_materials: Dictionary = {}
@@ -48,6 +49,23 @@ func spawn_death_poof(global_pos: Vector2) -> void:
 
 func spawn_crit_flash(global_pos: Vector2) -> void:
 	spawn_particles_at(_crit_flash_scene, global_pos)
+
+func spawn_alert_indicator(global_pos: Vector2) -> void:
+	var icon: Sprite2D = _alert_indicator_scene.instantiate() as Sprite2D
+	if icon == null:
+		return
+	var game_world: Node = get_tree().get_first_node_in_group(&"game_world")
+	if game_world == null:
+		icon.queue_free()
+		return
+	game_world.add_child(icon)
+	icon.global_position = global_pos
+	var rise: float = GameConfig.config.enemy_alert_icon_rise
+	var duration: float = GameConfig.config.enemy_alert_icon_duration
+	var tween: Tween = icon.create_tween()
+	tween.tween_property(icon, "position:y", icon.position.y - rise, duration)
+	tween.parallel().tween_property(icon, "modulate:a", 0.0, duration)
+	tween.tween_callback(icon.queue_free)
 
 func spawn_melee_swing(global_pos: Vector2, angle: float) -> void:
 	var swing: AnimatedSprite2D = _melee_swing_scene.instantiate() as AnimatedSprite2D

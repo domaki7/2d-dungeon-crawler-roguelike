@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
+@export var patrol_points: Array[Marker2D] = []
+
 var difficulty_speed_multiplier: float = 1.0
 var is_elite: bool = false
 var gold_multiplier: float = 1.0
@@ -30,6 +32,7 @@ var facing_direction: int = FacingDirection.DOWN
 var is_player_detected: bool = false
 var is_aggroed: bool = false
 var spawn_position: Vector2 = Vector2.ZERO
+var last_known_player_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group(&"enemies")
@@ -80,6 +83,9 @@ func _on_health_damaged(_amount: int) -> void:
 
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
+		if not is_player_detected:
+			VFXHelper.spawn_alert_indicator(global_position + Vector2(0, GameConfig.config.enemy_alert_icon_offset_y))
+			AudioManager.play_sfx_varied(&"enemy_hurt", GameConfig.config.enemy_alert_sfx_pitch_min, GameConfig.config.enemy_alert_sfx_pitch_max)
 		is_player_detected = true
 
 func _on_detection_body_exited(body: Node2D) -> void:

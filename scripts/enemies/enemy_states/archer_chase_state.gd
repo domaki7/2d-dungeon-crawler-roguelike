@@ -11,8 +11,9 @@ func enter() -> void:
 	enemy.play_directional_animation("walk")
 
 func physics_process_state(delta: float) -> void:
+	update_last_known_position()
 	if not enemy.is_player_detected and not enemy.is_aggroed:
-		transition_requested.emit(self, &"IdleState")
+		transition_requested.emit(self, &"SearchState")
 		return
 
 	var direction: Vector2 = get_direction_to_player()

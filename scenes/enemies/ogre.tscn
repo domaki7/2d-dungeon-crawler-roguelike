@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3]
+[gd_scene load_steps=54 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/ogre.gd" id="1_ogre"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/enemies/enemy_states/ogre_hurt_state.gd" id="8_hurt"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_states/stunned_state.gd" id="9_stun"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_states/ogre_dead_state.gd" id="10_dead"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_states/search_state.gd" id="11_search"]
 [ext_resource type="Script" path="res://scripts/combat/health_component.gd" id="11_hc"]
 [ext_resource type="Script" path="res://scripts/combat/knockback_component.gd" id="12_kb"]
 [ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="13_sec"]
@@ -219,6 +220,9 @@ script = ExtResource("4_wander")
 
 [node name="ChaseState" type="Node" parent="StateMachine"]
 script = ExtResource("5_chase")
+
+[node name="SearchState" type="Node" parent="StateMachine"]
+script = ExtResource("11_search")
 
 [node name="AttackState" type="Node" parent="StateMachine"]
 script = ExtResource("6_atk")
