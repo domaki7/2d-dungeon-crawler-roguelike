@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FloorConfig" load_steps=15 format=3]
+[gd_resource type="Resource" script_class="FloorConfig" load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/rooms/floor_config.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_001.tscn" id="2_room001"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="12_skeleton"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/bat.tscn" id="13_bat"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/skeleton_archer.tscn" id="14_archer"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ogre.tscn" id="15_ogre"]
 
 [resource]
 script = ExtResource("1_script")
@@ -34,4 +35,4 @@ enemy_difficulty_multiplier = 1.9
 enemy_speed_multiplier = 1.15
 elite_chance = 0.2
 gold_multiplier = 2.5
-enemy_pool = [ExtResource("11_slime"), ExtResource("12_skeleton"), ExtResource("13_bat"), ExtResource("14_archer")]
+enemy_pool = [ExtResource("11_slime"), ExtResource("12_skeleton"), ExtResource("13_bat"), ExtResource("14_archer"), ExtResource("15_ogre")]

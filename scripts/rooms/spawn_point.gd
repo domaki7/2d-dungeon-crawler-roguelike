@@ -1,7 +1,7 @@
 class_name SpawnPoint
 extends Marker2D
 
-enum SpawnType { SKELETON, SLIME, BAT, BOSS, GOLD, CHEST, LOCKED_CHEST, MIMIC_CHEST, GILDED_CHEST }
+enum SpawnType { SKELETON, SLIME, BAT, BOSS, GOLD, CHEST, LOCKED_CHEST, MIMIC_CHEST, GILDED_CHEST, OGRE }
 
 @export var spawn_type: SpawnType = SpawnType.SKELETON
 @export_range(0.0, 1.0) var spawn_chance: float = 1.0

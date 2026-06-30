@@ -100,7 +100,7 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 
 - [ ] Trap/puzzle rooms (spike traps, pressure plates, environmental hazards)
 - [ ] Consumable items (health potions, buff potions, throwables)
-- [ ] More enemy types
+- [x] More enemy types
 - [ ] More music tracks
 - [x] **Mage class** — Ranged magic user with spell-based attacks (fireball, lightning), mana resource, AoE abilities, glass cannon stats
 - [ ] **Rogue class** — Fast melee with daggers, backstab crit bonus, dash ability, stealth mechanic, high speed / low HP

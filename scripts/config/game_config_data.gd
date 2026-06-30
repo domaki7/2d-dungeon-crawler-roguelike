@@ -447,6 +447,64 @@ extends Resource
 
 
 # =============================================================================
+# OGRE
+# =============================================================================
+
+@export_group("Ogre - Movement")
+
+## Ogre movement speed (pixels/sec)
+@export var ogre_speed: float = 45.0
+## Ogre acceleration (pixels/sec^2)
+@export var ogre_acceleration: float = 350.0
+## Ogre deceleration (pixels/sec^2)
+@export var ogre_friction: float = 500.0
+
+@export_group("Ogre - Health")
+
+## Ogre max hit points
+@export var ogre_max_hp: int = 14
+## Ogre invincibility frame duration after taking damage (seconds)
+@export var ogre_i_frame_duration: float = 0.2
+
+@export_group("Ogre - Combat")
+
+## Ogre melee damage per hit (also applies to charge attack contact damage)
+@export var ogre_damage: int = 4
+## Ogre knockback force applied on hit
+@export var ogre_knockback_force: float = 200.0
+## How quickly the ogre stops sliding after knockback (pixels/sec^2)
+@export var ogre_knockback_friction: float = 600.0
+## Distance at which ogre switches from chase to melee attack (pixels)
+@export var ogre_melee_range: float = 20.0
+## Distance from ogre center to hitbox center during melee attack (pixels)
+@export var ogre_hitbox_offset: float = 14.0
+## Radius of the ogre's player detection area (pixels)
+@export var ogre_detection_radius: float = 70.0
+
+@export_group("Ogre - States")
+
+## How long the ogre is stunned after taking a hit (seconds)
+@export var ogre_stun_duration: float = 0.3
+## Delay before ogre is removed after dying (seconds)
+@export var ogre_death_delay: float = 0.35
+## Telegraph windup before the ogre's melee swing lands (seconds)
+@export var ogre_telegraph_duration: float = 0.35
+
+@export_group("Ogre - Charge Attack")
+
+## Cooldown between charge attacks (seconds)
+@export var ogre_charge_cooldown: float = 4.5
+## Movement speed during the charge dash (pixels/sec)
+@export var ogre_charge_speed: float = 240.0
+## Telegraph windup before the charge dash starts (seconds)
+@export var ogre_charge_windup: float = 0.5
+## Duration of the charge dash (seconds)
+@export var ogre_charge_duration: float = 0.35
+## Distance from ogre center to hitbox center during the charge dash (pixels)
+@export var ogre_charge_hitbox_offset: float = 16.0
+
+
+# =============================================================================
 # COMBAT SYSTEM
 # =============================================================================
 

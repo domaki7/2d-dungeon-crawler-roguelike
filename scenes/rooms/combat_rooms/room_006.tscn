@@ -47,24 +47,28 @@ position = Vector2(80, 64)
 script = ExtResource("4_spawnpoint")
 spawn_chance = 1.0
 spawn_scene = ExtResource("5_skeleton")
+use_floor_pool = true
 
 [node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(304, 64)
 script = ExtResource("4_spawnpoint")
 spawn_chance = 1.0
 spawn_scene = ExtResource("7_archer")
+use_floor_pool = true
 
 [node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(128, 160)
 script = ExtResource("4_spawnpoint")
 spawn_chance = 0.8
 spawn_scene = ExtResource("6_bat")
+use_floor_pool = true
 
 [node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(256, 160)
 script = ExtResource("4_spawnpoint")
 spawn_chance = 0.7
 spawn_scene = ExtResource("6_bat")
+use_floor_pool = true
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(192, 224)
