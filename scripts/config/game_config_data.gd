@@ -808,6 +808,34 @@ extends Resource
 ## Font size for cooldown countdown text (pixels)
 @export var ui_cooldown_text_size: int = 7
 
+@export_group("UI - Enemy Health Bar")
+
+## Width of the floating HP bar above enemies (pixels)
+@export var ui_enemy_health_bar_width: float = 20.0
+## Height of the floating HP bar above enemies (pixels)
+@export var ui_enemy_health_bar_height: float = 2.0
+## Y offset from enemy origin for the HP bar (negative = above sprite)
+@export var ui_enemy_health_bar_offset_y: float = -26.0
+## Seconds of no-damage idle before the HP bar fades on normal enemies
+@export var ui_enemy_health_bar_fade_delay: float = 2.0
+## Fade-out animation duration (seconds)
+@export var ui_enemy_health_bar_fade_duration: float = 0.5
+## Size of each status-effect icon square drawn below the HP bar (pixels)
+@export var ui_enemy_status_icon_size: float = 4.0
+## Gap between adjacent status-effect icons (pixels)
+@export var ui_enemy_status_icon_spacing: float = 1.0
+## Y offset from enemy origin for the status icon row (just below HP bar)
+@export var ui_enemy_status_icon_offset_y: float = -22.0
+
+@export_group("UI - Low Health Warning")
+
+## HP fraction at or below which the danger vignette activates (0.0-1.0)
+@export var ui_low_health_threshold: float = 0.25
+## Peak alpha of the screen-edge vignette pulse (0.0-1.0)
+@export var ui_low_health_vignette_alpha: float = 0.35
+## Duration of one full vignette pulse cycle (seconds)
+@export var ui_low_health_pulse_duration: float = 0.8
+
 
 # =============================================================================
 # AUDIO

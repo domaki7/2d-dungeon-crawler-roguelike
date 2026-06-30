@@ -9,6 +9,9 @@ var _mana_bar: ProgressBar = null
 var _boss_bar: ProgressBar = null
 var _boss_label: Label = null
 var _boss_health_component: HealthComponent = null
+var _vignette: ColorRect = null
+var _vignette_tween: Tween = null
+var _is_low_health: bool = false
 
 func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
@@ -22,6 +25,7 @@ func _ready() -> void:
 	_create_floor_label()
 	_create_minimap()
 	_create_status_display()
+	_create_vignette()
 	_connect_to_player.call_deferred()
 
 func _create_ability_bar() -> void:
@@ -48,6 +52,36 @@ func _connect_to_player() -> void:
 func _on_health_changed(current_hp: int, max_hp: int) -> void:
 	health_bar.max_value = max_hp
 	health_bar.value = current_hp
+	_check_low_health(current_hp, max_hp)
+
+func _create_vignette() -> void:
+	_vignette = ColorRect.new()
+	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_vignette.modulate.a = 0.0
+	var mat: ShaderMaterial = ShaderMaterial.new()
+	mat.shader = preload("res://shaders/vignette.gdshader")
+	_vignette.material = mat
+	add_child(_vignette)
+
+func _check_low_health(current_hp: int, max_hp: int) -> void:
+	if _vignette == null or max_hp <= 0:
+		return
+	var is_low: bool = float(current_hp) / float(max_hp) <= GameConfig.config.ui_low_health_threshold
+	if is_low == _is_low_health:
+		return
+	_is_low_health = is_low
+	if _vignette_tween:
+		_vignette_tween.kill()
+	if is_low:
+		_vignette_tween = create_tween().set_loops()
+		var peak: float = GameConfig.config.ui_low_health_vignette_alpha
+		var half: float = GameConfig.config.ui_low_health_pulse_duration / 2.0
+		_vignette_tween.tween_property(_vignette, "modulate:a", peak, half)
+		_vignette_tween.tween_property(_vignette, "modulate:a", 0.0, half)
+	else:
+		_vignette_tween = create_tween()
+		_vignette_tween.tween_property(_vignette, "modulate:a", 0.0, 0.3)
 
 func _on_gold_changed(new_amount: int) -> void:
 	gold_label.text = str(new_amount)

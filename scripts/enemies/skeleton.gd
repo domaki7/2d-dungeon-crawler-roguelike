@@ -43,9 +43,18 @@ func _ready() -> void:
 	detection_area.body_exited.connect(_on_detection_body_exited)
 	EventBus.enemy_aggroed.connect(_on_enemy_aggroed)
 	_start_state_machine.call_deferred()
+	_add_ui_nodes.call_deferred()
 
 func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")
+
+func _add_ui_nodes() -> void:
+	var health_bar: Node2D = (preload("res://scripts/ui/enemy_health_bar.gd") as GDScript).new()
+	add_child(health_bar)
+	health_bar.call(&"setup", health_component, is_elite)
+	var status_display: Node2D = (preload("res://scripts/ui/enemy_status_display.gd") as GDScript).new()
+	add_child(status_display)
+	status_display.call(&"setup", status_effect_component)
 
 func update_facing(direction: Vector2) -> bool:
 	if direction == Vector2.ZERO:

@@ -84,6 +84,14 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Last-known-position search before giving up** — Chase states drop straight to IdleState the instant the player breaks detection, with no memory. Add a SearchState: enemy moves to the last known player position and pauses/looks around before returning to Idle/Wander
 - [x] **Patrol waypoints** — `wander_state.gd` only picks random points within a radius of spawn. Add an optional `patrol_points: Array[Marker2D]` so specific rooms can author deliberate patrol routes instead of every enemy wandering aimlessly
 
+## HUD & Health Bars
+
+- [x] **Enemy health bars** — Float a small ProgressBar above each enemy that fills to current/max HP. Appears permanently on elites; fades out after 2s of no damage on normal enemies. Implemented as a `scripts/ui/enemy_health_bar.gd` node added as a child in each enemy scene.
+
+- [x] **Status effect icons on enemies** — Show tiny colored squares (matching the player status display palette) directly above each enemy for every active status effect they carry. Reuses StatusEffectComponent signals. Implemented as a `scripts/ui/enemy_status_display.gd` node added as a child in each enemy scene.
+
+- [x] **Low health warning** — When player HP drops to ≤ 25% of max, pulse the HUD health bar red and overlay a screen-edge vignette (ColorRect with gradient shader or radial alpha). Clears when HP rises above 25%. Driven by `health_changed` in `hud.gd`.
+
 ## Items & Loot
 
 - [x] **Set bonuses** — Add a `set_id` field to ItemData and a SetBonusData resource so equipping 2+ items from the same set grants bonus stats or a unique effect
