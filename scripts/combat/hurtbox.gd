@@ -20,7 +20,19 @@ func receive_hit(hitbox: Hitbox) -> void:
 	var owner_node: Node2D = get_parent() as Node2D
 	if owner_node and owner_node.has_method("get_defense"):
 		defense = owner_node.get_defense()
-	var result: Dictionary = CombatManager.calculate_damage(hitbox.damage, defense, hitbox.crit_chance)
+
+	var direction: Vector2 = (get_parent().global_position - hitbox.global_position).normalized()
+
+	var is_backstab: bool = false
+	if get_parent().is_in_group(&"enemies") and get_parent().has_method(&"get_facing_vector"):
+		var raw: Variant = get_parent().call(&"get_facing_vector")
+		if raw is Vector2:
+			var facing_vec: Vector2 = raw as Vector2
+			if facing_vec != Vector2.ZERO:
+				is_backstab = direction.dot(facing_vec) > GameConfig.config.player_backstab_dot_threshold
+
+	var effective_crit: float = hitbox.crit_chance + (GameConfig.config.player_backstab_crit_bonus if is_backstab else 0.0)
+	var result: Dictionary = CombatManager.calculate_damage(hitbox.damage, defense, effective_crit)
 	var final_damage: int = result["damage"] as int
 	var is_crit: bool = result["is_crit"] as bool
 
@@ -33,10 +45,15 @@ func receive_hit(hitbox: Hitbox) -> void:
 		_health_component.take_damage(final_damage)
 
 	if _knockback_component:
-		var direction: Vector2 = (get_parent().global_position - hitbox.global_position).normalized()
 		_knockback_component.apply_knockback(direction, hitbox.knockback_force)
 
-	var dmg_color: Color = Color.GOLD if is_crit else Color.WHITE
+	var dmg_color: Color
+	if is_backstab:
+		dmg_color = GameConfig.config.player_backstab_color
+	elif is_crit:
+		dmg_color = Color.GOLD
+	else:
+		dmg_color = Color.WHITE
 	CombatManager.spawn_damage_number(final_damage, get_parent().global_position + Vector2(0, -16), dmg_color)
 
 	var pause_duration: float = hitbox.hit_pause_duration if hitbox.hit_pause_duration >= 0.0 else GameConfig.config.combat_hit_pause_duration

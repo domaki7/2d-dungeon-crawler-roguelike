@@ -63,5 +63,8 @@ func _position_hitbox() -> void:
 			offset = Vector2(hitbox_offset, 0)
 	enemy.hitbox.position = offset
 
+func is_in_parry_window() -> bool:
+	return _is_winding_up and _windup_timer <= telegraph_duration * GameConfig.config.player_parry_window_fraction
+
 func _on_animation_finished() -> void:
 	transition_requested.emit(self, &"ChaseState")

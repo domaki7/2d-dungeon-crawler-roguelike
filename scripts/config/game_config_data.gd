@@ -45,6 +45,21 @@ extends Resource
 ## Animation frame index (0-based) at which dodge-cancel becomes available
 @export var player_attack_cancel_frame: int = 2
 
+@export_group("Player - Combo Attack")
+
+## Damage multiplier for the second hit in a light combo chain
+@export var player_combo_2_damage_multiplier: float = 1.2
+## Damage multiplier for the third/finisher hit in a light combo chain
+@export var player_combo_3_damage_multiplier: float = 1.5
+## Hitbox size for the second combo hit (slightly wider than light 1)
+@export var player_combo_2_hitbox_size: Vector2 = Vector2(20, 17)
+## Hitbox size for the third combo hit (wider finisher)
+@export var player_combo_3_hitbox_size: Vector2 = Vector2(22, 19)
+## Scale of the melee swing trail VFX on the second combo hit
+@export var player_combo_2_swing_scale: float = 1.2
+## Scale of the melee swing trail VFX on the third combo hit
+@export var player_combo_3_swing_scale: float = 1.5
+
 @export_group("Player - Heavy Attack")
 
 ## How long the player must hold attack to fully charge (seconds)
@@ -57,6 +72,26 @@ extends Resource
 @export var player_heavy_hitbox_size: Vector2 = Vector2(24, 20)
 ## Sprite shake amplitude during charge-up (pixels)
 @export var player_heavy_shake_intensity: float = 1.0
+
+@export_group("Player - Parry")
+
+## Maximum distance to an enemy for a parry to trigger (pixels)
+@export var player_parry_range: float = 28.0
+## Fraction of windup remaining when the parry window opens (0.3 = last 30%)
+@export var player_parry_window_fraction: float = 0.3
+## Duration the enemy is stunned after a successful parry (seconds)
+@export var player_parry_stun_duration: float = 1.5
+## Window after a parry during which the next attack is a guaranteed crit (seconds)
+@export var player_parry_riposte_duration: float = 0.4
+
+@export_group("Player - Backstab")
+
+## Additional crit chance for attacks from behind the target (0.5 = +50% crit chance)
+@export var player_backstab_crit_bonus: float = 0.5
+## Dot product threshold for the 120° rear cone (cos 60° = 0.5)
+@export var player_backstab_dot_threshold: float = 0.5
+## Damage number tint color for backstab hits
+@export var player_backstab_color: Color = Color(0.7, 0.3, 1.0)
 
 @export_group("Player - Shield Bash")
 

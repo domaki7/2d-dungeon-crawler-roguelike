@@ -65,6 +65,14 @@ func update_facing(direction: Vector2) -> bool:
 		facing_direction = FacingDirection.DOWN if direction.y > 0.0 else FacingDirection.UP
 	return facing_direction != old_direction
 
+func get_facing_vector() -> Vector2:
+	match facing_direction:
+		FacingDirection.DOWN: return Vector2(0, 1)
+		FacingDirection.UP: return Vector2(0, -1)
+		FacingDirection.LEFT: return Vector2(-1, 0)
+		FacingDirection.RIGHT: return Vector2(1, 0)
+	return Vector2.ZERO
+
 func play_directional_animation(base_name: String) -> void:
 	var suffix: String
 	match facing_direction:

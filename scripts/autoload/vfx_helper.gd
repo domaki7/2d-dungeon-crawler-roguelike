@@ -67,7 +67,7 @@ func spawn_alert_indicator(global_pos: Vector2) -> void:
 	tween.parallel().tween_property(icon, "modulate:a", 0.0, duration)
 	tween.tween_callback(icon.queue_free)
 
-func spawn_melee_swing(global_pos: Vector2, angle: float) -> void:
+func spawn_melee_swing(global_pos: Vector2, angle: float, swing_scale: float = 1.0) -> void:
 	var swing: AnimatedSprite2D = _melee_swing_scene.instantiate() as AnimatedSprite2D
 	if swing == null:
 		return
@@ -78,4 +78,5 @@ func spawn_melee_swing(global_pos: Vector2, angle: float) -> void:
 	game_world.add_child(swing)
 	swing.global_position = global_pos
 	swing.rotation = angle
+	swing.scale = Vector2(swing_scale, swing_scale)
 	swing.animation_finished.connect(swing.queue_free)

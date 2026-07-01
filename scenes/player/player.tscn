@@ -79,6 +79,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_up_side_1.svg" id="t_sbus1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_shield_bash_up_side_2.svg" id="t_sbus2"]
 [ext_resource type="Script" path="res://scripts/player/player_states/heavy_attack_state.gd" id="23_has"]
+[ext_resource type="Script" path="res://scripts/player/player_states/parry_state.gd" id="26_pars"]
 [ext_resource type="Script" path="res://scripts/player/player_states/dodge_roll_state.gd" id="24_drs"]
 [ext_resource type="Resource" path="res://resources/abilities/dodge_roll.tres" id="25_dr"]
 [ext_resource type="Texture2D" path="res://assets/sprites/player/warrior_heavy_attack_down_0.svg" id="t_had0"]
@@ -502,6 +503,9 @@ ability_index = 2
 
 [node name="HeavyAttackState" type="Node" parent="StateMachine"]
 script = ExtResource("23_has")
+
+[node name="ParryState" type="Node" parent="StateMachine"]
+script = ExtResource("26_pars")
 
 [node name="DodgeRollState" type="Node" parent="StateMachine"]
 script = ExtResource("24_drs")

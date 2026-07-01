@@ -18,7 +18,12 @@ func physics_process_state(delta: float) -> void:
 
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):
-		transition_requested.emit(self, &"AttackState")
+		var parryable: CharacterBody2D = _find_parryable_enemy()
+		if parryable:
+			player.parry_target = parryable
+			transition_requested.emit(self, &"ParryState")
+		else:
+			transition_requested.emit(self, &"AttackState")
 	elif event.is_action_pressed(&"dodge"):
 		if player.ability_manager.is_ability_ready(3):
 			transition_requested.emit(self, &"DodgeRollState")
@@ -31,3 +36,21 @@ func handle_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"ability_3"):
 		if player.ability_manager.is_ability_ready(2):
 			transition_requested.emit(self, &"WarCryState")
+
+func _find_parryable_enemy() -> CharacterBody2D:
+	var range_sq: float = GameConfig.config.player_parry_range * GameConfig.config.player_parry_range
+	for enemy: Node in get_tree().get_nodes_in_group(&"enemies"):
+		var enemy_body: CharacterBody2D = enemy as CharacterBody2D
+		if enemy_body == null:
+			continue
+		if player.global_position.distance_squared_to(enemy_body.global_position) > range_sq:
+			continue
+		var sm_node: Node = enemy_body.get_node_or_null("StateMachine")
+		if sm_node == null:
+			continue
+		var sm: StateMachine = sm_node as StateMachine
+		if sm == null or sm.current_state == null:
+			continue
+		if sm.current_state.has_method(&"is_in_parry_window") and sm.current_state.is_in_parry_window():
+			return enemy_body
+	return null

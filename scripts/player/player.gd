@@ -21,6 +21,12 @@ var friction: float:
 var facing_direction: int = FacingDirection.DOWN
 var gold: int = 0
 var speed: float = 120.0
+var riposte_timer: float = 0.0
+var parry_target: CharacterBody2D = null
+
+func _process(delta: float) -> void:
+	if riposte_timer > 0.0:
+		riposte_timer -= delta
 
 func _ready() -> void:
 	add_to_group(&"player")
@@ -108,6 +114,18 @@ func play_directional_animation(base_name: String) -> void:
 		anim_name = StringName(base_name + suffix)
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
+
+func get_facing_vector() -> Vector2:
+	match facing_direction:
+		FacingDirection.RIGHT, FacingDirection.UP_RIGHT, FacingDirection.DOWN_RIGHT:
+			return Vector2(1, 0)
+		FacingDirection.LEFT, FacingDirection.UP_LEFT, FacingDirection.DOWN_LEFT:
+			return Vector2(-1, 0)
+		FacingDirection.DOWN:
+			return Vector2(0, 1)
+		FacingDirection.UP:
+			return Vector2(0, -1)
+	return Vector2(0, 1)
 
 func get_defense() -> int:
 	return player_stats.get_effective_defense()
