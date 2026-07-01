@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Barrel body (brown wood) -->
+  <rect x="3" y="1" width="10" height="14" fill="#7a4a1e"/>
+  <!-- Left/right shaping (slightly lighter center) -->
+  <rect x="4" y="2" width="8" height="12" fill="#8b5a2b"/>
+  <!-- Metal bands (dark gray) -->
+  <rect x="3" y="3" width="10" height="2" fill="#444"/>
+  <rect x="3" y="11" width="10" height="2" fill="#444"/>
+  <!-- Top band -->
+  <rect x="4" y="1" width="8" height="1" fill="#555"/>
+  <!-- Bottom band -->
+  <rect x="4" y="14" width="8" height="1" fill="#555"/>
+  <!-- Wood grain lines -->
+  <rect x="6" y="5" width="1" height="6" fill="#6a3a10"/>
+  <rect x="9" y="5" width="1" height="6" fill="#6a3a10"/>
+  <!-- Highlight -->
+  <rect x="5" y="3" width="1" height="10" fill="#a06030"/>
+</svg>

@@ -794,6 +794,44 @@ extends Resource
 
 
 # =============================================================================
+# ROOM - BREAKABLE OBJECTS
+# =============================================================================
+
+@export_group("Breakables")
+
+## Minimum breakable objects (barrels/crates) spawned per combat room
+@export var breakable_spawn_count_min: int = 2
+## Maximum breakable objects spawned per combat room
+@export var breakable_spawn_count_max: int = 4
+## HP of a barrel before it breaks
+@export var breakable_barrel_hp: int = 2
+## HP of a crate before it breaks
+@export var breakable_crate_hp: int = 3
+## Invincibility window between hits on a breakable (0 = no i-frames, breaks on every hit)
+@export var breakable_i_frame_duration: float = 0.0
+## Chance a broken object drops gold (0.0 to 1.0)
+@export var breakable_gold_drop_chance: float = 0.5
+## Minimum gold pickups to spawn when a breakable drops gold
+@export var breakable_gold_count_min: int = 1
+## Maximum gold pickups to spawn when a breakable drops gold
+@export var breakable_gold_count_max: int = 3
+## Scatter radius around the breakable for dropped gold pickups (pixels)
+@export var breakable_gold_scatter_radius: float = 12.0
+
+
+# =============================================================================
+# ROOM - DARKNESS ROOM
+# =============================================================================
+
+@export_group("Dark Room")
+
+## Radius of the light circle around the player in viewport pixels
+@export var dark_room_light_radius: float = 80.0
+## Soft feather distance at the edge of the light circle (viewport pixels)
+@export var dark_room_edge_softness: float = 24.0
+
+
+# =============================================================================
 # UI / VISUAL EFFECTS
 # =============================================================================
 

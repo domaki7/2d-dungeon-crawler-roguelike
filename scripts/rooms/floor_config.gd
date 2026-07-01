@@ -16,6 +16,9 @@ extends Resource
 @export var has_trap_room: bool = false
 @export var trap_room_scene: PackedScene
 @export_range(0.0, 1.0) var trap_room_chance: float = 0.5
+@export var has_dark_room: bool = false
+@export var dark_room_scene: PackedScene
+@export_range(0.0, 1.0) var dark_room_chance: float = 0.6
 
 @export_group("Boss")
 @export var has_boss: bool = false

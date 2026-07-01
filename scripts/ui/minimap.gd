@@ -60,6 +60,8 @@ func _draw() -> void:
 			draw_rect(Rect2(pos, room_size), Color(0.2, 0.7, 0.9), false, 1.0)
 		elif room_type == "trap":
 			draw_rect(Rect2(pos, room_size), Color(0.9, 0.5, 0.1), false, 1.0)
+		elif room_type == "dark":
+			draw_rect(Rect2(pos, room_size), Color(0.6, 0.2, 0.9), false, 1.0)
 
 func _get_room_color(room: Dictionary, is_current: bool) -> Color:
 	if is_current:

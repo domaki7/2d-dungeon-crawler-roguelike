@@ -11,6 +11,7 @@ const _SFX_FALLBACKS: Dictionary = {
 	&"chain_lightning": &"hit",
 	&"fire_wall": &"hit",
 	&"ogre_charge": &"boss_charge",
+	&"cave_ambience": &"door_lock",
 }
 
 var sfx_volume_db: float:

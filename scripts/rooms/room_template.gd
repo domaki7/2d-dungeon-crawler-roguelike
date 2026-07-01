@@ -16,6 +16,7 @@ signal room_cleared_signal
 @onready var player_spawn: Marker2D = $PlayerSpawn
 
 var _floor_exit_scene: PackedScene = preload("res://scenes/interactables/floor_exit.tscn")
+var _breakable_scene: PackedScene = preload("res://scenes/rooms/breakables/breakable.tscn")
 var _enemies_alive: int = 0
 var _is_cleared: bool = false
 
@@ -27,6 +28,7 @@ func activate(already_cleared: bool = false) -> void:
 		_is_cleared = true
 	else:
 		_populate_enemies()
+		_populate_breakables()
 		if is_combat_room and _enemies_alive > 0 and auto_lock_doors:
 			_lock_all_doors()
 	EventBus.room_entered.emit(room_id)
@@ -127,6 +129,39 @@ func _populate_enemies() -> void:
 
 			if elite_chance > 0.0 and randf() < elite_chance and sp.spawn_type != SpawnPoint.SpawnType.BOSS:
 				EliteModifier.apply(enemy, sp.spawn_type)
+
+func _populate_breakables() -> void:
+	if not is_combat_room:
+		return
+	var count: int = randi_range(
+		GameConfig.config.breakable_spawn_count_min,
+		GameConfig.config.breakable_spawn_count_max
+	)
+	var center: Vector2 = Vector2(room_pixel_width / 2.0, room_pixel_height / 2.0)
+	var margin: float = 48.0
+	var min_center_dist: float = 40.0
+	var min_peer_dist: float = 32.0
+	var placed: Array[Vector2] = []
+	var attempts: int = 0
+	while placed.size() < count and attempts < 60:
+		attempts += 1
+		var x: float = randf_range(margin, room_pixel_width - margin)
+		var y: float = randf_range(margin, room_pixel_height - margin)
+		var pos: Vector2 = Vector2(x, y)
+		if pos.distance_to(center) < min_center_dist:
+			continue
+		var too_close: bool = false
+		for existing: Vector2 in placed:
+			if pos.distance_to(existing) < min_peer_dist:
+				too_close = true
+				break
+		if too_close:
+			continue
+		placed.append(pos)
+		var breakable: Node2D = _breakable_scene.instantiate() as Node2D
+		breakable.set("breakable_type", randi() % 2)
+		breakable.position = pos
+		add_child(breakable)
 
 func _lock_all_doors() -> void:
 	for door_node: Node in doors_container.get_children():

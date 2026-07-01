@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Crate body (wood) -->
+  <rect x="1" y="1" width="14" height="14" fill="#8b6914"/>
+  <!-- Inner fill (slightly lighter) -->
+  <rect x="2" y="2" width="12" height="12" fill="#a07820"/>
+  <!-- Cross-plank pattern (dark lines) -->
+  <rect x="1" y="7" width="14" height="2" fill="#6a500f"/>
+  <rect x="7" y="1" width="2" height="14" fill="#6a500f"/>
+  <!-- Corner reinforcements -->
+  <rect x="1" y="1" width="3" height="3" fill="#7a5c10"/>
+  <rect x="12" y="1" width="3" height="3" fill="#7a5c10"/>
+  <rect x="1" y="12" width="3" height="3" fill="#7a5c10"/>
+  <rect x="12" y="12" width="3" height="3" fill="#7a5c10"/>
+  <!-- Highlight edge -->
+  <rect x="2" y="2" width="12" height="1" fill="#c09a30"/>
+  <rect x="2" y="2" width="1" height="12" fill="#c09a30"/>
+</svg>

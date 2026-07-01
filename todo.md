@@ -113,6 +113,12 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Quick-draw strafing** — `ranged_attack_state.gd` currently zeroes player velocity and fully roots them for the entire shot animation. Allow strafing at reduced speed during the shot so Ranger play doesn't feel like a melee lock
 - [x] **Rapid chain shot** — Firing basic shots in quick succession within a short follow-up window increases fire rate slightly each step (shot1→shot2→shot3), resetting if the player stops shooting — gives the Ranger's basic attack its own light progression, mirroring the melee combo string already planned in `## Melee Combat Depth`
 
+## Room & Level Design
+
+- [x] **Breakable environment objects** — Barrels and crates as destructible obstacles in combat rooms, using the existing HealthComponent + Hitbox pattern. Hit them with any attack to break them; chance to drop gold or potions. Adds tactile liveliness to melee and decorates rooms with interactable scenery.
+
+- [x] **Darkness room variant** — New `"dark"` room type in the floor graph: a black CanvasLayer overlay covers the screen with a circular cutout that follows the player, creating a limited-visibility combat challenge. Wired into DungeonManager, FloorConfig, and minimap (purple outline). All existing combat/enemy/door logic unchanged.
+
 ---
 
 ## Bugs
