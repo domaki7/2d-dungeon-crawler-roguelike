@@ -141,6 +141,14 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 
 - [x] **Ability interrupt on death** — All ability states (`shield_bash_state.gd`, `whirlwind_state.gd`, `war_cry_state.gd`, `ice_shard_state.gd`, `chain_lightning_state.gd`, `fire_wall_state.gd`, `blink_state.gd`, `multishot_state.gd`, `rain_of_arrows_state.gd`) run async tweens and timers; if the player dies mid-cast the state machine stops but in-flight effects (hitboxes, projectiles, tweens) may persist or keep the ability slot locked. In each ability state's `exit()`, cancel any running tween/timer and free any spawned scene if still alive. In the base `AbilityState.enter()`, subscribe to `player.health_component.died` and immediately force-transition to `DeadState` if it fires mid-cast.
 
+## Screen Effects
+
+- [x] **Mouse-aim camera lookahead** — The camera is locked to the player; add a small camera script that offsets the camera a clamped fraction toward the mouse cursor (smoothed), so players can see farther in the direction they're aiming. Applies to all three class scenes' Camera2D.
+
+- [x] **Boss death slow-motion** — On `EventBus.boss_defeated`, ramp `Engine.time_scale` down (~0.3) for a short beat and ease back to 1.0, paired with a subtle camera zoom-in on the boss, so the kill lands as a moment instead of an instant poof.
+
+- [x] **Room-clear feedback pulse** — On `EventBus.room_cleared`, flash a quick white screen overlay and do a subtle camera zoom pulse so unlocking doors registers viscerally instead of only via the door SFX.
+
 ---
 
 ## Future Ideas (Not Planned Yet)

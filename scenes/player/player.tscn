@@ -1,6 +1,7 @@
-[gd_scene load_steps=103 format=3]
+[gd_scene load_steps=104 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/player/game_camera.gd" id="1_gamcam"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
 [ext_resource type="Script" path="res://scripts/player/player_states/idle_state.gd" id="3_idle"]
 [ext_resource type="Script" path="res://scripts/player/player_states/run_state.gd" id="4_run"]
@@ -564,3 +565,4 @@ script = ExtResource("14_effects")
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+script = ExtResource("1_gamcam")

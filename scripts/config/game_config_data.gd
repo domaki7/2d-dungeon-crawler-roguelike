@@ -853,6 +853,43 @@ extends Resource
 ## Screen shake duration on boss death (seconds)
 @export var vfx_boss_death_shake_duration: float = 0.4
 
+@export_group("Screen Effects")
+
+@export_subgroup("Camera Lookahead")
+
+## Maximum distance the camera drifts toward the mouse cursor (pixels)
+@export var camera_lookahead_max_distance: float = 16.0
+## Mouse distance from the player at which lookahead reaches its maximum (pixels)
+@export var camera_lookahead_mouse_range: float = 120.0
+## Lerp speed of the lookahead offset toward its target (1/seconds, higher = snappier)
+@export var camera_lookahead_smoothing: float = 5.0
+
+@export_subgroup("Boss Death Slow-Mo")
+
+## Engine time scale during the boss death slow-motion beat (multiplier)
+@export var boss_slowmo_time_scale: float = 0.3
+## How long the slow-motion holds before recovering (real-time seconds)
+@export var boss_slowmo_hold_duration: float = 0.7
+## How long the time scale eases back to normal after the hold (real-time seconds)
+@export var boss_slowmo_recover_duration: float = 0.4
+## Camera zoom peak during the boss death beat (multiplier, 1.0 = no zoom)
+@export var boss_slowmo_zoom_peak: float = 1.25
+## Time for the camera to zoom in on boss death (real-time seconds)
+@export var boss_slowmo_zoom_in_duration: float = 0.25
+## Time for the camera to zoom back out after boss death (real-time seconds)
+@export var boss_slowmo_zoom_out_duration: float = 0.5
+
+@export_subgroup("Room Clear Pulse")
+
+## Peak alpha of the white screen flash on room clear (0-1)
+@export var room_clear_flash_alpha: float = 0.25
+## Fade-out time of the room clear flash after its peak (seconds)
+@export var room_clear_flash_fade_duration: float = 0.3
+## Camera zoom peak of the room clear pulse (multiplier, 1.0 = no zoom)
+@export var room_clear_zoom_peak: float = 1.05
+## Total duration of the room clear zoom pulse, in and out (seconds)
+@export var room_clear_zoom_pulse_duration: float = 0.35
+
 
 @export_group("UI - Damage Numbers")
 

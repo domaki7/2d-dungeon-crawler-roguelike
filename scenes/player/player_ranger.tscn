@@ -1,6 +1,7 @@
-[gd_scene load_steps=58 format=3]
+[gd_scene load_steps=59 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_ranger.gd" id="1_p"]
+[ext_resource type="Script" path="res://scripts/player/game_camera.gd" id="1_gamcam"]
 [ext_resource type="Script" path="res://scripts/player/player_states/charged_shot_state.gd" id="24_charged"]
 [ext_resource type="PackedScene" path="res://scenes/attacks/player_arrow_piercing.tscn" id="25_piercing"]
 [ext_resource type="Script" path="res://scripts/util/state_machine.gd" id="2_sm"]
@@ -317,3 +318,4 @@ script = ExtResource("16_effects")
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+script = ExtResource("1_gamcam")
