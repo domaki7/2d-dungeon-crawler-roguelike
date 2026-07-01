@@ -3,10 +3,11 @@ extends AbilityState
 func enter() -> void:
 	super.enter()
 	player.animated_sprite.play(&"war_cry")
-	player.ability_manager.apply_buff(_ability_data.damage_multiplier, _ability_data.buff_duration)
+	player.ability_manager.apply_buff(_ability_data.damage_multiplier, _ability_data.buff_duration, _ability_data.display_name)
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
 
 func exit() -> void:
+	super.exit()
 	if player.animated_sprite.animation_finished.is_connected(_on_animation_finished):
 		player.animated_sprite.animation_finished.disconnect(_on_animation_finished)
 

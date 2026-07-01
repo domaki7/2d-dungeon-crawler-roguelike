@@ -20,6 +20,7 @@ func enter() -> void:
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
 
 func exit() -> void:
+	super.exit()
 	player.hurtbox.set_deferred("monitorable", true)
 	player.velocity = Vector2.ZERO
 	if player.animated_sprite.animation_finished.is_connected(_on_animation_finished):

@@ -886,6 +886,10 @@ extends Resource
 
 ## Tint color applied to the player during War Cry buff
 @export var ui_war_cry_buff_color: Color = Color(1.2, 1.1, 0.8, 1.0)
+## Width of the active-buff duration bar (pixels)
+@export var ui_buff_bar_width: float = 56.0
+## Height of the active-buff duration bar (pixels)
+@export var ui_buff_bar_height: float = 3.0
 
 @export_group("UI - Settings")
 
@@ -1184,6 +1188,11 @@ extends Resource
 # ABILITIES
 # Each ability's tunable stats. Values here override the ability .tres at load.
 # =============================================================================
+
+@export_group("Abilities - General")
+
+## Maximum fraction of cooldown that CDR items can reduce (0.0–1.0, prevents 0s cooldowns)
+@export var ability_max_cooldown_reduction: float = 0.9
 
 @export_group("Abilities - Shield Bash")
 

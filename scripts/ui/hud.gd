@@ -22,11 +22,21 @@ func _ready() -> void:
 	EventBus.mana_changed.connect(_on_mana_changed)
 	gold_label.text = "0"
 	_create_ability_bar()
+	_create_buff_indicator()
 	_create_floor_label()
 	_create_minimap()
 	_create_status_display()
 	_create_vignette()
 	_connect_to_player.call_deferred()
+
+func _create_buff_indicator() -> void:
+	var buff_indicator_script: Script = preload("res://scripts/ui/buff_indicator.gd")
+	var indicator: Control = Control.new()
+	indicator.set_script(buff_indicator_script)
+	indicator.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	indicator.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	indicator.position.y = -42.0
+	add_child(indicator)
 
 func _create_ability_bar() -> void:
 	var ability_bar_script: Script = preload("res://scripts/ui/ability_bar.gd")

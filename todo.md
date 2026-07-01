@@ -133,6 +133,14 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [x] **Dodge roll SFX** — `dodge_roll_state.gd` is silent; add `AudioManager.play_sfx_varied(&"dodge")` on `enter()` using `shield_bash.wav` as a fallback (remapped via the SFX fallback system below)
 - [x] **SFX fallback system** — `_load_sfx()` in `audio_manager.gd` silently returns null for 6 missing SFX names (`attack`/`swing`/`dodge`/`magic_bolt`/`ice_shard`/`chain_lightning`/`fire_wall`/`ogre_charge`), silencing heavy attack, the entire Mage class, and the Ogre. Add a `_sfx_fallbacks: Dictionary` that maps each missing name to an existing file (e.g. `attack` → `hit`, `magic_bolt` → `arrow_fire`), checked in `_load_sfx()` before returning null
 
+## Abilities & Cooldowns
+
+- [x] **Active-buff HUD indicator** — War Cry (and any future buff abilities) grants a damage multiplier for up to 5s, but there is no HUD element showing the remaining buff duration. Add a small colored pill/bar that appears above the ability bar while a buff is active, shrinking as the timer counts down and disappearing when the buff expires. Driven by AbilityManager's `_buff_timer` and `_damage_multiplier` fields; connect via EventBus or a direct signal from AbilityManager.
+
+- [x] **Cooldown reduction stat** — No item or ring currently reduces ability cooldowns. Add a `cooldown_reduction: float` field to the player's stat pipeline (read from equipped items in `item_effect_handler.gd`). Modify `ability_manager.start_cooldown(index)` to multiply the raw cooldown duration by `(1.0 - player.cooldown_reduction)` before storing it. Add at least one Ring item resource that grants 20% CDR, so the stat is exercised in a run.
+
+- [x] **Ability interrupt on death** — All ability states (`shield_bash_state.gd`, `whirlwind_state.gd`, `war_cry_state.gd`, `ice_shard_state.gd`, `chain_lightning_state.gd`, `fire_wall_state.gd`, `blink_state.gd`, `multishot_state.gd`, `rain_of_arrows_state.gd`) run async tweens and timers; if the player dies mid-cast the state machine stops but in-flight effects (hitboxes, projectiles, tweens) may persist or keep the ability slot locked. In each ability state's `exit()`, cancel any running tween/timer and free any spawned scene if still alive. In the base `AbilityState.enter()`, subscribe to `player.health_component.died` and immediately force-transition to `DeadState` if it fires mid-cast.
+
 ---
 
 ## Future Ideas (Not Planned Yet)

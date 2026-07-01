@@ -12,6 +12,15 @@ func enter() -> void:
 	EventBus.ability_used.emit(ability_index)
 	if _ability_data:
 		AudioManager.play_sfx(_ability_data.ability_id)
+	if not player.health_component.died.is_connected(_on_player_died):
+		player.health_component.died.connect(_on_player_died)
+
+func exit() -> void:
+	if player.health_component.died.is_connected(_on_player_died):
+		player.health_component.died.disconnect(_on_player_died)
 
 func _transition_to_idle() -> void:
 	transition_requested.emit(self, &"IdleState")
+
+func _on_player_died() -> void:
+	transition_requested.emit(self, &"DeadState")

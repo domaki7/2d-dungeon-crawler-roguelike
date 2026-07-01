@@ -36,3 +36,6 @@ signal mana_changed(current_mana: int, max_mana: int)
 
 signal legendary_item_found(item_data: Resource)
 signal chest_enemies_spawned(enemies: Array)
+
+signal player_buff_applied(buff_name: String, buff_color: Color, duration: float)
+signal player_buff_expired()

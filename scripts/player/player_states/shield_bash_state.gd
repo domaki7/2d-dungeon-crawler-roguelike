@@ -17,6 +17,7 @@ func enter() -> void:
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
 
 func exit() -> void:
+	super.exit()
 	player.hitbox.deactivate()
 	player.hitbox.position = Vector2.ZERO
 	player.hitbox.applied_status_effect = null
