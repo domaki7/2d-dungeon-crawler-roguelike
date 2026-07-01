@@ -26,6 +26,7 @@ func enter() -> void:
 		player.global_position + _attack_direction * hitbox_offset,
 		_attack_direction.angle()
 	)
+	AudioManager.play_sfx_varied(&"swing")
 	player.hitbox.damage = player.get_ability_damage(player.player_stats.get_effective_damage())
 	player.animated_sprite.frame_changed.connect(_on_frame_changed)
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
@@ -81,6 +82,7 @@ func _on_frame_changed() -> void:
 	if current_frame == active_frame and not _hitbox_activated:
 		player.hitbox.activate()
 		_hitbox_activated = true
+		AudioManager.play_sfx_varied(&"hit")
 	elif current_frame > active_frame and _hitbox_activated:
 		player.hitbox.deactivate()
 		_hitbox_activated = false

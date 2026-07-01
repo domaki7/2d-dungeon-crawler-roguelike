@@ -121,6 +121,12 @@ Framework exists but unlocks screen is a placeholder ("No unlocks available yet.
 - [ ] **Death screen broken** — When the player dies, the restart button doesn't appear and enemies continue attacking the dead player. Need to show the restart UI and stop enemy AI on player death
 - [ ] **Mage Fire Wall (R) useless** — The Fire Wall spell needs tuning/fixing to be more effective and worth the 25 mana cost
 
+## Audio & Music
+
+- [x] **Light attack SFX** — `attack_state.gd` makes no SFX call; the warrior's basic swing is silent. Add `AudioManager.play_sfx_varied(&"swing")` on state enter for the wind-up and `AudioManager.play_sfx_varied(&"hit")` on the active frame for the impact
+- [x] **Dodge roll SFX** — `dodge_roll_state.gd` is silent; add `AudioManager.play_sfx_varied(&"dodge")` on `enter()` using `shield_bash.wav` as a fallback (remapped via the SFX fallback system below)
+- [x] **SFX fallback system** — `_load_sfx()` in `audio_manager.gd` silently returns null for 6 missing SFX names (`attack`/`swing`/`dodge`/`magic_bolt`/`ice_shard`/`chain_lightning`/`fire_wall`/`ogre_charge`), silencing heavy attack, the entire Mage class, and the Ogre. Add a `_sfx_fallbacks: Dictionary` that maps each missing name to an existing file (e.g. `attack` → `hit`, `magic_bolt` → `arrow_fire`), checked in `_load_sfx()` before returning null
+
 ---
 
 ## Future Ideas (Not Planned Yet)

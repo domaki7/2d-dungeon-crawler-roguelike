@@ -2,6 +2,17 @@ extends Node
 
 const SFX_POOL_SIZE: int = 8
 
+const _SFX_FALLBACKS: Dictionary = {
+	&"swing": &"hit",
+	&"dodge": &"shield_bash",
+	&"attack": &"hit",
+	&"magic_bolt": &"arrow_fire",
+	&"ice_shard": &"arrow_fire",
+	&"chain_lightning": &"hit",
+	&"fire_wall": &"hit",
+	&"ogre_charge": &"boss_charge",
+}
+
 var sfx_volume_db: float:
 	get: return GameConfig.config.audio_sfx_volume_db
 var music_volume_db: float:
@@ -96,6 +107,8 @@ func _load_sfx(sfx_name: StringName) -> AudioStream:
 	if not ResourceLoader.exists(path):
 		path = "res://assets/audio/sfx/%s.ogg" % sfx_name
 		if not ResourceLoader.exists(path):
+			if _SFX_FALLBACKS.has(sfx_name):
+				return _load_sfx(_SFX_FALLBACKS[sfx_name] as StringName)
 			return null
 	var stream: AudioStream = load(path) as AudioStream
 	_sfx_cache[sfx_name] = stream

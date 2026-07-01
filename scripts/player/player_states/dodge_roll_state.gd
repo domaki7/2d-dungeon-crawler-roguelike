@@ -12,6 +12,7 @@ func enter() -> void:
 	_roll_timer = _ability_data.dash_duration
 	player.update_facing(_roll_direction)
 	player.play_directional_animation("dodge_roll")
+	AudioManager.play_sfx_varied(&"dodge", 0.7, 0.85)
 	player.hurtbox.set_deferred("monitorable", false)
 	player.animated_sprite.animation_finished.connect(_on_animation_finished)
 
