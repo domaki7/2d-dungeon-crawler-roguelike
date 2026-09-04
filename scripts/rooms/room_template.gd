@@ -22,6 +22,7 @@ var _is_cleared: bool = false
 
 func _ready() -> void:
 	_connect_doors()
+	VFXHelper.spawn_room_motes(self, Vector2(room_pixel_width, room_pixel_height))
 
 func activate(already_cleared: bool = false) -> void:
 	if already_cleared:
@@ -141,6 +142,7 @@ func _populate_breakables() -> void:
 	var margin: float = 48.0
 	var min_center_dist: float = 40.0
 	var min_peer_dist: float = 32.0
+	var wall_layer: TileMapLayer = get_node_or_null("WallLayer") as TileMapLayer
 	var placed: Array[Vector2] = []
 	var attempts: int = 0
 	while placed.size() < count and attempts < 60:
@@ -149,6 +151,8 @@ func _populate_breakables() -> void:
 		var y: float = randf_range(margin, room_pixel_height - margin)
 		var pos: Vector2 = Vector2(x, y)
 		if pos.distance_to(center) < min_center_dist:
+			continue
+		if wall_layer and wall_layer.get_cell_source_id(wall_layer.local_to_map(pos)) != -1:
 			continue
 		var too_close: bool = false
 		for existing: Vector2 in placed:
@@ -180,6 +184,15 @@ func _spawn_floor_exit() -> void:
 	exit.position = Vector2(room_pixel_width / 2.0, room_pixel_height / 2.0)
 	add_child(exit)
 	exit.activate()
+	# The way down opening is the biggest beat on a floor — announce it.
+	UISounds.play_chime()
+
+func register_external_enemy(enemy: Node2D) -> void:
+	if not enemy.has_node("HealthComponent"):
+		return
+	_enemies_alive += 1
+	var hc: HealthComponent = enemy.get_node("HealthComponent") as HealthComponent
+	hc.died.connect(_on_enemy_died)
 
 func _on_enemy_died() -> void:
 	_enemies_alive -= 1

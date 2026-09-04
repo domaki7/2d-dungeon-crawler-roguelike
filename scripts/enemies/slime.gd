@@ -6,7 +6,9 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
 var difficulty_speed_multiplier: float = 1.0
 var is_elite: bool = false
+var is_mini: bool = false
 var gold_multiplier: float = 1.0
+var has_flee_triggered: bool = false
 
 var speed: float:
 	get:
@@ -38,10 +40,15 @@ func _ready() -> void:
 	add_to_group(&"enemies")
 	add_to_group(&"melee_chasers")
 	spawn_position = global_position
+	if is_mini:
+		scale = Vector2(GameConfig.config.slime_mini_scale, GameConfig.config.slime_mini_scale)
+		health_component.set_max_hp(GameConfig.config.slime_mini_hp)
 	health_component.damaged.connect(_on_health_damaged)
+	health_component.died.connect(_on_died_split)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
 	EventBus.enemy_aggroed.connect(_on_enemy_aggroed)
+	EventBus.player_died.connect(_on_player_died)
 	_start_state_machine.call_deferred()
 	_add_ui_nodes.call_deferred()
 
@@ -49,6 +56,7 @@ func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")
 
 func _add_ui_nodes() -> void:
+	DropShadow.attach(self, 0.8)
 	var health_bar: Node2D = (preload("res://scripts/ui/enemy_health_bar.gd") as GDScript).new()
 	add_child(health_bar)
 	health_bar.call(&"setup", health_component, is_elite)
@@ -93,6 +101,24 @@ func play_directional_animation(base_name: String) -> void:
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
 
+func _on_died_split() -> void:
+	if is_mini:
+		return
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		return
+	for i: int in range(GameConfig.config.slime_split_count):
+		var mini: CharacterBody2D = (load("res://scenes/enemies/slime.tscn") as PackedScene).instantiate() as CharacterBody2D
+		mini.is_mini = true
+		mini.is_aggroed = true
+		mini.difficulty_speed_multiplier = difficulty_speed_multiplier
+		mini.gold_multiplier = gold_multiplier
+		var angle: float = randf() * TAU
+		mini.global_position = global_position + Vector2(GameConfig.config.slime_split_offset, 0.0).rotated(angle)
+		parent_node.add_child(mini)
+		if parent_node.has_method("register_external_enemy"):
+			parent_node.register_external_enemy(mini)
+
 func _on_health_damaged(_amount: int) -> void:
 	if status_effect_component and status_effect_component.is_stunned():
 		state_machine.transition_to(&"StunnedState")
@@ -112,3 +138,8 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_enemy_aggroed() -> void:
 	is_aggroed = true
+
+func _on_player_died() -> void:
+	is_player_detected = false
+	is_aggroed = false
+	state_machine.transition_to(&"IdleState")

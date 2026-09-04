@@ -12,6 +12,7 @@ var _player_stats: PlayerStats = null
 func _ready() -> void:
 	_cooldown_timers.resize(abilities.size())
 	_cooldown_timers.fill(0.0)
+	EventBus.enemy_killed.connect(_on_enemy_killed)
 	await owner.ready
 	_sprite = owner.get_node("AnimatedSprite2D") as AnimatedSprite2D
 	_player_stats = owner.get_node_or_null("PlayerStats") as PlayerStats
@@ -43,6 +44,21 @@ func start_cooldown(index: int) -> void:
 		var actual_cooldown: float = abilities[index].cooldown * (1.0 - cdr)
 		_cooldown_timers[index] = actual_cooldown
 		EventBus.ability_cooldown_started.emit(index, actual_cooldown)
+
+## Every kill shaves a flat amount off all running cooldowns, so pushing the
+## fight rewards you with faster ability cycling instead of fixed downtime.
+func _on_enemy_killed(_enemy_data: Dictionary) -> void:
+	var reduction: float = GameConfig.config.ability_kill_cooldown_reduction
+	if reduction <= 0.0:
+		return
+	var any_reduced: bool = false
+	for i: int in _cooldown_timers.size():
+		if _cooldown_timers[i] > 0.0:
+			_cooldown_timers[i] = maxf(0.0, _cooldown_timers[i] - reduction)
+			any_reduced = true
+	if any_reduced:
+		# The HUD slots run their own copies of these timers.
+		EventBus.ability_cooldown_reduced.emit(reduction)
 
 func get_ability(index: int) -> AbilityData:
 	if index >= 0 and index < abilities.size():

@@ -1,6 +1,19 @@
 class_name FloorConfig
 extends Resource
 
+@export_group("Theme")
+## Flavor name shown in the floor intro banner (e.g. "The Old Halls")
+@export var floor_title: String = ""
+## Music file basename in assets/audio/music/ played while exploring this floor.
+## Falls back to dungeon_ambient when the file is missing.
+@export var music_track: StringName = &"dungeon_ambient"
+## Modulate tint applied to every room's FloorLayer tilemap
+@export var floor_tint: Color = Color(1.0, 1.0, 1.0)
+## Modulate tint applied to every room's WallLayer tilemap
+@export var wall_tint: Color = Color(1.0, 1.0, 1.0)
+## CanvasModulate ambient color for the whole floor (WHITE = no ambient overlay)
+@export var ambient_light: Color = Color(1.0, 1.0, 1.0)
+
 @export_group("Room Count")
 @export var room_count_min: int = 4
 @export var room_count_max: int = 6

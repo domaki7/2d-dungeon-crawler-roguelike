@@ -19,6 +19,7 @@ func enter() -> void:
 	AudioManager.play_sfx_varied(&"enemy_die")
 	VFXHelper.apply_hit_flash(enemy.animated_sprite)
 	VFXHelper.spawn_death_poof(enemy.global_position)
+	VFXHelper.spawn_death_decal(enemy.global_position, Color(0.62, 0.6, 0.52, 0.42))
 	var tween: Tween = enemy.create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(enemy.animated_sprite, "scale", Vector2(tween_end_scale, tween_end_scale), tween_duration)

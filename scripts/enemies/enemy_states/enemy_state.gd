@@ -32,6 +32,12 @@ func update_last_known_position() -> void:
 	if player:
 		enemy.last_known_player_position = player.global_position
 
+func should_flee() -> bool:
+	if not ("has_flee_triggered" in enemy) or enemy.has_flee_triggered:
+		return false
+	var hc: HealthComponent = enemy.health_component
+	return hc.current_hp <= int(ceil(hc.max_hp * GameConfig.config.enemy_flee_hp_fraction))
+
 func get_surround_direction(spread_radius: float) -> Vector2:
 	var player: CharacterBody2D = get_player()
 	if player == null:

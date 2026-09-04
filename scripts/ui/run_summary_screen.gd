@@ -4,6 +4,7 @@ var _victory: bool = false
 var _stats: Dictionary = {}
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	size = get_viewport().get_visible_rect().size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
@@ -67,16 +68,36 @@ func _build_ui() -> void:
 	total_label.add_theme_color_override("font_color", Color(0.5, 0.35, 0.75))
 	vbox.add_child(total_label)
 
+	var unlocked_name: String = str(_stats.get("difficulty_unlocked", ""))
+	if unlocked_name != "":
+		var unlock_label: Label = Label.new()
+		unlock_label.text = "NEW DIFFICULTY UNLOCKED: %s!" % unlocked_name.to_upper()
+		unlock_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		unlock_label.add_theme_font_size_override("font_size", 7)
+		unlock_label.add_theme_color_override("font_color", Color(1.0, 0.5, 0.3))
+		vbox.add_child(unlock_label)
+
 	var spacer_bottom: Control = Control.new()
 	spacer_bottom.custom_minimum_size = Vector2(0, 6)
 	vbox.add_child(spacer_bottom)
 
+	var buttons: HBoxContainer = HBoxContainer.new()
+	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+	buttons.add_theme_constant_override("separation", 8)
+	vbox.add_child(buttons)
+
+	var restart_btn: Button = Button.new()
+	restart_btn.text = "Restart"
+	restart_btn.add_theme_font_size_override("font_size", 8)
+	restart_btn.pressed.connect(_on_restart_pressed)
+	buttons.add_child(restart_btn)
+	restart_btn.grab_focus()
+
 	var continue_btn: Button = Button.new()
-	continue_btn.text = "Continue"
+	continue_btn.text = "Main Menu"
 	continue_btn.add_theme_font_size_override("font_size", 8)
 	continue_btn.pressed.connect(_on_continue_pressed)
-	vbox.add_child(continue_btn)
-	continue_btn.grab_focus()
+	buttons.add_child(continue_btn)
 
 func _add_stat_line(parent: VBoxContainer, label_text: String, value_text: String) -> void:
 	var hbox: HBoxContainer = HBoxContainer.new()
@@ -95,6 +116,9 @@ func _add_stat_line(parent: VBoxContainer, label_text: String, value_text: Strin
 	value.add_theme_font_size_override("font_size", 6)
 	value.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
 	hbox.add_child(value)
+
+func _on_restart_pressed() -> void:
+	GameManager.start_run(GameManager.selected_class)
 
 func _on_continue_pressed() -> void:
 	GameManager.return_to_title()

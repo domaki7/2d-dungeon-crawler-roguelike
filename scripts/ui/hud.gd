@@ -12,6 +12,9 @@ var _boss_health_component: HealthComponent = null
 var _vignette: ColorRect = null
 var _vignette_tween: Tween = null
 var _is_low_health: bool = false
+var _damage_flash: ColorRect = null
+var _damage_flash_tween: Tween = null
+var _last_gold: int = 0
 
 func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
@@ -20,8 +23,12 @@ func _ready() -> void:
 	EventBus.boss_fight_started.connect(_on_boss_fight_started)
 	EventBus.boss_defeated.connect(_on_boss_defeated)
 	EventBus.mana_changed.connect(_on_mana_changed)
+	EventBus.player_damaged_directional.connect(_on_player_damaged_directional)
 	gold_label.text = "0"
+	_create_ambient_vignette()
+	_create_damage_flash()
 	_create_ability_bar()
+	_create_belt_slot()
 	_create_buff_indicator()
 	_create_floor_label()
 	_create_minimap()
@@ -37,6 +44,14 @@ func _create_buff_indicator() -> void:
 	indicator.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	indicator.position.y = -42.0
 	add_child(indicator)
+
+## Bottom-left corner, clear of the centered ability bar.
+func _create_belt_slot() -> void:
+	var belt: Control = BeltSlot.new()
+	belt.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	belt.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	belt.position = Vector2(4.0, -20.0)
+	add_child(belt)
 
 func _create_ability_bar() -> void:
 	var ability_bar_script: Script = preload("res://scripts/ui/ability_bar.gd")
@@ -64,6 +79,17 @@ func _on_health_changed(current_hp: int, max_hp: int) -> void:
 	health_bar.value = current_hp
 	_check_low_health(current_hp, max_hp)
 
+## Constant, subtle dark edge vignette that frames the dungeon at all times.
+func _create_ambient_vignette() -> void:
+	var ambient: ColorRect = ColorRect.new()
+	ambient.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ambient.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var mat: ShaderMaterial = ShaderMaterial.new()
+	mat.shader = preload("res://shaders/vignette_dark.gdshader")
+	ambient.material = mat
+	add_child(ambient)
+	move_child(ambient, 0)
+
 func _create_vignette() -> void:
 	_vignette = ColorRect.new()
 	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -81,6 +107,8 @@ func _check_low_health(current_hp: int, max_hp: int) -> void:
 	if is_low == _is_low_health:
 		return
 	_is_low_health = is_low
+	# The heartbeat is the audio half of the same warning as the vignette.
+	AudioManager.set_heartbeat(is_low, GameConfig.config.audio_heartbeat_rate)
 	if _vignette_tween:
 		_vignette_tween.kill()
 	if is_low:
@@ -94,7 +122,64 @@ func _check_low_health(current_hp: int, max_hp: int) -> void:
 		_vignette_tween.tween_property(_vignette, "modulate:a", 0.0, 0.3)
 
 func _on_gold_changed(new_amount: int) -> void:
+	var gained: int = new_amount - _last_gold
+	_last_gold = new_amount
 	gold_label.text = str(new_amount)
+	if gained > 0:
+		_show_gold_popup(gained)
+
+## Floating "+N" beside the counter, so a pickup registers without the player
+## having to watch the number tick.
+func _show_gold_popup(amount: int) -> void:
+	var popup: Label = Label.new()
+	popup.text = "+%d" % amount
+	popup.add_theme_font_size_override("font_size", 6)
+	popup.add_theme_color_override("font_color", GameConfig.config.ui_gold_popup_color)
+	popup.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.85))
+	popup.add_theme_constant_override("outline_size", 2)
+	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Fixed offset rather than gold_label.size — the label has no measured size
+	# on the frame the first pickup lands.
+	popup.position = gold_label.position + Vector2(24.0, 0.0)
+	add_child(popup)
+
+	var duration: float = GameConfig.config.ui_gold_popup_duration
+	var tween: Tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(popup, "position:y", popup.position.y - GameConfig.config.ui_gold_popup_rise, duration)
+	tween.tween_property(popup, "modulate:a", 0.0, duration).set_ease(Tween.EASE_IN)
+	tween.set_parallel(false)
+	tween.tween_callback(popup.queue_free)
+
+## Full-screen overlay whose shader lights only the edge the hit came from.
+func _create_damage_flash() -> void:
+	_damage_flash = ColorRect.new()
+	_damage_flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_damage_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var mat: ShaderMaterial = ShaderMaterial.new()
+	mat.shader = preload("res://shaders/directional_flash.gdshader")
+	mat.set_shader_parameter("strength", 0.0)
+	_damage_flash.material = mat
+	add_child(_damage_flash)
+
+func _on_player_damaged_directional(hit_direction: Vector2, _amount: int) -> void:
+	if _damage_flash == null:
+		return
+	var mat: ShaderMaterial = _damage_flash.material as ShaderMaterial
+	if mat == null:
+		return
+	if hit_direction == Vector2.ZERO:
+		hit_direction = Vector2.DOWN
+	mat.set_shader_parameter("flash_dir", hit_direction.normalized())
+	mat.set_shader_parameter("flash_color", GameConfig.config.ui_damage_flash_color)
+	mat.set_shader_parameter("band_width", GameConfig.config.ui_damage_flash_width)
+	mat.set_shader_parameter("strength", GameConfig.config.ui_damage_flash_alpha)
+	if _damage_flash_tween:
+		_damage_flash_tween.kill()
+	_damage_flash_tween = create_tween()
+	_damage_flash_tween.tween_property(
+		mat, "shader_parameter/strength", 0.0, GameConfig.config.ui_damage_flash_duration
+	)
 
 func _create_floor_label() -> void:
 	_floor_label = Label.new()
@@ -123,8 +208,53 @@ func _create_status_display() -> void:
 	add_child(status_display)
 
 func _on_floor_started(floor_number: int) -> void:
+	var floor_title: String = ""
+	var config: FloorConfig = DungeonManager.get_current_floor_config()
+	if config:
+		floor_title = config.floor_title
 	if _floor_label:
-		_floor_label.text = "Floor %d" % floor_number
+		if floor_title != "":
+			_floor_label.text = "Floor %d — %s" % [floor_number, floor_title]
+		else:
+			_floor_label.text = "Floor %d" % floor_number
+	_show_banner("FLOOR %d" % floor_number, floor_title, Color(0.9, 0.8, 0.5))
+
+## Big centered title + subtitle that fades in, holds, and fades out.
+func _show_banner(title_text: String, subtitle_text: String, color: Color) -> void:
+	var banner: VBoxContainer = VBoxContainer.new()
+	banner.set_anchors_preset(Control.PRESET_CENTER)
+	banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	banner.grow_vertical = Control.GROW_DIRECTION_BOTH
+	banner.position.y = -40.0
+	banner.alignment = BoxContainer.ALIGNMENT_CENTER
+	banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var title: Label = Label.new()
+	title.text = title_text
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_color_override("font_color", color)
+	title.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
+	title.add_theme_constant_override("outline_size", 3)
+	banner.add_child(title)
+
+	if subtitle_text != "":
+		var subtitle: Label = Label.new()
+		subtitle.text = subtitle_text
+		subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		subtitle.add_theme_font_size_override("font_size", 7)
+		subtitle.add_theme_color_override("font_color", Color(0.85, 0.85, 0.9))
+		subtitle.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
+		subtitle.add_theme_constant_override("outline_size", 2)
+		banner.add_child(subtitle)
+
+	banner.modulate.a = 0.0
+	add_child(banner)
+	var tween: Tween = create_tween()
+	tween.tween_property(banner, "modulate:a", 1.0, 0.4)
+	tween.tween_interval(1.6)
+	tween.tween_property(banner, "modulate:a", 0.0, 0.6)
+	tween.tween_callback(banner.queue_free)
 
 func _on_boss_fight_started(boss_name: String, health_comp: Node) -> void:
 	_boss_health_component = health_comp as HealthComponent
@@ -169,13 +299,18 @@ func _on_boss_defeated(_boss_id: String) -> void:
 	if _boss_label:
 		_boss_label.queue_free()
 		_boss_label = null
+	if RunManager.current_floor >= RunManager.max_floors:
+		_show_banner("DUNGEON CONQUERED!", "", Color(1.0, 0.85, 0.3))
+	else:
+		_show_banner("FLOOR CLEARED!", "Grab your loot — descending shortly...", Color(0.4, 0.9, 0.5))
 
 func _on_item_picked_up(item_data: Resource) -> void:
 	var item: ItemData = item_data as ItemData
 	if item == null:
 		return
 	var notification: Label = Label.new()
-	notification.text = item.display_name + " equipped!"
+	var verb: String = " added to belt!" if item.is_consumable() else " equipped!"
+	notification.text = item.display_name + verb
 	notification.add_theme_font_size_override("font_size", 7)
 	notification.add_theme_color_override("font_color", Color(0.3, 0.85, 0.3))
 	notification.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

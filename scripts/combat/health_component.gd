@@ -24,7 +24,12 @@ func _process(delta: float) -> void:
 func is_invincible() -> bool:
 	return _i_frame_timer > 0.0
 
+func is_dead() -> bool:
+	return current_hp <= 0
+
 func take_damage(amount: int) -> void:
+	if is_dead():
+		return
 	if is_invincible():
 		return
 	current_hp = maxi(0, current_hp - amount)

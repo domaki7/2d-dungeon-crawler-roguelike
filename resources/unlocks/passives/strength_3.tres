@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/meta/unlock_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = &"strength_3"
+display_name = "Strength III"
+description = "+3 Damage total at the start of every run."
+cost = 260
+category = 3
+passive_stat = &"damage"
+passive_value = 1.0
+passive_level = 3
+requires_unlock_id = &"strength_2"

@@ -6,12 +6,45 @@ var max_floors: int:
 var current_floor: int = 0
 var run_active: bool = false
 var run_stats: Dictionary = {}
+var difficulty: int = 0
 
 const PLAYER_SCENES: Dictionary = {
 	GameManager.PlayerClass.WARRIOR: "res://scenes/player/player.tscn",
 	GameManager.PlayerClass.RANGER: "res://scenes/player/player_ranger.tscn",
 	GameManager.PlayerClass.MAGE: "res://scenes/player/player_mage.tscn",
 }
+
+## Difficulty tiers. Each tier past Normal is unlocked by winning a run on the
+## previous tier. Multipliers stack on top of per-floor config values.
+const DIFFICULTIES: Array[Dictionary] = [
+	{
+		"name": "Normal",
+		"desc": "The standard descent.",
+		"enemy_mult": 1.0,
+		"speed_mult": 1.0,
+		"elite_bonus": 0.0,
+		"gold_mult": 1.0,
+		"meta_mult": 1.0,
+	},
+	{
+		"name": "Nightmare",
+		"desc": "Enemies +50% HP & damage, +10% speed.\nSoul Gems x1.5.",
+		"enemy_mult": 1.5,
+		"speed_mult": 1.1,
+		"elite_bonus": 0.1,
+		"gold_mult": 1.3,
+		"meta_mult": 1.5,
+	},
+	{
+		"name": "Inferno",
+		"desc": "Enemies +100% HP & damage, +20% speed.\nSoul Gems x2.",
+		"enemy_mult": 2.0,
+		"speed_mult": 1.2,
+		"elite_bonus": 0.2,
+		"gold_mult": 1.6,
+		"meta_mult": 2.0,
+	},
+]
 
 var _floor_configs: Array[FloorConfig] = []
 var _game_scene: PackedScene = preload("res://scenes/main/game.tscn")
@@ -29,8 +62,9 @@ func _ready() -> void:
 	EventBus.gold_changed.connect(_on_gold_changed)
 	EventBus.item_picked_up.connect(_on_item_picked_up)
 
-func start_run(player_class: int = GameManager.PlayerClass.WARRIOR) -> void:
+func start_run(player_class: int = GameManager.PlayerClass.WARRIOR, run_difficulty: int = 0) -> void:
 	_selected_class = player_class
+	difficulty = clampi(run_difficulty, 0, DIFFICULTIES.size() - 1)
 	current_floor = 0
 	run_active = true
 	_run_start_time = Time.get_ticks_msec() / 1000.0
@@ -71,8 +105,19 @@ func end_run(victory: bool) -> void:
 	if meta_currency > 0:
 		SaveManager.add_meta_currency(meta_currency)
 		SaveManager.update_lifetime_stats(run_stats)
-		SaveManager.save()
+	if victory:
+		var next_difficulty: int = difficulty + 1
+		if next_difficulty < DIFFICULTIES.size() and next_difficulty > SaveManager.unlocked_difficulty:
+			SaveManager.unlocked_difficulty = next_difficulty
+			run_stats["difficulty_unlocked"] = DIFFICULTIES[next_difficulty]["name"]
+	SaveManager.save()
 	EventBus.run_ended.emit(victory, run_stats)
+
+func get_difficulty_mod(key: String) -> float:
+	return DIFFICULTIES[difficulty].get(key, 1.0) as float
+
+func get_difficulty_name() -> String:
+	return DIFFICULTIES[difficulty]["name"] as String
 
 func cleanup_game() -> void:
 	DungeonManager.cleanup()
@@ -90,7 +135,20 @@ func _spawn_player() -> void:
 	var player_scene: PackedScene = load(scene_path) as PackedScene
 	var player_node: CharacterBody2D = player_scene.instantiate() as CharacterBody2D
 	_apply_meta_passives(player_node)
+	_grant_starting_consumables(player_node)
 	_game_instance.initialize_with_player(player_node)
+
+## Every run opens with a potion in the belt, so the mechanic teaches itself
+## on the first fight instead of waiting on a drop.
+func _grant_starting_consumables(player_node: CharacterBody2D) -> void:
+	var count: int = GameConfig.config.run_starting_potion_count
+	if count <= 0:
+		return
+	var belt: ConsumableBelt = player_node.get_node_or_null("ConsumableBelt") as ConsumableBelt
+	if belt == null:
+		return
+	for i: int in range(count):
+		belt.add(ConsumablePool.HEALTH_POTION)
 
 func _apply_meta_passives(player_node: CharacterBody2D) -> void:
 	var stats: PlayerStats = player_node.get_node_or_null("PlayerStats") as PlayerStats
@@ -99,6 +157,8 @@ func _apply_meta_passives(player_node: CharacterBody2D) -> void:
 	stats.meta_max_hp_bonus = SaveManager.get_passive_bonus_int(&"max_hp")
 	stats.meta_crit_chance_bonus = SaveManager.get_passive_bonus_float(&"crit_chance")
 	stats.meta_gold_multiplier = 1.0 + SaveManager.get_passive_bonus_float(&"gold_find")
+	stats.meta_damage_bonus = SaveManager.get_passive_bonus_int(&"damage")
+	stats.meta_speed_bonus = SaveManager.get_passive_bonus_float(&"move_speed")
 
 func _get_player() -> CharacterBody2D:
 	var players: Array[Node] = get_tree().get_nodes_in_group(&"player")
@@ -118,7 +178,7 @@ func _calculate_meta_currency(victory: bool) -> int:
 	currency += run_stats.get("kills", 0) * GameConfig.config.economy_kill_multiplier
 	if victory:
 		currency += GameConfig.config.economy_victory_bonus
-	return currency
+	return int(round(float(currency) * get_difficulty_mod("meta_mult")))
 
 func _load_floor_configs() -> void:
 	_floor_configs.clear()

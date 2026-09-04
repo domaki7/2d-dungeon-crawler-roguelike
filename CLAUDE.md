@@ -139,6 +139,8 @@ Each room is a `.tscn` with TileMapLayer (walls/floor), Door nodes (N/S/E/W), Sp
 
 Items are custom `ItemData` Resources (`.tres` files) with unique effects via `ItemEffect` sub-resources. Equipment slots: weapon, armor, ring, accessory. `LootTable` resources for weighted random drops.
 
+**Consumables:** `SlotType.CONSUMABLE` items skip the equipment slots entirely and go to the `ConsumableBelt` node on the player — a single stack, used with `use_consumable`. Their `ConsumableEffect` covers instant heals and timed stat buffs, the latter routed through `PlayerStats.apply_temp_buff()`. `ConsumablePool` is the shared weighted list that breakable drops and shop stock both pull from.
+
 **Economy:** Gold (shops), gems/souls (special upgrades), keys (locked areas).
 
 ## Abilities
@@ -157,6 +159,7 @@ Items are custom `ItemData` Resources (`.tres` files) with unique effects via `I
 | `ability_1` | Q | Ability slot 1 |
 | `ability_2` | E | Ability slot 2 |
 | `ability_3` | R | Ability slot 3 |
+| `use_consumable` | 1 / X | Drink the belt potion |
 | `interact` | F | Chests, NPCs, portals |
 | `open_inventory` | I / Tab | Toggle inventory |
 | `pause` | Escape | Pause menu |

@@ -41,6 +41,7 @@ func _ready() -> void:
 	status_effect_component.effect_removed.connect(func(_type: int) -> void: _on_stats_changed())
 	_on_stats_changed()
 	_start_state_machine.call_deferred()
+	DropShadow.attach.call_deferred(self)
 
 func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")

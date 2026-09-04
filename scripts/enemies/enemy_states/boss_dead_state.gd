@@ -19,11 +19,12 @@ func enter() -> void:
 	for child: Node in enemy.hurtbox.get_children():
 		if child is CollisionShape2D:
 			(child as CollisionShape2D).set_deferred("disabled", true)
-	EventBus.enemy_killed.emit({"position": enemy.global_position, "type": "skeleton_knight"})
-	EventBus.boss_defeated.emit("skeleton_knight")
+	EventBus.enemy_killed.emit({"position": enemy.global_position, "type": enemy.boss_id})
+	EventBus.boss_defeated.emit(enemy.boss_id)
 	AudioManager.play_sfx_varied(&"enemy_die")
 	VFXHelper.apply_hit_flash(enemy.animated_sprite)
 	VFXHelper.spawn_death_poof(enemy.global_position)
+	VFXHelper.spawn_death_decal(enemy.global_position, Color(0.45, 0.1, 0.12, 0.55))
 	CombatManager.apply_screen_shake(shake_intensity, shake_duration)
 	var tween: Tween = enemy.create_tween()
 	tween.set_parallel(true)

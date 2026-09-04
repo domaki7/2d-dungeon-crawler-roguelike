@@ -55,6 +55,17 @@ func start_cooldown(duration: float) -> void:
 	_countdown_label.visible = true
 	queue_redraw()
 
+## Mirrors a kill-driven cooldown refund from AbilityManager, which keeps its
+## own authoritative timers.
+func reduce_cooldown(amount: float) -> void:
+	if not _is_on_cooldown:
+		return
+	_cooldown_remaining = maxf(0.0, _cooldown_remaining - amount)
+	if _cooldown_remaining <= 0.0:
+		_is_on_cooldown = false
+		_countdown_label.visible = false
+	queue_redraw()
+
 func _process(delta: float) -> void:
 	if not _is_on_cooldown:
 		return

@@ -4,6 +4,7 @@ var fade_in_duration: float:
 	get: return GameConfig.config.ui_death_fade_in_duration
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	EventBus.player_died.connect(_on_player_died)

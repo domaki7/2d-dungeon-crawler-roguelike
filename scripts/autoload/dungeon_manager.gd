@@ -1,5 +1,8 @@
 extends Node
 
+## Seconds between aggro polls that drive the music's combat intensity layer.
+const INTENSITY_POLL_INTERVAL: float = 0.25
+
 var fade_duration: float:
 	get: return GameConfig.config.dungeon_fade_duration
 
@@ -12,6 +15,10 @@ var _player: CharacterBody2D = null
 var _transition_overlay: ColorRect = null
 var _current_floor_number: int = 1
 var _current_config: FloorConfig = null
+var _auto_advance_token: int = 0
+var _intensity_poll_timer: float = 0.0
+var _calm_timer: float = 0.0
+var _boss_music_locked: bool = false
 
 func initialize(room_container: Node2D, player: CharacterBody2D) -> void:
 	_room_container = room_container
@@ -43,6 +50,8 @@ func generate_floor(floor_number: int, config: FloorConfig) -> void:
 	_current_config = config
 	_current_room_id = 0
 	_current_room = null
+	_boss_music_locked = false
+	_calm_timer = 0.0
 	_floor_graph.clear()
 	_build_floor_graph(config)
 
@@ -55,7 +64,7 @@ func generate_floor(floor_number: int, config: FloorConfig) -> void:
 	_current_room.activate()
 	_floor_graph[_current_room_id].is_visited = true
 	EventBus.floor_started.emit(floor_number)
-	AudioManager.play_music(&"dungeon_ambient")
+	_play_floor_music()
 
 	if _transition_overlay:
 		var tween_in: Tween = create_tween()
@@ -77,24 +86,20 @@ func get_current_floor_number() -> int:
 	return _current_floor_number
 
 func get_difficulty_multiplier() -> float:
-	if _current_config:
-		return _current_config.enemy_difficulty_multiplier
-	return 1.0
+	var base: float = _current_config.enemy_difficulty_multiplier if _current_config else 1.0
+	return base * RunManager.get_difficulty_mod("enemy_mult")
 
 func get_speed_multiplier() -> float:
-	if _current_config:
-		return _current_config.enemy_speed_multiplier
-	return 1.0
+	var base: float = _current_config.enemy_speed_multiplier if _current_config else 1.0
+	return base * RunManager.get_difficulty_mod("speed_mult")
 
 func get_elite_chance() -> float:
-	if _current_config:
-		return _current_config.elite_chance
-	return 0.0
+	var base: float = _current_config.elite_chance if _current_config else 0.0
+	return clampf(base + RunManager.get_difficulty_mod("elite_bonus"), 0.0, 1.0)
 
 func get_gold_multiplier() -> float:
-	if _current_config:
-		return _current_config.gold_multiplier
-	return 1.0
+	var base: float = _current_config.gold_multiplier if _current_config else 1.0
+	return base * RunManager.get_difficulty_mod("gold_mult")
 
 func get_enemy_pool() -> Array[PackedScene]:
 	if _current_config:
@@ -311,6 +316,7 @@ func _cleanup_room() -> void:
 		_current_room = null
 
 func cleanup() -> void:
+	_auto_advance_token += 1
 	_cleanup_room()
 	if _transition_overlay and is_instance_valid(_transition_overlay):
 		var canvas_parent: Node = _transition_overlay.get_parent()
@@ -382,6 +388,25 @@ func _load_room(room_id: int) -> void:
 	_current_room = scene.instantiate() as RoomTemplate
 	_current_room.room_id = room_id
 	_room_container.add_child(_current_room)
+	_apply_floor_theme()
+
+func _apply_floor_theme() -> void:
+	if _current_config == null or _current_room == null:
+		return
+	var floor_layer: TileMapLayer = _current_room.get_node_or_null("FloorLayer") as TileMapLayer
+	if floor_layer:
+		floor_layer.modulate = _current_config.floor_tint
+	var wall_layer: TileMapLayer = _current_room.get_node_or_null("WallLayer") as TileMapLayer
+	if wall_layer:
+		wall_layer.modulate = _current_config.wall_tint
+	if _current_config.ambient_light == Color.WHITE:
+		return
+	for child: Node in _current_room.get_children():
+		if child is CanvasModulate:
+			return
+	var ambient: CanvasModulate = CanvasModulate.new()
+	ambient.color = _current_config.ambient_light
+	_current_room.add_child(ambient)
 
 func _configure_doors(room_id: int) -> void:
 	var connections: Dictionary = _floor_graph[room_id].connections
@@ -406,8 +431,71 @@ func _on_room_cleared(room_id: int) -> void:
 	if _floor_graph.has(room_id):
 		_floor_graph[room_id].is_cleared = true
 
+## Start the current floor's theme. `music_track` names a stem pair (e.g.
+## `theme_halls` -> theme_halls_base + theme_halls_layer); AudioManager falls
+## back to single-stream playback if only one file exists.
+func _play_floor_music() -> void:
+	var track: StringName = &"theme_halls"
+	if _current_config and _current_config.music_track != &"":
+		track = _current_config.music_track
+	AudioManager.play_layered_music(track)
+	AudioManager.start_ambience()
+
 func _on_boss_fight_started(_boss_name: String, _health_component: Node) -> void:
-	AudioManager.play_music(&"boss_fight")
+	AudioManager.play_layered_music(&"boss", 0.6)
+	# A boss room is wall-to-wall combat: pin the intensity layer on so the
+	# aggro poll below can't fade it out between the boss's attack windows.
+	_boss_music_locked = true
+	AudioManager.set_combat_intensity(true)
 
 func _on_boss_defeated(_boss_id: String) -> void:
-	AudioManager.play_music(&"dungeon_ambient")
+	_boss_music_locked = false
+	AudioManager.set_combat_intensity(false)
+	_play_floor_music()
+	_start_auto_advance()
+
+# ---------------------------------------------------------- combat intensity
+
+## Poll the living enemies for aggro and drive the music's combat stem from it.
+## Polling beats listening to `enemy_aggroed` because that signal only fires on
+## the transition — a drawn-out fight where nobody re-triggers it would go quiet.
+func _process(delta: float) -> void:
+	if _boss_music_locked:
+		return
+	_intensity_poll_timer -= delta
+	if _intensity_poll_timer > 0.0:
+		return
+	_intensity_poll_timer = INTENSITY_POLL_INTERVAL
+
+	if _any_enemy_aggroed():
+		_calm_timer = GameConfig.config.audio_combat_calm_delay
+		AudioManager.set_combat_intensity(true)
+	elif AudioManager.is_combat_intensity_active():
+		# Hold briefly so a lull between waves doesn't yo-yo the mix.
+		_calm_timer -= INTENSITY_POLL_INTERVAL
+		if _calm_timer <= 0.0:
+			AudioManager.set_combat_intensity(false)
+
+func _any_enemy_aggroed() -> bool:
+	for enemy: Node in get_tree().get_nodes_in_group(&"enemies"):
+		if not is_instance_valid(enemy):
+			continue
+		if enemy.get(&"is_aggroed"):
+			return true
+	return false
+
+## After a boss dies, automatically move on to the next floor once the loot
+## pickup window elapses. Walking into the exit portal earlier still works —
+## the floor-number check below makes this a no-op if the floor already changed.
+func _start_auto_advance() -> void:
+	_auto_advance_token += 1
+	var token: int = _auto_advance_token
+	var floor_number: int = _current_floor_number
+	await get_tree().create_timer(GameConfig.config.dungeon_boss_advance_delay).timeout
+	if token != _auto_advance_token:
+		return
+	if _current_floor_number != floor_number:
+		return
+	if not RunManager.run_active:
+		return
+	EventBus.floor_completed.emit(floor_number)

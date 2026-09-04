@@ -9,6 +9,7 @@ var _barrel_texture: Texture2D = preload("res://assets/sprites/items/barrel.svg"
 var _crate_texture: Texture2D = preload("res://assets/sprites/items/crate.svg")
 var _gold_pickup_scene: PackedScene = preload("res://scenes/pickups/gold_pickup.tscn")
 var _break_poof_scene: PackedScene = preload("res://scenes/effects/break_poof.tscn")
+var _item_pickup_scene: PackedScene = preload("res://scenes/pickups/item_pickup.tscn")
 
 @onready var _sprite: Sprite2D = $Sprite2D
 @onready var _health: HealthComponent = $HealthComponent
@@ -62,7 +63,21 @@ func _on_died() -> void:
 				gold.global_position = global_position + Vector2(cos(angle), sin(angle)) * scatter
 				game_world.add_child(gold)
 
+	_try_drop_potion()
+
 	var tween: Tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(0.5, 0.5), 0.2)
 	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(queue_free)
+
+## Rolled separately from the gold drop, so a lucky barrel can yield both.
+func _try_drop_potion() -> void:
+	if randf() >= GameConfig.config.breakable_potion_drop_chance:
+		return
+	var game_world: Node = get_tree().get_first_node_in_group(&"game_world")
+	if game_world == null:
+		return
+	var pickup: ItemPickup = _item_pickup_scene.instantiate() as ItemPickup
+	pickup.item_data = ConsumablePool.roll_drop()
+	pickup.global_position = global_position
+	game_world.call_deferred("add_child", pickup)

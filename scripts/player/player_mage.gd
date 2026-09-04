@@ -40,6 +40,7 @@ func _ready() -> void:
 		EventBus.mana_changed.emit(current, max_m))
 	_on_stats_changed()
 	_start_state_machine.call_deferred()
+	DropShadow.attach.call_deferred(self)
 
 func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")

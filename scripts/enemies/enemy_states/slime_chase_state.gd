@@ -12,6 +12,11 @@ func physics_process_state(delta: float) -> void:
 		transition_requested.emit(self, &"SearchState")
 		return
 
+	if should_flee():
+		enemy.has_flee_triggered = true
+		transition_requested.emit(self, &"FleeState")
+		return
+
 	var direction: Vector2 = get_surround_direction(attack_range)
 	if direction != Vector2.ZERO:
 		if enemy.update_facing(direction):

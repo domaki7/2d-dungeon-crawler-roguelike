@@ -14,7 +14,7 @@ enum UnlockCategory { WEAPON, ITEM, ABILITY, PASSIVE }
 @export var granted_ability: Resource
 
 @export_group("Passive Upgrade")
-## For PASSIVE category only. Stat key: "max_hp", "gold_find", "crit_chance", "locked_chest_discount"
+## For PASSIVE category only. Stat key: "max_hp", "gold_find", "crit_chance", "locked_chest_discount", "damage", "move_speed"
 @export var passive_stat: StringName = &""
 ## Per-level bonus value (int amount for max_hp, fraction for percentage stats)
 @export var passive_value: float = 0.0

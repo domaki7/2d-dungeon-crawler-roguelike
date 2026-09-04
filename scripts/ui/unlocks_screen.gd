@@ -26,6 +26,7 @@ var _item_entries: Array[Dictionary] = []
 var _passive_entries: Array[Dictionary] = []
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	size = get_viewport().get_visible_rect().size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_build_ui()
@@ -218,7 +219,9 @@ func _on_item_buy_pressed(entry: Dictionary) -> void:
 	var item: ItemData = entry["item"]
 	var cost: int = GameConfig.config.get_unlock_cost_for_rarity(item.rarity as int)
 	if not SaveManager.spend_meta_currency(cost):
+		UISounds.play_error()
 		return
+	UISounds.play_chime()
 	SaveManager.unlock_item(item.item_id)
 	SaveManager.save()
 	_refresh_all()
@@ -358,7 +361,9 @@ func _on_passive_buy_pressed(entry: Dictionary) -> void:
 		return
 	var next_upgrade: UnlockData = levels[current_level]
 	if not SaveManager.spend_meta_currency(next_upgrade.cost):
+		UISounds.play_error()
 		return
+	UISounds.play_chime()
 	SaveManager.unlock_passive(next_upgrade.unlock_id)
 	SaveManager.save()
 	_refresh_all()

@@ -59,6 +59,12 @@ extends Resource
 @export var player_combo_2_swing_scale: float = 1.2
 ## Scale of the melee swing trail VFX on the third combo hit
 @export var player_combo_3_swing_scale: float = 1.5
+## Forward impulse applied on a light attack's active frame (0 disables lunging)
+@export var player_attack_lunge_force: float = 85.0
+## Lunge force multiplier on the second combo hit
+@export var player_combo_2_lunge_multiplier: float = 1.15
+## Lunge force multiplier on the third/finisher combo hit
+@export var player_combo_3_lunge_multiplier: float = 1.4
 
 @export_group("Player - Heavy Attack")
 
@@ -246,6 +252,15 @@ extends Resource
 ## Maximum pitch for the alert SFX (reuses enemy_hurt.wav)
 @export var enemy_alert_sfx_pitch_max: float = 1.6
 
+@export_group("Enemy - Flee")
+
+## HP fraction at or below which weak enemies (slime, bat) briefly flee the player
+@export var enemy_flee_hp_fraction: float = 0.25
+## How long a fleeing enemy runs away before re-engaging (seconds)
+@export var enemy_flee_duration: float = 1.0
+## Speed multiplier while fleeing (panic burst)
+@export var enemy_flee_speed_multiplier: float = 1.15
+
 
 # =============================================================================
 # SKELETON
@@ -332,6 +347,17 @@ extends Resource
 ## Delay before slime is removed after dying (seconds)
 @export var slime_death_delay: float = 0.4
 
+@export_group("Slime - Split")
+
+## Number of mini-slimes spawned when a full-size slime dies (minis never split again)
+@export var slime_split_count: int = 2
+## Max hit points of a mini-slime
+@export var slime_mini_hp: int = 3
+## Scale of a mini-slime relative to a full-size slime
+@export var slime_mini_scale: float = 0.6
+## Distance from the dying slime at which mini-slimes spawn (pixels)
+@export var slime_split_offset: float = 10.0
+
 
 # =============================================================================
 # BAT
@@ -417,6 +443,10 @@ extends Resource
 @export var archer_attack_range: float = 90.0
 ## Distance at which the archer retreats away from the player (pixels)
 @export var archer_too_close_range: float = 40.0
+## Minimum time between archer shots; the archer repositions between shots (seconds)
+@export var archer_attack_cooldown: float = 1.0
+## Speed multiplier while the archer backs away from a too-close player
+@export var archer_retreat_speed_multiplier: float = 1.3
 ## Radius of the archer's player detection area (pixels)
 @export var archer_detection_radius: float = 90.0
 
@@ -589,6 +619,8 @@ extends Resource
 @export var ogre_charge_duration: float = 0.35
 ## Distance from ogre center to hitbox center during the charge dash (pixels)
 @export var ogre_charge_hitbox_offset: float = 16.0
+## How long the ogre is stunned after charging into a wall without hitting the player (seconds)
+@export var ogre_wall_stun_duration: float = 1.5
 
 
 # =============================================================================
@@ -741,7 +773,9 @@ extends Resource
 @export_group("Dungeon - Floors")
 
 ## Total number of floors in a run
-@export var dungeon_max_floors: int = 5
+@export var dungeon_max_floors: int = 7
+## Seconds after a boss dies before automatically descending to the next floor (loot pickup window)
+@export var dungeon_boss_advance_delay: float = 6.0
 
 @export_group("Dungeon - Branching")
 
@@ -817,6 +851,9 @@ extends Resource
 @export var breakable_gold_count_max: int = 3
 ## Scatter radius around the breakable for dropped gold pickups (pixels)
 @export var breakable_gold_scatter_radius: float = 12.0
+## Chance a broken object drops a consumable instead of nothing. Rolled
+## independently of the gold roll, so a barrel can yield both.
+@export var breakable_potion_drop_chance: float = 0.12
 
 
 # =============================================================================
@@ -927,6 +964,11 @@ extends Resource
 @export var ui_buff_bar_width: float = 56.0
 ## Height of the active-buff duration bar (pixels)
 @export var ui_buff_bar_height: float = 3.0
+## Buff-bar tint for a Rage Potion, so a potion buff reads differently
+## from War Cry at a glance.
+@export var ui_damage_potion_color: Color = Color(1.0, 0.5, 0.2)
+## Buff-bar tint for a Swiftness Potion.
+@export var ui_speed_potion_color: Color = Color(0.3, 0.9, 0.5)
 
 @export_group("UI - Settings")
 
@@ -977,6 +1019,26 @@ extends Resource
 ## Duration of one full vignette pulse cycle (seconds)
 @export var ui_low_health_pulse_duration: float = 0.8
 
+@export_group("UI - Gold Popup")
+
+## Pixels the "+N" gold popup floats upward before disappearing
+@export var ui_gold_popup_rise: float = 10.0
+## Seconds the gold popup takes to rise and fade
+@export var ui_gold_popup_duration: float = 0.7
+## Colour of the gold gain popup
+@export var ui_gold_popup_color: Color = Color(1.0, 0.85, 0.3)
+
+@export_group("UI - Directional Damage Flash")
+
+## Peak alpha of the screen-edge flash showing where a hit came from
+@export var ui_damage_flash_alpha: float = 0.45
+## Seconds the directional damage flash takes to fade out
+@export var ui_damage_flash_duration: float = 0.45
+## Width of the directional damage flash band as a fraction of the screen
+@export var ui_damage_flash_width: float = 0.22
+## Colour of the directional damage flash
+@export var ui_damage_flash_color: Color = Color(0.8, 0.05, 0.05)
+
 
 # =============================================================================
 # AUDIO
@@ -989,12 +1051,111 @@ extends Resource
 ## Music volume in decibels
 @export var audio_music_volume_db: float = -10.0
 
+@export_group("Audio - Ambient Music")
+
+## Playback speed for legacy single-stream tracks passed to AudioManager.play_music().
+## The layered floor themes are tempo-composed and always play at 1.0.
+@export var audio_ambient_music_pitch: float = 0.85
+## Volume offset in decibels for legacy single-stream tracks, on top of the music volume.
+@export var audio_ambient_music_volume_offset_db: float = -6.0
+
+@export_group("Audio - Combat Layer")
+
+## Seconds to fade the combat music stem in when enemies aggro
+@export var audio_combat_layer_fade_in: float = 1.0
+## Seconds to fade the combat music stem out once the room is calm again
+@export var audio_combat_layer_fade_out: float = 2.5
+## Volume offset in decibels for the combat stem on top of the music volume
+@export var audio_combat_layer_volume_offset_db: float = 0.0
+## Seconds of no aggroed enemies before the combat stem starts fading out
+@export var audio_combat_calm_delay: float = 1.5
+
+@export_group("Audio - Ambience Bed")
+
+## Volume offset in decibels for the looping dungeon room tone
+@export var audio_ambience_volume_offset_db: float = -14.0
+
+@export_group("Audio - Heartbeat")
+
+## Volume offset in decibels for the low-HP heartbeat loop
+@export var audio_heartbeat_volume_offset_db: float = -6.0
+## Playback rate of the heartbeat loop (1.0 = one beat per second)
+@export var audio_heartbeat_rate: float = 1.15
+
+@export_group("Audio - Footsteps")
+
+## Seconds between footstep sounds while running
+@export var audio_footstep_interval: float = 0.32
+## Volume offset in decibels for footsteps (they should sit well under combat)
+@export var audio_footstep_volume_offset_db: float = -16.0
+## Minimum pitch scale for footsteps
+@export var audio_footstep_pitch_min: float = 0.85
+## Maximum pitch scale for footsteps
+@export var audio_footstep_pitch_max: float = 1.15
+
 @export_group("Audio - Pitch Variation")
 
 ## Minimum pitch scale for varied SFX (1.0 = normal)
 @export var audio_sfx_pitch_min: float = 0.9
 ## Maximum pitch scale for varied SFX (1.0 = normal)
 @export var audio_sfx_pitch_max: float = 1.1
+
+
+# =============================================================================
+# AMBIENT VFX
+# =============================================================================
+
+@export_group("VFX - Room Ambience")
+
+## Number of drifting dust motes spawned in every room
+@export var vfx_dust_mote_count: int = 16
+## Tint of the drifting dust motes
+@export var vfx_dust_mote_color: Color = Color(0.85, 0.82, 0.7, 0.35)
+## Seconds a mote takes to drift across its path
+@export var vfx_dust_mote_lifetime: float = 7.0
+
+@export_group("VFX - Footstep Dust")
+
+## Seconds between footstep dust puffs while running
+@export var vfx_footstep_dust_interval: float = 0.32
+## Particles per footstep puff
+@export var vfx_footstep_dust_amount: int = 3
+
+@export_group("VFX - Drop Shadows")
+
+## Horizontal radius of the ellipse shadow drawn under characters
+@export var vfx_shadow_radius_x: float = 5.0
+## Vertical radius of the ellipse shadow drawn under characters
+@export var vfx_shadow_radius_y: float = 2.0
+## Opacity of character drop shadows
+@export var vfx_shadow_alpha: float = 0.3
+## Vertical offset from the entity origin to the shadow centre
+@export var vfx_shadow_offset_y: float = 1.0
+
+@export_group("VFX - Death Decals")
+
+## Seconds a death decal stays on the floor before fading
+@export var vfx_decal_lifetime: float = 8.0
+## Seconds the decal takes to fade out once its lifetime elapses
+@export var vfx_decal_fade_duration: float = 2.0
+## Maximum decals kept on screen at once (oldest are removed first)
+@export var vfx_decal_max_count: int = 20
+
+@export_group("VFX - Elite Aura")
+
+## Number of orbiting aura particles around elite enemies
+@export var vfx_elite_aura_count: int = 10
+## Orbit radius of the elite aura particles in pixels
+@export var vfx_elite_aura_radius: float = 11.0
+## Seconds for one full rotation of the elite aura
+@export var vfx_elite_aura_period: float = 2.4
+
+@export_group("VFX - Dark Room Flicker")
+
+## How much the dark-room light radius oscillates, as a fraction of the radius
+@export var dark_room_flicker_amount: float = 0.07
+## Torch flicker oscillations per second
+@export var dark_room_flicker_speed: float = 2.7
 
 
 # =============================================================================
@@ -1005,6 +1166,25 @@ extends Resource
 
 ## Gold value per gold pickup
 @export var economy_gold_pickup_value: int = 1
+
+@export_group("Economy - Shop")
+
+## Consumables stocked in every shop, on top of the rolled equipment.
+## The first is always a Health Potion; the rest are random.
+@export var shop_consumable_stock_count: int = 2
+## Health Potions the player starts each run holding.
+@export var run_starting_potion_count: int = 1
+
+@export_group("Economy - Gold Magnet")
+
+## Radius (px) within which gold pickups drift toward the player with no item
+## equipped. Small enough that you still walk over coins, big enough that a
+## kill's scatter cleans itself up.
+@export var economy_gold_magnet_base_radius: float = 26.0
+## Pull speed (px/s) at the very edge of the magnet radius.
+@export var economy_gold_magnet_min_speed: float = 40.0
+## Pull speed (px/s) once the coin is right on top of the player.
+@export var economy_gold_magnet_max_speed: float = 220.0
 
 @export_group("Economy - Meta Currency")
 
@@ -1230,6 +1410,8 @@ extends Resource
 
 ## Maximum fraction of cooldown that CDR items can reduce (0.0–1.0, prevents 0s cooldowns)
 @export var ability_max_cooldown_reduction: float = 0.9
+## Seconds shaved off every running cooldown per enemy killed (0 disables)
+@export var ability_kill_cooldown_reduction: float = 0.4
 
 @export_group("Abilities - Shield Bash")
 
@@ -1336,23 +1518,23 @@ extends Resource
 @export_group("Abilities - Fire Wall")
 
 ## Cooldown between uses (seconds)
-@export var ability_fire_wall_cooldown: float = 10.0
+@export var ability_fire_wall_cooldown: float = 8.0
 ## Damage dealt per tick to enemies in the wall
-@export var ability_fire_wall_damage: int = 2
+@export var ability_fire_wall_damage: int = 4
 ## Knockback force applied per tick
-@export var ability_fire_wall_knockback_force: float = 0.0
+@export var ability_fire_wall_knockback_force: float = 40.0
 ## Length of the fire wall (pixels)
-@export var ability_fire_wall_length: float = 48.0
+@export var ability_fire_wall_length: float = 72.0
 ## Width of the fire wall (pixels)
-@export var ability_fire_wall_width: float = 12.0
+@export var ability_fire_wall_width: float = 20.0
 ## How long the fire wall persists (seconds)
-@export var ability_fire_wall_duration: float = 3.0
+@export var ability_fire_wall_duration: float = 5.0
 ## Time between damage ticks (seconds)
-@export var ability_fire_wall_tick_interval: float = 0.5
+@export var ability_fire_wall_tick_interval: float = 0.4
 ## Duration of BURN applied to enemies (seconds)
-@export var ability_fire_wall_burn_duration: float = 2.0
+@export var ability_fire_wall_burn_duration: float = 3.0
 ## Mana cost to cast
-@export var ability_fire_wall_mana_cost: int = 25
+@export var ability_fire_wall_mana_cost: int = 18
 
 @export_group("Abilities - Blink")
 
@@ -1418,6 +1600,10 @@ extends Resource
 @export var chest_mimic_enemy_count: int = 3
 ## Number of enemies spawned by gilded chest guard wave
 @export var chest_gilded_guard_count: int = 4
+## Tint applied to the treasure-room chest you did not pick.
+@export var chest_sealed_tint: Color = Color(0.35, 0.3, 0.35, 0.5)
+## Hint shown above the two treasure-room pedestals before you commit.
+@export var chest_choice_hint: String = "Take one — the other is lost"
 
 
 # =============================================================================

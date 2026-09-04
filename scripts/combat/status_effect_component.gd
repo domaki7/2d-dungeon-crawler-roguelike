@@ -61,6 +61,9 @@ func remove_effect(type: int) -> void:
 func has_effect(type: int) -> bool:
 	return _active_effects.has(type)
 
+func has_any_effect() -> bool:
+	return not _active_effects.is_empty()
+
 func is_stunned() -> bool:
 	return _active_effects.has(StatusEffectData.Type.STUN)
 

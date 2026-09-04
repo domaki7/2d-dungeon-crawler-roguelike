@@ -16,6 +16,7 @@ func setup(direction: Vector2, base_damage: int) -> void:
 
 func _ready() -> void:
 	super._ready()
+	body_entered.connect(_on_body_entered)
 	activate()
 
 func _physics_process(delta: float) -> void:
@@ -35,6 +36,13 @@ func _on_area_entered(area: Area2D) -> void:
 	register_hit(hurtbox.get_parent())
 	hurtbox.receive_hit(self)
 	hit_landed.emit(hurtbox)
+	_hit = true
+	VFXHelper.spawn_hit_sparks(global_position)
+	queue_free()
+
+func _on_body_entered(_body: Node2D) -> void:
+	if _hit:
+		return
 	_hit = true
 	VFXHelper.spawn_hit_sparks(global_position)
 	queue_free()

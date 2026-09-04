@@ -6,6 +6,13 @@ extends Node
 
 var config: GameConfigData = preload("res://resources/config/game_config.tres")
 
+## Every item and ability resource this singleton has tuned, held for the
+## lifetime of the process. Without these references Godot frees each
+## resource the moment _apply_*_tuning() drops it, so the scenes that load
+## them later get a fresh copy off disk and every tuning value below is
+## silently discarded.
+var _tuned_resources: Array[Resource] = []
+
 func _ready() -> void:
 	_apply_item_tuning()
 	_apply_ability_tuning()
@@ -23,6 +30,7 @@ func _apply_item_tuning() -> void:
 			if file_name.ends_with(".tres"):
 				var item: ItemData = load(base_path + file_name) as ItemData
 				if item:
+					_tuned_resources.append(item)
 					_apply_single_item_tuning(item)
 			file_name = da.get_next()
 
@@ -60,6 +68,7 @@ func _apply_ability_tuning() -> void:
 		if file_name.ends_with(".tres"):
 			var ability: AbilityData = load(base_path + file_name) as AbilityData
 			if ability:
+				_tuned_resources.append(ability)
 				_apply_single_ability_tuning(ability)
 		file_name = da.get_next()
 

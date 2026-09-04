@@ -5,6 +5,7 @@ var _panel: PanelContainer
 var _settings_panel: VBoxContainer
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	layer = 20
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false

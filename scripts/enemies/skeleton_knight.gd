@@ -2,13 +2,18 @@ extends CharacterBody2D
 
 enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 
+@export var boss_display_name: String = "Skeleton Knight"
+@export var boss_id: String = "skeleton_knight"
+## Per-boss multiplier applied on top of the shared boss_speed config value
+@export var speed_scale: float = 1.0
+
 var difficulty_speed_multiplier: float = 1.0
 var is_elite: bool = false
 var gold_multiplier: float = 1.0
 
 var speed: float:
 	get:
-		var base: float = GameConfig.config.boss_speed * difficulty_speed_multiplier
+		var base: float = GameConfig.config.boss_speed * speed_scale * difficulty_speed_multiplier
 		if status_effect_component:
 			return base * status_effect_component.get_speed_multiplier()
 		return base
@@ -44,7 +49,9 @@ func _ready() -> void:
 	health_component.health_changed.connect(_on_health_changed)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
+	EventBus.player_died.connect(_on_player_died)
 	_start_state_machine.call_deferred()
+	DropShadow.attach.call_deferred(self, 1.6)
 
 func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")
@@ -53,7 +60,7 @@ func start_boss_fight() -> void:
 	if _fight_started:
 		return
 	_fight_started = true
-	EventBus.boss_fight_started.emit("Skeleton Knight", health_component)
+	EventBus.boss_fight_started.emit(boss_display_name, health_component)
 
 func update_facing(direction: Vector2) -> bool:
 	if direction == Vector2.ZERO:
@@ -116,3 +123,7 @@ func _on_detection_body_entered(body: Node2D) -> void:
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		is_player_detected = false
+
+func _on_player_died() -> void:
+	is_player_detected = false
+	state_machine.transition_to(&"IdleState")

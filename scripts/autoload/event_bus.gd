@@ -10,10 +10,16 @@ signal item_equipped(slot: String, item_data: Resource)
 signal item_unequipped(slot: String, item_data: Resource)
 signal gold_changed(new_amount: int)
 signal player_damaged(amount: int, current_hp: int)
+## Unit vector pointing from the player toward whatever hit them, so the HUD
+## can flash the correct screen edge.
+signal player_damaged_directional(hit_direction: Vector2, amount: int)
 signal player_healed(amount: int, current_hp: int)
 signal player_died()
 signal ability_used(ability_index: int)
 signal ability_cooldown_started(ability_index: int, duration: float)
+## Flat seconds shaved off every running cooldown (kill rewards). The HUD slots
+## mirror their own timers, so they need telling too.
+signal ability_cooldown_reduced(amount: float)
 signal floor_completed(floor_number: int)
 signal boss_defeated(boss_id: String)
 signal door_transition_requested(door: Node)
@@ -39,3 +45,6 @@ signal chest_enemies_spawned(enemies: Array)
 
 signal player_buff_applied(buff_name: String, buff_color: Color, duration: float)
 signal player_buff_expired()
+
+## Belt slot contents changed (pickup, use, or run start). item is null when empty.
+signal consumable_changed(item_data: Resource, count: int)

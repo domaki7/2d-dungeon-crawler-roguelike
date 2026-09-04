@@ -21,6 +21,11 @@ func physics_process_state(delta: float) -> void:
 		transition_requested.emit(self, &"SearchState")
 		return
 
+	if should_flee():
+		enemy.has_flee_triggered = true
+		transition_requested.emit(self, &"FleeState")
+		return
+
 	_jitter_timer += delta
 	if _jitter_timer >= jitter_interval:
 		_jitter_timer = 0.0

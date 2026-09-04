@@ -4,6 +4,8 @@ const SAVE_PATH: String = "user://save_data.json"
 const SAVE_VERSION: int = 1
 
 var meta_currency: int = 0
+## Highest difficulty tier index the player may select (0 = Normal only)
+var unlocked_difficulty: int = 0
 var unlocked_items: Array[StringName] = []
 var unlocked_abilities: Array[StringName] = []
 var unlocked_passives: Array[StringName] = []
@@ -31,6 +33,7 @@ func save() -> void:
 	var data: Dictionary = {
 		"version": SAVE_VERSION,
 		"meta_currency": meta_currency,
+		"unlocked_difficulty": unlocked_difficulty,
 		"unlocked_items": _string_name_array_to_strings(unlocked_items),
 		"unlocked_abilities": _string_name_array_to_strings(unlocked_abilities),
 		"unlocked_passives": _string_name_array_to_strings(unlocked_passives),
@@ -134,6 +137,7 @@ func _apply_settings() -> void:
 
 func _apply_save_data(data: Dictionary) -> void:
 	meta_currency = data.get("meta_currency", 0) as int
+	unlocked_difficulty = data.get("unlocked_difficulty", 0) as int
 	var items_raw: Array = data.get("unlocked_items", []) as Array
 	unlocked_items.clear()
 	for item_id: Variant in items_raw:

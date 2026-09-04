@@ -98,6 +98,22 @@ func _on_chest_enemy_died(is_gilded: bool) -> void:
 		_finish_open()
 		_spawn_contents_guaranteed(is_gilded)
 
+func is_opened() -> bool:
+	return _is_opened
+
+## Permanently locks this chest without opening it. Treasure rooms use it
+## so claiming one prize forfeits the other.
+func seal() -> void:
+	if _is_opened:
+		return
+	_is_opened = true
+	_player_nearby = false
+	_interact_label.visible = false
+	var tween: Tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(_sprite, "modulate", GameConfig.config.chest_sealed_tint, 0.35)
+	tween.tween_property(_sprite, "scale", _sprite.scale * 0.85, 0.35)
+
 func _finish_open() -> void:
 	_is_opened = true
 	_interact_label.visible = false

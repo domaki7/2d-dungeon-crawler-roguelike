@@ -5,6 +5,7 @@ var _slots: Array[AbilitySlot] = []
 func _ready() -> void:
 	_build_slots()
 	EventBus.ability_cooldown_started.connect(_on_ability_cooldown_started)
+	EventBus.ability_cooldown_reduced.connect(_on_ability_cooldown_reduced)
 
 func _build_slots() -> void:
 	var key_labels: Array[String] = ["Q", "E", "R"]
@@ -17,3 +18,7 @@ func _build_slots() -> void:
 func _on_ability_cooldown_started(ability_index: int, duration: float) -> void:
 	if ability_index >= 0 and ability_index < _slots.size():
 		_slots[ability_index].start_cooldown(duration)
+
+func _on_ability_cooldown_reduced(amount: float) -> void:
+	for slot: AbilitySlot in _slots:
+		slot.reduce_cooldown(amount)

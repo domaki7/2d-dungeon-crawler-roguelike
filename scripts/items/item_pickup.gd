@@ -29,13 +29,25 @@ func _process(delta: float) -> void:
 	_sprite.position.y = _base_position.y + sin(_time * bob_speed) * bob_amplitude
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _player_ref and event.is_action_pressed(&"interact"):
+	if _player_ref == null or not event.is_action_pressed(&"interact"):
+		return
+	if item_data.is_consumable():
+		_try_take_consumable(_player_ref)
+	else:
 		_swap_item()
 
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group(&"player"):
 		return
 	var player: CharacterBody2D = body as CharacterBody2D
+	if item_data.is_consumable():
+		# Auto-take when there is room; otherwise leave it on the floor and say
+		# why, so a full belt never swallows a potion.
+		if not _try_take_consumable(player):
+			_player_ref = player
+			_interact_label.text = "Belt full"
+			_interact_label.visible = true
+		return
 	var player_stats: PlayerStats = player.get_node_or_null("PlayerStats") as PlayerStats
 	if player_stats == null:
 		return
@@ -53,6 +65,15 @@ func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		_player_ref = null
 		_interact_label.visible = false
+
+func _try_take_consumable(player: CharacterBody2D) -> bool:
+	var belt: ConsumableBelt = player.get_node_or_null("ConsumableBelt") as ConsumableBelt
+	if belt == null or not belt.add(item_data):
+		return false
+	EventBus.item_picked_up.emit(item_data)
+	AudioManager.play_sfx(&"item_pickup")
+	queue_free()
+	return true
 
 func _swap_item() -> void:
 	var player_stats: PlayerStats = _player_ref.get_node("PlayerStats") as PlayerStats

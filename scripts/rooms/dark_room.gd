@@ -14,6 +14,7 @@ var _darkness_shader: Shader = preload("res://shaders/darkness_overlay.gdshader"
 var _overlay_layer: CanvasLayer = null
 var _overlay_material: ShaderMaterial = null
 var _player_ref: Node2D = null
+var _flicker_time: float = 0.0
 
 func _ready() -> void:
 	_paint_room()
@@ -59,9 +60,19 @@ func activate(already_cleared: bool = false) -> void:
 	_player_ref = get_tree().get_first_node_in_group(&"player") as Node2D
 	AudioManager.play_sfx(&"cave_ambience")
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if _overlay_material == null or _player_ref == null or not is_instance_valid(_player_ref):
 		return
 	var world_to_vp: Transform2D = get_viewport().get_canvas_transform()
 	var player_screen_pos: Vector2 = world_to_vp * _player_ref.global_position
 	_overlay_material.set_shader_parameter("player_screen_pos", player_screen_pos)
+	_flicker_light(delta)
+
+## Oscillates the visibility circle like torchlight. Two detuned sine waves so
+## the wobble never settles into an obvious repeating pulse.
+func _flicker_light(delta: float) -> void:
+	_flicker_time += delta * GameConfig.config.dark_room_flicker_speed
+	var wobble: float = sin(_flicker_time) * 0.65 + sin(_flicker_time * 2.37) * 0.35
+	var base_radius: float = GameConfig.config.dark_room_light_radius
+	var radius: float = base_radius * (1.0 + GameConfig.config.dark_room_flicker_amount * wobble)
+	_overlay_material.set_shader_parameter("light_radius", radius)

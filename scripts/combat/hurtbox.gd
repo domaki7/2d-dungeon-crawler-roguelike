@@ -13,7 +13,7 @@ func _ready() -> void:
 	_knockback_component = get_parent().get_node_or_null("KnockbackComponent") as KnockbackComponent
 
 func receive_hit(hitbox: Hitbox) -> void:
-	if _health_component and _health_component.is_invincible():
+	if _health_component and (_health_component.is_dead() or _health_component.is_invincible()):
 		return
 
 	var defense: int = 0
@@ -75,3 +75,6 @@ func receive_hit(hitbox: Hitbox) -> void:
 
 	if get_parent().is_in_group(&"enemies"):
 		EventBus.enemy_aggroed.emit()
+	elif get_parent().is_in_group(&"player"):
+		# `direction` is the knockback push; the attacker is the other way.
+		EventBus.player_damaged_directional.emit(-direction, final_damage)

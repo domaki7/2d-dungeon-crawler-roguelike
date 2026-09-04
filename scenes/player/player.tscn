@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3]
+[gd_scene load_steps=105 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_p"]
 [ext_resource type="Script" path="res://scripts/player/game_camera.gd" id="1_gamcam"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="14_effects"]
 [ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="15_am"]
 [ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="16_sec"]
+[ext_resource type="Script" path="res://scripts/player/consumable_belt.gd" id="belt_consumable"]
 [ext_resource type="Script" path="res://scripts/player/player_states/ability_state.gd" id="19_abs"]
 [ext_resource type="Script" path="res://scripts/player/player_states/war_cry_state.gd" id="20_wcs"]
 [ext_resource type="Script" path="res://scripts/player/player_states/shield_bash_state.gd" id="22_sbs"]
@@ -532,6 +533,9 @@ base_crit_chance = 0.0
 
 [node name="StatusEffectComponent" type="Node" parent="."]
 script = ExtResource("16_sec")
+
+[node name="ConsumableBelt" type="Node" parent="."]
+script = ExtResource("belt_consumable")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8

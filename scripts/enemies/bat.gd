@@ -7,6 +7,7 @@ enum FacingDirection { DOWN, UP, LEFT, RIGHT }
 var difficulty_speed_multiplier: float = 1.0
 var is_elite: bool = false
 var gold_multiplier: float = 1.0
+var has_flee_triggered: bool = false
 
 var speed: float:
 	get:
@@ -41,6 +42,7 @@ func _ready() -> void:
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
 	EventBus.enemy_aggroed.connect(_on_enemy_aggroed)
+	EventBus.player_died.connect(_on_player_died)
 	_start_state_machine.call_deferred()
 	_add_ui_nodes.call_deferred()
 
@@ -48,6 +50,10 @@ func _start_state_machine() -> void:
 	state_machine.start(&"IdleState")
 
 func _add_ui_nodes() -> void:
+	# Bats fly: the shadow sits lower and smaller than the sprite, and stays
+	# put while the sprite hovers above it.
+	var shadow: DropShadow = DropShadow.attach(self, 0.75)
+	shadow.position.y = 6.0
 	var health_bar: Node2D = (preload("res://scripts/ui/enemy_health_bar.gd") as GDScript).new()
 	add_child(health_bar)
 	health_bar.call(&"setup", health_component, is_elite)
@@ -111,3 +117,8 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_enemy_aggroed() -> void:
 	is_aggroed = true
+
+func _on_player_died() -> void:
+	is_player_detected = false
+	is_aggroed = false
+	state_machine.transition_to(&"IdleState")

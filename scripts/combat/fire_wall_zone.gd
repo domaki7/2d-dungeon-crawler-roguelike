@@ -1,5 +1,10 @@
 extends Node2D
 
+## A lingering strip of flame that re-damages everything standing in it on a
+## fixed interval and leaves BURN behind.
+
+@onready var _particles: GPUParticles2D = $Particles
+
 var _hitbox: Hitbox
 var _tick_timer: float = 0.0
 var _lifetime_timer: float = 0.0
@@ -25,15 +30,42 @@ func setup(dmg: int, knockback: float, wall_length: float, wall_width: float, du
 	_hitbox.add_child(shape)
 	add_child(_hitbox)
 	_hitbox.activate()
+	_fit_particles_to(wall_length, wall_width)
+
+## The flames have to cover exactly the strip that deals damage, otherwise the
+## player cannot tell where the wall actually is.
+func _fit_particles_to(wall_length: float, wall_width: float) -> void:
+	if _particles == null:
+		return
+	var material: ParticleProcessMaterial = _particles.process_material as ParticleProcessMaterial
+	if material == null:
+		return
+	material = material.duplicate() as ParticleProcessMaterial
+	material.emission_box_extents = Vector3(wall_length / 2.0, wall_width / 2.0, 0.0)
+	_particles.process_material = material
+	_particles.amount = maxi(8, int(wall_length / 3.0))
+	_particles.lifetime = 0.6
 
 func _process(delta: float) -> void:
 	_lifetime_timer += delta
 	if _lifetime_timer >= _duration:
-		queue_free()
+		_fade_out()
 		return
 	_tick_timer += delta
 	if _tick_timer >= _tick_interval:
 		_tick_timer -= _tick_interval
 		if _hitbox:
-			_hitbox.deactivate()
-			_hitbox.activate()
+			_hitbox.refresh_targets()
+
+## Stop dealing damage immediately, then let the last particles burn down so
+## the wall does not vanish mid-flame.
+func _fade_out() -> void:
+	set_process(false)
+	if _hitbox:
+		_hitbox.deactivate()
+	if _particles:
+		_particles.emitting = false
+		var timer: SceneTreeTimer = get_tree().create_timer(_particles.lifetime)
+		timer.timeout.connect(queue_free)
+	else:
+		queue_free()

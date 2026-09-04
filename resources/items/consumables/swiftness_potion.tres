@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/potion_swift.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_id = &"swiftness_potion"
+display_name = "Swiftness Potion"
+description = "+45 movement speed for 10 seconds. [1] to drink."
+icon = ExtResource("2")
+slot_type = 4
+rarity = 0
+consumable_effect = 4
+consumable_value = 45.0
+consumable_duration = 10.0
+max_stack = 3
+buy_price = 25
+sell_price = 8

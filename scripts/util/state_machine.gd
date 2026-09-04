@@ -31,6 +31,8 @@ func transition_to(target_state_name: StringName) -> void:
 	if not states.has(target_state_name):
 		push_warning("StateMachine: state '%s' not found" % target_state_name)
 		return
+	if current_state and current_state.name == &"DeadState":
+		return
 	if current_state:
 		current_state.exit()
 	current_state = states[target_state_name]

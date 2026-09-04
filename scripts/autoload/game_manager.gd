@@ -16,6 +16,9 @@ func show_title_screen() -> void:
 	current_state = GameState.TITLE
 	RunManager.cleanup_game()
 	_clear_ui()
+	# The menu gets the first floor's calm stem — familiar the moment you start.
+	_silence_run_audio()
+	AudioManager.play_layered_music(&"theme_halls")
 	_title_screen_layer = CanvasLayer.new()
 	_title_screen_layer.layer = 50
 	get_tree().root.add_child(_title_screen_layer)
@@ -23,11 +26,11 @@ func show_title_screen() -> void:
 	var title_screen: Control = title_scene.instantiate() as Control
 	_title_screen_layer.add_child(title_screen)
 
-func start_run(player_class: int = PlayerClass.WARRIOR) -> void:
+func start_run(player_class: int = PlayerClass.WARRIOR, difficulty: int = 0) -> void:
 	selected_class = player_class
 	current_state = GameState.RUN
 	_clear_ui()
-	RunManager.start_run(player_class)
+	RunManager.start_run(player_class, difficulty)
 
 func show_run_summary(victory: bool, stats: Dictionary) -> void:
 	current_state = GameState.POST_RUN
@@ -53,4 +56,12 @@ func _clear_ui() -> void:
 		_run_summary_layer = null
 
 func _on_run_ended(victory: bool, stats: Dictionary) -> void:
+	_silence_run_audio()
 	show_run_summary(victory, stats)
+
+## Drop everything the run layered on top of the music: the combat stem, the
+## dungeon room tone, and the low-HP heartbeat.
+func _silence_run_audio() -> void:
+	AudioManager.set_combat_intensity(false)
+	AudioManager.set_heartbeat(false)
+	AudioManager.stop_ambience()

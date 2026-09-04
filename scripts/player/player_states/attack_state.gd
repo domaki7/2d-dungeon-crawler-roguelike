@@ -115,9 +115,23 @@ func _on_frame_changed() -> void:
 		player.hitbox.activate()
 		_hitbox_activated = true
 		AudioManager.play_sfx_varied(&"hit")
+		_apply_lunge()
 	elif current_frame > active_frame and _hitbox_activated:
 		player.hitbox.deactivate()
 		_hitbox_activated = false
+
+## Short forward step on the active frame so a swing feels committed and closes
+## small gaps. Routed through the knockback component because
+## `physics_process_state` drives velocity from it — setting velocity directly
+## here would be overwritten on the very next frame.
+func _apply_lunge() -> void:
+	var force: float = GameConfig.config.player_attack_lunge_force
+	if force <= 0.0:
+		return
+	match _combo_count:
+		2: force *= GameConfig.config.player_combo_2_lunge_multiplier
+		3: force *= GameConfig.config.player_combo_3_lunge_multiplier
+	player.knockback_component.apply_knockback(_attack_direction, force)
 
 func _on_animation_finished() -> void:
 	if _chain_requested and _combo_count < 3:

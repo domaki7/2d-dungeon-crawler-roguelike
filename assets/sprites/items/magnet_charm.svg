@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- cord -->
+  <rect x="7" y="1" width="2" height="1" fill="#6B5330"/>
+  <!-- horseshoe magnet body -->
+  <rect x="4" y="3" width="2" height="8" fill="#C0392B"/>
+  <rect x="10" y="3" width="2" height="8" fill="#C0392B"/>
+  <rect x="4" y="3" width="8" height="2" fill="#C0392B"/>
+  <rect x="6" y="5" width="4" height="1" fill="#8E2A20"/>
+  <!-- highlight -->
+  <rect x="4" y="3" width="1" height="6" fill="#E05A4A"/>
+  <!-- poles -->
+  <rect x="4" y="11" width="2" height="2" fill="#D8D8DC"/>
+  <rect x="10" y="11" width="2" height="2" fill="#D8D8DC"/>
+  <!-- gold flecks being pulled in -->
+  <rect x="7" y="12" width="1" height="1" fill="#FFD700"/>
+  <rect x="9" y="14" width="1" height="1" fill="#DAA520"/>
+</svg>

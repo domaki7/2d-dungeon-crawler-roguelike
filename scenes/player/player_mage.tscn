@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3]
+[gd_scene load_steps=58 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_mage.gd" id="1_p"]
 [ext_resource type="Script" path="res://scripts/player/game_camera.gd" id="1_gamcam"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/items/item_effect_handler.gd" id="17_effects"]
 [ext_resource type="Script" path="res://scripts/player/ability_manager.gd" id="18_am"]
 [ext_resource type="Script" path="res://scripts/combat/status_effect_component.gd" id="19_sec"]
+[ext_resource type="Script" path="res://scripts/player/consumable_belt.gd" id="belt_consumable"]
 [ext_resource type="Script" path="res://scripts/combat/mana_component.gd" id="20_mana"]
 [ext_resource type="PackedScene" path="res://scenes/attacks/magic_bolt.tscn" id="21_bolt"]
 [ext_resource type="PackedScene" path="res://scenes/attacks/ice_shard.tscn" id="22_shard"]
@@ -287,6 +288,9 @@ regen_rate = 5.0
 
 [node name="StatusEffectComponent" type="Node" parent="."]
 script = ExtResource("19_sec")
+
+[node name="ConsumableBelt" type="Node" parent="."]
+script = ExtResource("belt_consumable")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8

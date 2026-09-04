@@ -19,6 +19,7 @@ func enter() -> void:
 	AudioManager.play_sfx_varied(&"enemy_die")
 	VFXHelper.apply_hit_flash(enemy.animated_sprite)
 	VFXHelper.spawn_death_poof(enemy.global_position)
+	VFXHelper.spawn_death_decal(enemy.global_position, Color(0.24, 0.55, 0.24, 0.5))
 	var tween: Tween = enemy.create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(enemy.animated_sprite, "scale", Vector2(tween_end_scale, tween_end_scale), tween_duration)
@@ -28,6 +29,8 @@ func enter() -> void:
 	tween.tween_callback(enemy.queue_free)
 
 func _spawn_drops() -> void:
+	if enemy.is_mini:
+		return
 	if gold_drop_scene:
 		var gold: Area2D = gold_drop_scene.instantiate() as Area2D
 		gold.gold_multiplier = enemy.gold_multiplier

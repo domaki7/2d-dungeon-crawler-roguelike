@@ -3,8 +3,12 @@ extends Control
 var _main_vbox: VBoxContainer
 var _class_select_container: Control
 var _settings_container: Control
+var _selected_difficulty: int = 0
+var _difficulty_buttons: Array[Button] = []
+var _difficulty_desc_label: Label = null
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	size = get_viewport().get_visible_rect().size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_build_ui()
@@ -121,7 +125,7 @@ func _show_class_selection() -> void:
 		Color(0.8, 0.3, 0.2),
 	)
 	warrior_btn.pressed.connect(func() -> void:
-		GameManager.start_run(GameManager.PlayerClass.WARRIOR))
+		GameManager.start_run(GameManager.PlayerClass.WARRIOR, _selected_difficulty))
 	classes_hbox.add_child(warrior_btn)
 
 	var ranger_btn: Button = _create_class_button(
@@ -131,7 +135,7 @@ func _show_class_selection() -> void:
 		Color(0.2, 0.7, 0.3),
 	)
 	ranger_btn.pressed.connect(func() -> void:
-		GameManager.start_run(GameManager.PlayerClass.RANGER))
+		GameManager.start_run(GameManager.PlayerClass.RANGER, _selected_difficulty))
 	classes_hbox.add_child(ranger_btn)
 
 	var mage_btn: Button = _create_class_button(
@@ -141,12 +145,18 @@ func _show_class_selection() -> void:
 		Color(0.7, 0.2, 0.2),
 	)
 	mage_btn.pressed.connect(func() -> void:
-		GameManager.start_run(GameManager.PlayerClass.MAGE))
+		GameManager.start_run(GameManager.PlayerClass.MAGE, _selected_difficulty))
 	classes_hbox.add_child(mage_btn)
 
 	var spacer2: Control = Control.new()
 	spacer2.custom_minimum_size = Vector2(0, 4)
 	vbox.add_child(spacer2)
+
+	_build_difficulty_selector(vbox)
+
+	var spacer3: Control = Control.new()
+	spacer3.custom_minimum_size = Vector2(0, 4)
+	vbox.add_child(spacer3)
 
 	var back_btn: Button = Button.new()
 	back_btn.text = "Back"
@@ -155,6 +165,70 @@ func _show_class_selection() -> void:
 	vbox.add_child(back_btn)
 
 	warrior_btn.grab_focus()
+
+func _build_difficulty_selector(parent: VBoxContainer) -> void:
+	_selected_difficulty = clampi(_selected_difficulty, 0, SaveManager.unlocked_difficulty)
+	_difficulty_buttons.clear()
+
+	var header: Label = Label.new()
+	header.text = "DIFFICULTY"
+	header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	header.add_theme_font_size_override("font_size", 7)
+	header.add_theme_color_override("font_color", Color(0.9, 0.8, 0.5))
+	parent.add_child(header)
+
+	var row: HBoxContainer = HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 6)
+	parent.add_child(row)
+
+	for i: int in range(RunManager.DIFFICULTIES.size()):
+		var tier: Dictionary = RunManager.DIFFICULTIES[i]
+		var btn: Button = Button.new()
+		btn.add_theme_font_size_override("font_size", 6)
+		btn.custom_minimum_size = Vector2(64, 0)
+		var is_locked: bool = i > SaveManager.unlocked_difficulty
+		if is_locked:
+			btn.text = "%s (Locked)" % tier["name"]
+			btn.disabled = true
+			btn.tooltip_text = "Win a run on %s to unlock." % (RunManager.DIFFICULTIES[i - 1]["name"] as String)
+		else:
+			btn.text = tier["name"] as String
+			btn.pressed.connect(_on_difficulty_selected.bind(i))
+		row.add_child(btn)
+		_difficulty_buttons.append(btn)
+
+	_difficulty_desc_label = Label.new()
+	_difficulty_desc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_difficulty_desc_label.add_theme_font_size_override("font_size", 5)
+	_difficulty_desc_label.add_theme_color_override("font_color", Color(0.6, 0.6, 0.7))
+	parent.add_child(_difficulty_desc_label)
+
+	_refresh_difficulty_selector()
+
+func _on_difficulty_selected(index: int) -> void:
+	_selected_difficulty = index
+	_refresh_difficulty_selector()
+
+func _refresh_difficulty_selector() -> void:
+	const TIER_COLORS: Array[Color] = [
+		Color(0.75, 0.85, 0.75),
+		Color(0.85, 0.55, 0.9),
+		Color(1.0, 0.45, 0.3),
+	]
+	for i: int in range(_difficulty_buttons.size()):
+		var btn: Button = _difficulty_buttons[i]
+		if btn.disabled:
+			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.45))
+			continue
+		if i == _selected_difficulty:
+			btn.add_theme_color_override("font_color", TIER_COLORS[mini(i, TIER_COLORS.size() - 1)])
+			btn.add_theme_color_override("font_focus_color", TIER_COLORS[mini(i, TIER_COLORS.size() - 1)])
+		else:
+			btn.add_theme_color_override("font_color", Color(0.7, 0.7, 0.75))
+			btn.add_theme_color_override("font_focus_color", Color(0.7, 0.7, 0.75))
+	if _difficulty_desc_label:
+		_difficulty_desc_label.text = RunManager.DIFFICULTIES[_selected_difficulty]["desc"] as String
 
 func _create_class_button(class_name_text: String, desc: String, stats: String, color: Color) -> Button:
 	var btn: Button = Button.new()

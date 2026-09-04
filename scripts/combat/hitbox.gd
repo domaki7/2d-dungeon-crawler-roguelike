@@ -35,6 +35,23 @@ func deactivate() -> void:
 			(child as CollisionShape2D).disabled = true
 	_hit_targets.clear()
 
+## Clears the hit memory and immediately re-damages everything still inside
+## the shape, for zones that deal damage on an interval rather than in one
+## swing. Toggling the collision shape off and on across a frame also
+## re-triggers `area_entered` (the shape is removed from and re-added to the
+## physics server), but this makes the re-tick explicit, lands the damage on
+## the caller's own tick instead of the next physics step, and does not
+## depend on that side effect.
+func refresh_targets() -> void:
+	_hit_targets.clear()
+	for area: Area2D in get_overlapping_areas():
+		var hurtbox: Hurtbox = area as Hurtbox
+		if hurtbox == null:
+			continue
+		register_hit(hurtbox.get_parent())
+		hurtbox.receive_hit(self)
+		hit_landed.emit(hurtbox)
+
 func has_hit(target: Node) -> bool:
 	return target in _hit_targets
 

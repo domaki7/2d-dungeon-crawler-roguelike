@@ -26,6 +26,7 @@ var _equipped_stats: Label
 var _equipped_diff: RichTextLabel
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	layer = 10
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
@@ -42,9 +43,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed(&"move_up"):
 		_select_item((_selected_index - 1 + _shop_items.size()) % _shop_items.size())
+		UISounds.play_hover()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"move_down"):
 		_select_item((_selected_index + 1) % _shop_items.size())
+		UISounds.play_hover()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"attack"):
 		_buy_selected()
@@ -265,7 +268,7 @@ func _update_tooltip() -> void:
 	_tooltip_name.add_theme_color_override("font_color", rarity_color)
 	_tooltip_name.text = item.display_name
 	_tooltip_stats.text = _format_item_stats(item)
-	if item.effect_id != &"":
+	if item.effect_id != &"" or item.is_consumable():
 		_tooltip_effect.text = item.description
 	else:
 		_tooltip_effect.text = ""
@@ -275,6 +278,9 @@ func _update_comparison() -> void:
 		_equipped_panel.visible = false
 		return
 	var shop_item: ItemData = _shop_items[_selected_index]
+	if shop_item.is_consumable():
+		_show_belt_comparison(shop_item)
+		return
 	var can_afford: bool = _player_ref.gold >= shop_item.buy_price
 	if not can_afford:
 		_equipped_panel.visible = false
@@ -338,6 +344,8 @@ func _diff_line_f(label: String, diff: float, pos_color: Color, neg_color: Color
 	return "[color=#%s]%s%.0f%s %s[/color]" % [color.to_html(false), prefix, diff, suffix, label]
 
 func _format_item_stats(item: ItemData) -> String:
+	if item.is_consumable():
+		return _format_consumable_stats(item)
 	var parts: Array[String] = []
 	if item.bonus_damage != 0:
 		parts.append("+%d Damage" % item.bonus_damage)
@@ -360,7 +368,12 @@ func _buy_selected() -> void:
 		return
 	var item: ItemData = _shop_items[_selected_index]
 	if _player_ref.gold < item.buy_price:
+		UISounds.play_error()
 		return
+	if item.is_consumable():
+		_buy_consumable(item)
+		return
+	UISounds.play_purchase()
 	_player_ref.gold -= item.buy_price
 	EventBus.gold_changed.emit(_player_ref.gold)
 	var old_item: ItemData = _player_stats.equip(item)
@@ -371,3 +384,54 @@ func _buy_selected() -> void:
 	_refresh_items()
 	if not _shop_items.is_empty():
 		_select_item(_selected_index)
+func _format_consumable_stats(item: ItemData) -> String:
+	match item.consumable_effect:
+		ItemData.ConsumableEffect.HEAL:
+			return "Restores %d HP" % int(item.consumable_value)
+		ItemData.ConsumableEffect.HEAL_PERCENT:
+			return "Restores %d%% of max HP" % int(item.consumable_value * 100.0)
+		ItemData.ConsumableEffect.DAMAGE_BUFF:
+			return "+%d Damage for %.0fs" % [int(item.consumable_value), item.consumable_duration]
+		ItemData.ConsumableEffect.SPEED_BUFF:
+			return "+%.0f Speed for %.0fs" % [item.consumable_value, item.consumable_duration]
+		ItemData.ConsumableEffect.CLEANSE:
+			return "Clears all status effects"
+	return ""
+
+## Consumables have no equipment slot to compare against, so the right-hand
+## panel reports belt space instead — the thing that actually blocks a buy.
+func _show_belt_comparison(item: ItemData) -> void:
+	_equipped_panel.visible = true
+	_equipped_header.add_theme_color_override("font_color", Color(0.6, 0.55, 0.7))
+	_equipped_header.text = "Belt"
+	_equipped_diff.text = ""
+	var belt: ConsumableBelt = _get_belt()
+	if belt == null:
+		_equipped_stats.text = "Unavailable"
+		return
+	if belt.is_empty():
+		_equipped_stats.text = "Empty"
+	else:
+		_equipped_stats.text = "%s %d/%d" % [belt.item.display_name, belt.count, belt.get_capacity()]
+	if not belt.can_add(item):
+		_equipped_diff.text = "[color=#%s]No room[/color]" % GameConfig.config.ui_stat_negative_color.to_html(false)
+
+func _get_belt() -> ConsumableBelt:
+	if _player_ref == null:
+		return null
+	return _player_ref.get_node_or_null("ConsumableBelt") as ConsumableBelt
+
+## Potions go to the belt, not an equipment slot, and a full belt refuses
+## the sale rather than taking the gold for nothing.
+func _buy_consumable(item: ItemData) -> void:
+	var belt: ConsumableBelt = _get_belt()
+	if belt == null or not belt.can_add(item):
+		UISounds.play_error()
+		return
+	UISounds.play_purchase()
+	_player_ref.gold -= item.buy_price
+	EventBus.gold_changed.emit(_player_ref.gold)
+	belt.add(item)
+	EventBus.item_picked_up.emit(item)
+	_refresh_items()
+	_select_item(_selected_index)

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FloorConfig" load_steps=17 format=3]
+[gd_resource type="Resource" script_class="FloorConfig" load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://scripts/rooms/floor_config.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_001.tscn" id="2_room001"]
@@ -7,9 +7,15 @@
 [ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_004.tscn" id="5_room004"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_005.tscn" id="6_room005"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_006.tscn" id="7_room006"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_007.tscn" id="20_room007"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_008.tscn" id="21_room008"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_009.tscn" id="22_room009"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_010.tscn" id="23_room010"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_011.tscn" id="24_room011"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/combat_rooms/room_012.tscn" id="25_room012"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/shop_room.tscn" id="8_shop"]
 [ext_resource type="PackedScene" path="res://scenes/rooms/treasure_room.tscn" id="9_treasure"]
-[ext_resource type="PackedScene" path="res://scenes/rooms/boss_room.tscn" id="10_boss"]
+[ext_resource type="PackedScene" path="res://scenes/rooms/boss_room_2.tscn" id="10_boss"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="11_slime"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="12_skeleton"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/bat.tscn" id="13_bat"]
@@ -19,9 +25,14 @@
 
 [resource]
 script = ExtResource("1_script")
-room_count_min = 6
-room_count_max = 8
-combat_room_scenes = [ExtResource("2_room001"), ExtResource("3_room002"), ExtResource("4_room003"), ExtResource("5_room004"), ExtResource("6_room005"), ExtResource("7_room006")]
+floor_title = "The Rust Warrens"
+music_track = &"theme_caverns"
+floor_tint = Color(1.05, 0.9, 0.75, 1)
+wall_tint = Color(1, 0.85, 0.7, 1)
+ambient_light = Color(1, 0.95, 0.88, 1)
+room_count_min = 7
+room_count_max = 9
+combat_room_scenes = [ExtResource("2_room001"), ExtResource("3_room002"), ExtResource("4_room003"), ExtResource("5_room004"), ExtResource("6_room005"), ExtResource("7_room006"), ExtResource("20_room007"), ExtResource("21_room008"), ExtResource("22_room009"), ExtResource("23_room010"), ExtResource("24_room011"), ExtResource("25_room012")]
 has_shop = true
 shop_room_scene = ExtResource("8_shop")
 has_treasure = true
@@ -31,7 +42,7 @@ trap_room_scene = ExtResource("16_trap")
 trap_room_chance = 0.5
 has_boss = true
 boss_room_scene = ExtResource("10_boss")
-branch_chance = 0.4
+branch_chance = 0.5
 max_branch_depth = 2
 rare_weight_multiplier = 1.0
 legendary_weight_multiplier = 0.3

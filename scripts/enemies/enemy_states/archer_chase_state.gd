@@ -6,9 +6,16 @@ var attack_range: float:
 	get: return GameConfig.config.archer_attack_range
 var too_close_range: float:
 	get: return GameConfig.config.archer_too_close_range
+var attack_cooldown: float:
+	get: return GameConfig.config.archer_attack_cooldown
+var retreat_speed_multiplier: float:
+	get: return GameConfig.config.archer_retreat_speed_multiplier
+
+var _cooldown_timer: float = 0.0
 
 func enter() -> void:
 	enemy.play_directional_animation("walk")
+	_cooldown_timer = attack_cooldown
 
 func physics_process_state(delta: float) -> void:
 	update_last_known_position()
@@ -16,6 +23,7 @@ func physics_process_state(delta: float) -> void:
 		transition_requested.emit(self, &"SearchState")
 		return
 
+	_cooldown_timer -= delta
 	var direction: Vector2 = get_direction_to_player()
 	var distance: float = get_distance_to_player()
 
@@ -23,9 +31,9 @@ func physics_process_state(delta: float) -> void:
 		if enemy.update_facing(direction):
 			enemy.play_directional_animation("walk")
 
-		if distance < too_close_range:
+		if distance < preferred_range:
 			var retreat_dir: Vector2 = -direction
-			enemy.velocity = enemy.velocity.move_toward(retreat_dir * enemy.speed, enemy.acceleration * delta)
+			enemy.velocity = enemy.velocity.move_toward(retreat_dir * enemy.speed * retreat_speed_multiplier, enemy.acceleration * delta)
 		elif distance > attack_range:
 			enemy.velocity = enemy.velocity.move_toward(direction * enemy.speed, enemy.acceleration * delta)
 		else:
@@ -34,5 +42,5 @@ func physics_process_state(delta: float) -> void:
 	enemy.velocity += enemy.knockback_component.knockback_velocity
 	enemy.move_and_slide()
 
-	if distance <= attack_range and distance >= too_close_range * 0.5:
+	if _cooldown_timer <= 0.0 and distance <= attack_range and distance >= too_close_range * 0.5:
 		transition_requested.emit(self, &"AttackState")

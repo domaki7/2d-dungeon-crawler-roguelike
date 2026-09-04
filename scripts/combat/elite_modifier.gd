@@ -24,6 +24,10 @@ static func apply(enemy: Node2D, spawn_type: SpawnPoint.SpawnType) -> void:
 		sprite.modulate = GameConfig.config.elite_tint_color
 		sprite.scale *= GameConfig.config.elite_scale
 
+	# The tint alone disappears against a dark floor; the orbiting ring is what
+	# actually makes an elite readable at a glance.
+	EliteAura.attach(enemy, GameConfig.config.elite_tint_color)
+
 
 static func _create_status_effect(spawn_type: SpawnPoint.SpawnType) -> StatusEffectData:
 	var effect: StatusEffectData = StatusEffectData.new()

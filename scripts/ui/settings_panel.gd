@@ -6,6 +6,7 @@ var _fullscreen_check: CheckButton
 var _shake_check: CheckButton
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	add_theme_constant_override("separation", 3)
 	_build_controls()
 	sync_controls()

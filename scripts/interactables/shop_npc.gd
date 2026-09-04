@@ -18,6 +18,23 @@ func _ready() -> void:
 	if shop_items.is_empty() and not available_items.is_empty():
 		_generate_random_shop()
 	_filter_locked_items()
+	_stock_consumables()
+
+## Every shop carries potions on top of its rolled equipment. Healing is the
+## one thing a run always needs, so it is never left to the random roll.
+func _stock_consumables() -> void:
+	var extra_count: int = GameConfig.config.shop_consumable_stock_count
+	if extra_count <= 0:
+		return
+	# Exported arrays can carry over between instantiations; never double-stock.
+	if ConsumablePool.HEALTH_POTION in shop_items:
+		return
+	shop_items.append(ConsumablePool.HEALTH_POTION)
+	var others: Array[ItemData] = ConsumablePool.all()
+	others.erase(ConsumablePool.HEALTH_POTION)
+	others.shuffle()
+	for i: int in range(mini(extra_count - 1, others.size())):
+		shop_items.append(others[i])
 
 func _generate_random_shop() -> void:
 	var pool: Array[ItemData] = _filter_unlocked(available_items)

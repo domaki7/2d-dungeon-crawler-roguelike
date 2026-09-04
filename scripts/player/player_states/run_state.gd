@@ -2,6 +2,7 @@ extends PlayerState
 
 func enter() -> void:
 	player.play_directional_animation("walk")
+	reset_footsteps()
 
 func physics_process_state(delta: float) -> void:
 	var direction: Vector2 = get_input_direction()
@@ -15,6 +16,7 @@ func physics_process_state(delta: float) -> void:
 
 	player.velocity = player.velocity.move_toward(direction * player.speed, player.acceleration * delta)
 	player.move_and_slide()
+	step_footsteps(delta)
 
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):

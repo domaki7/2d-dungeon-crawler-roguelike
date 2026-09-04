@@ -24,6 +24,7 @@ var _set_bonus_label: Label
 var _panel: PanelContainer
 
 func _ready() -> void:
+	UISounds.attach.call_deferred(self)
 	layer = 10
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
